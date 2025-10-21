@@ -1,4 +1,3 @@
-import type React from "react"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardNav, employerNavItems } from "@/components/dashboard-nav"
 
