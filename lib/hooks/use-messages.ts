@@ -1,0 +1,115 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
+export interface Message {
+  id: string
+  sender_id: string
+  receiver_id: string
+  subject?: string
+  content: string
+  read: boolean
+  created_at: string
+  sender?: {
+    id: string
+    name: string
+    role: string
+  }
+  receiver?: {
+    id: string
+    name: string
+    role: string
+  }
+}
+
+interface UseMessagesOptions {
+  conversationWith?: string
+}
+
+export function useMessages(options: UseMessagesOptions = {}) {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+
+        const params = new URLSearchParams()
+        if (options.conversationWith) params.append("conversationWith", options.conversationWith)
+
+        const response = await fetch(`/api/messages?${params.toString()}`)
+        if (!response.ok) throw new Error("Failed to fetch messages")
+
+        const data = await response.json()
+        setMessages(data.messages || [])
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchMessages()
+  }, [options.conversationWith])
+
+  const refetch = async () => {
+    setIsLoading(true)
+    try {
+      const params = new URLSearchParams()
+      if (options.conversationWith) params.append("conversationWith", options.conversationWith)
+
+      const response = await fetch(`/api/messages?${params.toString()}`)
+      if (!response.ok) throw new Error("Failed to fetch messages")
+
+      const data = await response.json()
+      setMessages(data.messages || [])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const sendMessage = async (receiverId: string, subject: string, content: string) => {
+    try {
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receiver_id: receiverId,
+          subject,
+          content,
+        }),
+      })
+
+      if (!response.ok) throw new Error("Failed to send message")
+
+      await refetch()
+      return { success: true }
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : "An error occurred" }
+    }
+  }
+
+  const markAsRead = async (messageId: string) => {
+    try {
+      const response = await fetch(`/api/messages/${messageId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ read: true }),
+      })
+
+      if (!response.ok) throw new Error("Failed to mark message as read")
+
+      await refetch()
+      return { success: true }
+    } catch (err) {
+      return { success: false, error: err instanceof Error ? err.message : "An error occurred" }
+    }
+  }
+
+  return { messages, isLoading, error, refetch, sendMessage, markAsRead }
+}
