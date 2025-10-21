@@ -10,63 +10,38 @@ export default function MessagesPage() {
   const conversations = [
     {
       id: "1",
-      name,
+      name: "ABC Logistics",
       avatar: "/placeholder.svg",
       lastMessage: "We'd like to schedule an interview with you.",
       timestamp: "2 hours ago",
-      unread,
+      unread: true,
+    },
     {
       id: "2",
-      name,
+      name: "Fresh Start Cafe",
       avatar: "/placeholder.svg",
       lastMessage: "Thank you for your application. We'll be in touch soon.",
       timestamp: "1 day ago",
-      unread,
+      unread: false,
+    },
     {
       id: "3",
-      name,
+      name: "Support Team",
       avatar: "/placeholder.svg",
-      lastMessage,
+      lastMessage: "How can we help you today?",
       timestamp: "3 days ago",
-      unread,
+      unread: false,
+    },
   ]
 
   return (
     <div className="space-y-6">
       <PageHeader title="Messages" description="Communicate with employers and support staff" />
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Conversations List */}
-        <Card className="lg:col-span-1">
-          <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="mb-4">
-              <div className="relative">
-                <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input placeholder="Search messages..." className="pl-9" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              {conversations.map((conversation) => (
+      <div className="grid gap-6 lg) => (
                 <button
                   key={conversation.id}
-                  className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover:bg-muted"
-                >
-                  
-                    <AvatarImage src={conversation.avatar || "/placeholder.svg"} alt={conversation.name} />
-                    {conversation.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 overflow-hidden">
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold">{conversation.name}</span>
-                      {conversation.unread && <Badge className="h-2 w-2 rounded-full p-0" />}
-                    </div>
-                    <p className="truncate text-sm text-muted-foreground">{conversation.lastMessage}</p>
-                    <p className="text-xs text-muted-foreground">{conversation.timestamp}</p>
-                  </div>
-                </button>
-              ))}
+                  className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover))}
             </div>
           </CardContent>
         </Card>
@@ -76,11 +51,11 @@ export default function MessagesPage() {
           <CardContent className="flex h-[600px] flex-col p-0">
             {/* Message Header */}
             <div className="flex items-center gap-3 border-b p-4">
-              
+              <Avatar>
                 <AvatarImage src="/placeholder.svg" alt="ABC Logistics" />
                 <AvatarFallback>AL</AvatarFallback>
               </Avatar>
-              
+              <div>
                 <h3 className="font-semibold">ABC Logistics</h3>
                 <p className="text-xs text-muted-foreground">Warehouse Associate Position</p>
               </div>

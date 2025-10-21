@@ -10,8 +10,8 @@ export default function EmployerJobsPage() {
   const activeJobs = [
     {
       id: "1",
-      title,
-      location,
+      title: "Warehouse Associate",
+      location: "Chicago, IL",
       type: "Full-time",
       salary: "$16-18/hr",
       postedDate: "2024-01-15",
@@ -20,8 +20,8 @@ export default function EmployerJobsPage() {
     },
     {
       id: "2",
-      title,
-      location,
+      title: "Delivery Driver",
+      location: "Chicago, IL",
       type: "Full-time",
       salary: "$17-20/hr + tips",
       postedDate: "2024-01-08",
@@ -30,8 +30,8 @@ export default function EmployerJobsPage() {
     },
     {
       id: "3",
-      title,
-      location,
+      title: "Forklift Operator",
+      location: "Chicago, IL",
       type: "Full-time",
       salary: "$18-22/hr",
       postedDate: "2024-01-01",
@@ -43,8 +43,8 @@ export default function EmployerJobsPage() {
   const draftJobs = [
     {
       id: "4",
-      title,
-      location,
+      title: "Inventory Specialist",
+      location: "Chicago, IL",
       type: "Full-time",
       salary: "$17-20/hr",
       lastEdited: "2024-01-18",
@@ -54,8 +54,8 @@ export default function EmployerJobsPage() {
   const closedJobs = [
     {
       id: "5",
-      title,
-      location,
+      title: "Shipping Clerk",
+      location: "Chicago, IL",
       type: "Full-time",
       salary: "$16-18/hr",
       closedDate: "2023-12-20",
@@ -66,7 +66,7 @@ export default function EmployerJobsPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Job Postings" description="Manage your job listings">
-        
+        <Button asChild>
           <Link href="/employer/jobs/new">
             <PlusIcon className="mr-2 h-4 w-4" />
             Post New Job
@@ -75,7 +75,7 @@ export default function EmployerJobsPage() {
       </PageHeader>
 
       <Tabs defaultValue="active" className="space-y-6">
-        
+        <TabsList>
           <TabsTrigger value="active">Active ({activeJobs.length})</TabsTrigger>
           <TabsTrigger value="draft">Drafts ({draftJobs.length})</TabsTrigger>
           <TabsTrigger value="closed">Closed ({closedJobs.length})</TabsTrigger>
@@ -83,28 +83,27 @@ export default function EmployerJobsPage() {
 
         <TabsContent value="active" className="space-y-4">
           {activeJobs.map((job) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={job.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{job.title}</CardTitle>
-                    
+                    <CardDescription>
                       {job.type} • {job.location} • {job.salary}
                     </CardDescription>
                   </div>
                   <Badge className="bg-success text-success-foreground">Active</Badge>
                 </div>
               </CardHeader>
-              <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex gap-6 text-sm">
+              <CardContent className="space-y-4">
+                <div className="flex gap-6 text-sm">
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <UsersIcon className="h-4 w-4" />
-                    {job.applications} applications</span>
+                    <span>{job.applications} applications</span>
                   </div>
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <EyeIcon className="h-4 w-4" />
-                    {job.views} views</span>
+                    <span>{job.views} views</span>
                   </div>
                   <div className="text-muted-foreground">Posted {new Date(job.postedDate).toLocaleDateString()}</div>
                 </div>
@@ -139,21 +138,20 @@ export default function EmployerJobsPage() {
 
         <TabsContent value="draft" className="space-y-4">
           {draftJobs.map((job) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={job.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{job.title}</CardTitle>
-                    
+                    <CardDescription>
                       {job.type} • {job.location} • {job.salary}
                     </CardDescription>
                   </div>
                   <Badge variant="secondary">Draft</Badge>
                 </div>
               </CardHeader>
-              <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="text-sm text-muted-foreground">
+              <CardContent className="space-y-4">
+                <div className="text-sm text-muted-foreground">
                   Last edited {new Date(job.lastEdited).toLocaleDateString()}
                 </div>
 
@@ -176,22 +174,21 @@ export default function EmployerJobsPage() {
 
         <TabsContent value="closed" className="space-y-4">
           {closedJobs.map((job) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={job.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{job.title}</CardTitle>
-                    
+                    <CardDescription>
                       {job.type} • {job.location} • {job.salary}
                     </CardDescription>
                   </div>
                   <Badge variant="outline">Closed</Badge>
                 </div>
               </CardHeader>
-              <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex gap-6 text-sm text-muted-foreground">
-                  {job.applications} total applications</span>
+              <CardContent className="space-y-4">
+                <div className="flex gap-6 text-sm text-muted-foreground">
+                  <span>{job.applications} total applications</span>
                   <span>Closed {new Date(job.closedDate).toLocaleDateString()}</span>
                 </div>
 

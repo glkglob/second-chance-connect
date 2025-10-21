@@ -9,7 +9,7 @@ function Progress({
   className,
   value,
   ...props
-}.ComponentProps<typeof ProgressPrimitive.Root>) {
+}) {
   return (
     <ProgressPrimitive.Root
       data-slot="progress"
@@ -26,4 +26,6 @@ function Progress({
       />
     </ProgressPrimitive.Root>
   )
+}
+
 export { Progress }

@@ -13,17 +13,17 @@ export default function AdminUsersPage() {
   const jobSeekers = [
     {
       id: "1",
-      name,
+      name: "John Doe",
       email: "john.doe@example.com",
-      status,
+      status: "active",
       joinDate: "2024-01-15",
       applications: 12,
     },
     {
       id: "2",
-      name,
+      name: "Michael Chen",
       email: "michael.chen@example.com",
-      status,
+      status: "active",
       joinDate: "2024-01-10",
       applications: 8,
     },
@@ -32,17 +32,17 @@ export default function AdminUsersPage() {
   const employers = [
     {
       id: "1",
-      name,
+      name: "ABC Logistics",
       email: "hiring@abclogistics.com",
-      status,
+      status: "verified",
       joinDate: "2023-12-01",
       jobPostings: 5,
     },
     {
       id: "2",
-      name,
+      name: "Fresh Start Cafe",
       email: "jobs@freshstartcafe.com",
-      status,
+      status: "verified",
       joinDate: "2023-11-15",
       jobPostings: 3,
     },
@@ -51,9 +51,9 @@ export default function AdminUsersPage() {
   const officers = [
     {
       id: "1",
-      name,
+      name: "Officer Maria Garcia",
       email: "m.garcia@corrections.gov",
-      status,
+      status: "active",
       joinDate: "2023-10-01",
       clients: 24,
     },
@@ -64,7 +64,7 @@ export default function AdminUsersPage() {
       <PageHeader title="User Management" description="Manage all platform users" />
 
       <Tabs defaultValue="job-seekers" className="space-y-6">
-        
+        <TabsList>
           <TabsTrigger value="job-seekers">Job Seekers ({jobSeekers.length})</TabsTrigger>
           <TabsTrigger value="employers">Employers ({employers.length})</TabsTrigger>
           <TabsTrigger value="officers">Officers ({officers.length})</TabsTrigger>
@@ -79,7 +79,7 @@ export default function AdminUsersPage() {
             <SelectTrigger className="w-full md:w-48">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            
+            <SelectContent>
               <SelectItem value="all">All Status</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="suspended">Suspended</SelectItem>
@@ -90,13 +90,13 @@ export default function AdminUsersPage() {
 
         <TabsContent value="job-seekers" className="space-y-4">
           {jobSeekers.map((user) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={user.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    
+                    <Avatar>
                       <AvatarImage src="/placeholder.svg" alt={user.name} />
-                      
+                      <AvatarFallback>
                         {user.name
                           .split(" ")
                           .map((n) => n[0])
@@ -105,14 +105,15 @@ export default function AdminUsersPage() {
                     </Avatar>
                     <div className="space-y-1">
                       <CardTitle className="text-lg">{user.name}</CardTitle>
-                      {user.email}</CardDescription>
+                      <CardDescription>{user.email}</CardDescription>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge className="bg-success text-success-foreground">
                       {user.status === "active" ? "Active" : user.status}
                     </Badge>
-                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
                           <MoreVerticalIcon className="h-4 w-4" />
                         </Button>
@@ -127,11 +128,11 @@ export default function AdminUsersPage() {
                   </div>
                 </div>
               </CardHeader>
-              
+              <CardContent>
                 <div className="flex gap-6 text-sm text-muted-foreground">
                   <span>Joined {new Date(user.joinDate).toLocaleDateString()}</span>
-                  •</span>
-                  {user.applications} applications sent</span>
+                  <span>•</span>
+                  <span>{user.applications} applications sent</span>
                 </div>
               </CardContent>
             </Card>
@@ -140,22 +141,23 @@ export default function AdminUsersPage() {
 
         <TabsContent value="employers" className="space-y-4">
           {employers.map((employer) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={employer.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    
+                    <Avatar>
                       <AvatarImage src="/placeholder.svg" alt={employer.name} />
-                      {employer.name[0]}</AvatarFallback>
+                      <AvatarFallback>{employer.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="space-y-1">
                       <CardTitle className="text-lg">{employer.name}</CardTitle>
-                      {employer.email}</CardDescription>
+                      <CardDescription>{employer.email}</CardDescription>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge className="bg-success text-success-foreground">Verified</Badge>
-                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
                           <MoreVerticalIcon className="h-4 w-4" />
                         </Button>
@@ -171,11 +173,11 @@ export default function AdminUsersPage() {
                   </div>
                 </div>
               </CardHeader>
-              
+              <CardContent>
                 <div className="flex gap-6 text-sm text-muted-foreground">
                   <span>Joined {new Date(employer.joinDate).toLocaleDateString()}</span>
-                  •</span>
-                  {employer.jobPostings} active job postings</span>
+                  <span>•</span>
+                  <span>{employer.jobPostings} active job postings</span>
                 </div>
               </CardContent>
             </Card>
@@ -184,13 +186,13 @@ export default function AdminUsersPage() {
 
         <TabsContent value="officers" className="space-y-4">
           {officers.map((officer) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={officer.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    
+                    <Avatar>
                       <AvatarImage src="/placeholder.svg" alt={officer.name} />
-                      
+                      <AvatarFallback>
                         {officer.name
                           .split(" ")
                           .map((n) => n[0])
@@ -199,12 +201,13 @@ export default function AdminUsersPage() {
                     </Avatar>
                     <div className="space-y-1">
                       <CardTitle className="text-lg">{officer.name}</CardTitle>
-                      {officer.email}</CardDescription>
+                      <CardDescription>{officer.email}</CardDescription>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge className="bg-success text-success-foreground">Active</Badge>
-                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
                           <MoreVerticalIcon className="h-4 w-4" />
                         </Button>
@@ -220,11 +223,11 @@ export default function AdminUsersPage() {
                   </div>
                 </div>
               </CardHeader>
-              
+              <CardContent>
                 <div className="flex gap-6 text-sm text-muted-foreground">
                   <span>Joined {new Date(officer.joinDate).toLocaleDateString()}</span>
-                  •</span>
-                  {officer.clients} active clients</span>
+                  <span>•</span>
+                  <span>{officer.clients} active clients</span>
                 </div>
               </CardContent>
             </Card>

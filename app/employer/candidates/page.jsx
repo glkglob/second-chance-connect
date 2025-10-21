@@ -12,40 +12,44 @@ export default function CandidatesPage() {
   const candidates = [
     {
       id: "1",
-      name,
-      location,
-      appliedFor,
+      name: "Michael Chen",
+      location: "Chicago, IL",
+      appliedFor: "Warehouse Associate",
       appliedDate: "2024-01-20",
       experience: "3 years",
-      skills,
-      status,
+      skills: ["Forklift Certified", "Inventory Management", "Team Player"],
+      status: "new",
+    },
     {
       id: "2",
-      name,
-      location,
-      appliedFor,
+      name: "James Rodriguez",
+      location: "Chicago, IL",
+      appliedFor: "Delivery Driver",
       appliedDate: "2024-01-19",
       experience: "5 years",
-      skills,
-      status,
+      skills: ["CDL License", "Customer Service", "Route Planning"],
+      status: "reviewed",
+    },
     {
       id: "3",
-      name,
-      location,
-      appliedFor,
+      name: "David Thompson",
+      location: "Chicago, IL",
+      appliedFor: "Forklift Operator",
       appliedDate: "2024-01-19",
       experience: "2 years",
-      skills,
-      status,
+      skills: ["Forklift Certified", "Safety Compliance", "Warehouse Operations"],
+      status: "interview",
+    },
     {
       id: "4",
-      name,
-      location,
-      appliedFor,
+      name: "Robert Martinez",
+      location: "Chicago, IL",
+      appliedFor: "Warehouse Associate",
       appliedDate: "2024-01-18",
       experience: "4 years",
       skills: ["Loading/Unloading", "Physical Stamina", "Attention to Detail"],
-      status,
+      status: "reviewed",
+    },
   ]
 
   const getStatusBadge = (status) => {
@@ -58,7 +62,8 @@ export default function CandidatesPage() {
         return <Badge className="bg-success text-success-foreground">Interview</Badge>
       case "rejected":
         return <Badge variant="destructive">Rejected</Badge>
-      default = "secondary">{status}</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
     }
   }
 
@@ -67,48 +72,13 @@ export default function CandidatesPage() {
       <PageHeader title="Candidates" description="Review and manage job applicants" />
 
       {/* Search and Filters */}
-      <div className="flex flex-col gap-4 md:flex-row">
-        <div className="relative flex-1">
-          <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search candidates..." className="pl-9" />
-        </div>
-        <Select defaultValue="all">
-          <SelectTrigger className="w-full md:w-48">
-            <SelectValue placeholder="Job Position" />
-          </SelectTrigger>
-          
-            <SelectItem value="all">All Positions</SelectItem>
-            <SelectItem value="warehouse">Warehouse Associate</SelectItem>
-            <SelectItem value="driver">Delivery Driver</SelectItem>
-            <SelectItem value="forklift">Forklift Operator</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select defaultValue="all-status">
-          <SelectTrigger className="w-full md:w-48">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          
-            <SelectItem value="all-status">All Status</SelectItem>
-            <SelectItem value="new">New</SelectItem>
-            <SelectItem value="reviewed">Reviewed</SelectItem>
-            <SelectItem value="interview">Interview</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Results Count */}
-      <div className="text-sm text-muted-foreground">Showing {candidates.length} candidates</div>
-
-      {/* Candidates List */}
-      <div className="space-y-4">
-        {candidates.map((candidate) => (
-          <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start gap-4">
+      <div className="flex flex-col gap-4 md) => (
+          <Card key={candidate.id}>
+            <CardHeader>
+              <div className="flex items-start gap-4">
                 <Avatar className="h-12 w-12">
                   <AvatarImage src="/placeholder.svg" alt={candidate.name} />
-                  
+                  <AvatarFallback>
                     {candidate.name
                       .split(" ")
                       .map((n) => n[0])
@@ -135,9 +105,8 @@ export default function CandidatesPage() {
                 </div>
               </div>
             </CardHeader>
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
                 <div className="text-sm">
                   <span className="font-medium">Applied for:</span> {candidate.appliedFor}
                 </div>

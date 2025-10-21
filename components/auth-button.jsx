@@ -17,15 +17,15 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 
 export function AuthButton() {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<any>(null)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     const getUser = async () => {
       const {
-        data,
+        data: { user },
       } = await supabase.auth.getUser()
       setUser(user)
 
@@ -38,7 +38,7 @@ export function AuthButton() {
     getUser()
 
     const {
-      data,
+      data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
@@ -58,7 +58,7 @@ export function AuthButton() {
         <Button asChild variant="ghost">
           <Link href="/auth/login">Sign In</Link>
         </Button>
-        
+        <Button asChild>
           <Link href="/auth/sign-up">Sign Up</Link>
         </Button>
       </div>
@@ -73,22 +73,23 @@ export function AuthButton() {
       .toUpperCase() || "U"
 
   return (
-    
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-          
+          <Avatar>
             <AvatarFallback className="bg-primary text-primary-foreground">{initials}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        
+        <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium">{profile?.name || "User"}</p>
             <p className="text-xs text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        
+        <DropdownMenuItem asChild>
           <Link href="/dashboard/profile" className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             Profile

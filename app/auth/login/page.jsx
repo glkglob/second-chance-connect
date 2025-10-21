@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import type React from "react"
 
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -16,11 +16,11 @@ import { useState } from "react"
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     const supabase = createClient()
     setIsLoading(true)
@@ -36,7 +36,7 @@ export default function LoginPage() {
 
       // Get user profile to determine redirect
       const {
-        data,
+        data: { user },
       } = await supabase.auth.getUser()
 
       if (user) {
@@ -63,7 +63,7 @@ export default function LoginPage() {
         }
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message)
+      setError(error instanceof Error ? error.message )
     } finally {
       setIsLoading(false)
     }
@@ -72,12 +72,12 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-6">
       <div className="w-full max-w-md">
-        
+        <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
             <CardDescription>Sign in to your Second Chance Connect account</CardDescription>
           </CardHeader>
-          
+          <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -106,7 +106,7 @@ export default function LoginPage() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  {error}</AlertDescription>
+                  <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 

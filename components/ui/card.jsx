@@ -2,7 +2,7 @@ import * from 'react'
 
 import { cn } from '@/lib/utils'
 
-function Card({ className, ...props }.ComponentProps) {
+function Card({ className, ...props }) {
   return (
     <div
       data-slot="card"
@@ -13,18 +13,20 @@ function Card({ className, ...props }.ComponentProps) {
       {...props}
     />
   )
-function CardHeader({ className, ...props }.ComponentProps) {
+}
+
+function CardHeader({ className, ...props }) {
   return (
     <div
       data-slot="card-header"
       className={cn(
-        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6',
-        className,
-      )}
+        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action])}
       {...props}
     />
   )
-function CardTitle({ className, ...props }.ComponentProps) {
+}
+
+function CardTitle({ className, ...props }) {
   return (
     <div
       data-slot="card-title"
@@ -32,7 +34,9 @@ function CardTitle({ className, ...props }.ComponentProps) {
       {...props}
     />
   )
-function CardDescription({ className, ...props }.ComponentProps) {
+}
+
+function CardDescription({ className, ...props }) {
   return (
     <div
       data-slot="card-description"
@@ -40,7 +44,9 @@ function CardDescription({ className, ...props }.ComponentProps) {
       {...props}
     />
   )
-function CardAction({ className, ...props }.ComponentProps) {
+}
+
+function CardAction({ className, ...props }) {
   return (
     <div
       data-slot="card-action"
@@ -51,7 +57,9 @@ function CardAction({ className, ...props }.ComponentProps) {
       {...props}
     />
   )
-function CardContent({ className, ...props }.ComponentProps) {
+}
+
+function CardContent({ className, ...props }) {
   return (
     <div
       data-slot="card-content"
@@ -59,14 +67,18 @@ function CardContent({ className, ...props }.ComponentProps) {
       {...props}
     />
   )
-function CardFooter({ className, ...props }.ComponentProps) {
+}
+
+function CardFooter({ className, ...props }) {
   return (
     <div
       data-slot="card-footer"
-      className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
+      className={cn('flex items-center px-6 [.border-t])}
       {...props}
     />
   )
+}
+
 export {
   Card,
   CardHeader,

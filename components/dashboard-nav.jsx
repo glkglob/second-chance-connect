@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import type React from "react"
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -16,7 +16,16 @@ import {
   UsersIcon,
 } from "lucide-react"
 
->
+interface NavItem {
+  title: string
+  href: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
+interface DashboardNavProps {
+  items: NavItem[]
+}
+
 export function DashboardNav({ items }) {
   const pathname = usePathname()
 
@@ -29,8 +38,7 @@ export function DashboardNav({ items }) {
         return (
           <Button
             key={item.href}
-            variant={isActive ? "secondary" : "ghost"}
-            className={cn("justify-start", isActive && "bg-secondary font-medium")}
+            variant={isActive ? "secondary" )}
             asChild
           >
             <Link href={item.href}>
@@ -42,37 +50,39 @@ export function DashboardNav({ items }) {
       })}
     </nav>
   )
+}
+
 // Predefined navigation items for different user types
-export const jobSeekerNavItems = [
-  { title, href: "/dashboard", icon,
-  { title, href: "/dashboard/jobs", icon,
-  { title, href: "/dashboard/applications", icon,
-  { title, href: "/dashboard/messages", icon,
-  { title, href: "/dashboard/profile", icon,
-  { title, href: "/dashboard/settings", icon,
+export const jobSeekerNavItems: NavItem[] = [
+  { title: "Dashboard", href: "/dashboard", icon: HomeIcon },
+  { title: "Find Jobs", href: "/dashboard/jobs", icon: BriefcaseIcon },
+  { title: "Applications", href: "/dashboard/applications", icon: FileTextIcon },
+  { title: "Messages", href: "/dashboard/messages", icon: MessageSquareIcon },
+  { title: "Profile", href: "/dashboard/profile", icon: UserIcon },
+  { title: "Settings", href: "/dashboard/settings", icon: SettingsIcon },
 ]
 
-export const employerNavItems = [
-  { title, href: "/employer/dashboard", icon,
-  { title, href: "/employer/jobs", icon,
-  { title, href: "/employer/candidates", icon,
-  { title, href: "/employer/messages", icon,
-  { title, href: "/employer/settings", icon,
+export const employerNavItems: NavItem[] = [
+  { title: "Dashboard", href: "/employer/dashboard", icon: HomeIcon },
+  { title: "Job Postings", href: "/employer/jobs", icon: BriefcaseIcon },
+  { title: "Candidates", href: "/employer/candidates", icon: UserIcon },
+  { title: "Messages", href: "/employer/messages", icon: MessageSquareIcon },
+  { title: "Settings", href: "/employer/settings", icon: SettingsIcon },
 ]
 
-export const officerNavItems = [
-  { title, href: "/officer/dashboard", icon,
-  { title, href: "/officer/clients", icon,
-  { title, href: "/officer/reports", icon,
-  { title, href: "/officer/messages", icon,
-  { title, href: "/officer/settings", icon,
+export const officerNavItems: NavItem[] = [
+  { title: "Dashboard", href: "/officer/dashboard", icon: HomeIcon },
+  { title: "My Clients", href: "/officer/clients", icon: UserIcon },
+  { title: "Reports", href: "/officer/reports", icon: FileTextIcon },
+  { title: "Messages", href: "/officer/messages", icon: MessageSquareIcon },
+  { title: "Settings", href: "/officer/settings", icon: SettingsIcon },
 ]
 
-export const adminNavItems = [
-  { title, href: "/admin/dashboard", icon,
-  { title, href: "/admin/users", icon,
-  { title, href: "/admin/jobs", icon,
-  { title, href: "/admin/reports", icon,
-  { title, href: "/admin/content", icon,
-  { title, href: "/admin/settings", icon,
+export const adminNavItems: NavItem[] = [
+  { title: "Dashboard", href: "/admin/dashboard", icon: HomeIcon },
+  { title: "Users", href: "/admin/users", icon: UsersIcon },
+  { title: "Job Postings", href: "/admin/jobs", icon: BriefcaseIcon },
+  { title: "Reports", href: "/admin/reports", icon: FileTextIcon },
+  { title: "Content", href: "/admin/content", icon: FileTextIcon },
+  { title: "Settings", href: "/admin/settings", icon: SettingsIcon },
 ]

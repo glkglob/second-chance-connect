@@ -12,10 +12,10 @@ import { Progress } from "@/components/ui/progress"
 import { ArrowLeftIcon, ArrowRightIcon, CheckCircle2Icon } from "lucide-react"
 
 const steps = [
-  { id: 1, title, description,
-  { id: 2, title, description,
-  { id: 3, title, description,
-  { id: 4, title, description,
+  { id: 1, title: "Account Info", description: "Basic account details" },
+  { id: 2, title: "Personal Info", description: "Tell us about yourself" },
+  { id: 3, title: "Background", description: "Employment history" },
+  { id: 4, title: "Preferences", description: "Job preferences" },
 ]
 
 export function RegistrationWizard() {
@@ -41,58 +41,14 @@ export function RegistrationWizard() {
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
-      <CardTitle>Create Your Account</CardTitle>
-        
-          Step {currentStep} of {steps.length}: {steps[currentStep - 1].description}
-        </CardDescription>
-        <Progress value={progress} className="mt-4" />
-      </CardHeader>
-      <CardContent className="min-h-[400px]">
-        {currentStep === 1 && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" placeholder="your.email@example.com" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="Create a strong password" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm Password</Label>
-              <Input id="confirm-password" type="password" placeholder="Re-enter your password" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="user-type">I am a...</Label>
-              
-                <SelectTrigger id="user-type">
-                  <SelectValue placeholder="Select your role" />
-                </SelectTrigger>
-                
-                  <SelectItem value="job-seeker">Job Seeker</SelectItem>
-                  <SelectItem value="employer">Employer</SelectItem>
-                  <SelectItem value="officer">Probation/Parole Officer</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )}
+      <CardHeader>
+        <CardTitle>Create Your Account</CardTitle>
+        <CardDescription>
+          Step {currentStep} of {steps.length})}
 
         {currentStep === 2 && (
           <div className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="first-name">First Name</Label>
-                <Input id="first-name" placeholder="John" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="last-name">Last Name</Label>
-                <Input id="last-name" placeholder="Doe" required />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" type="tel" placeholder="(555) 123-4567" />
+            <div className="grid gap-4 sm) 123-4567" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="address">Street Address</Label>
@@ -105,11 +61,11 @@ export function RegistrationWizard() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state">State</Label>
-                
+                <Select>
                   <SelectTrigger id="state">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
-                  
+                  <SelectContent>
                     <SelectItem value="ca">California</SelectItem>
                     <SelectItem value="ny">New York</SelectItem>
                     <SelectItem value="tx">Texas</SelectItem>
@@ -128,11 +84,11 @@ export function RegistrationWizard() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="education">Highest Education Level</Label>
-              
+              <Select>
                 <SelectTrigger id="education">
                   <SelectValue placeholder="Select education level" />
                 </SelectTrigger>
-                
+                <SelectContent>
                   <SelectItem value="high-school">High School / GED</SelectItem>
                   <SelectItem value="some-college">Some College</SelectItem>
                   <SelectItem value="associates">Associate's Degree</SelectItem>
@@ -143,11 +99,11 @@ export function RegistrationWizard() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="experience">Years of Work Experience</Label>
-              
+              <Select>
                 <SelectTrigger id="experience">
                   <SelectValue placeholder="Select experience" />
                 </SelectTrigger>
-                
+                <SelectContent>
                   <SelectItem value="0-1">Less than 1 year</SelectItem>
                   <SelectItem value="1-3">1-3 years</SelectItem>
                   <SelectItem value="3-5">3-5 years</SelectItem>
@@ -179,11 +135,11 @@ export function RegistrationWizard() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="job-type">Preferred Job Type</Label>
-              
+              <Select>
                 <SelectTrigger id="job-type">
                   <SelectValue placeholder="Select job type" />
                 </SelectTrigger>
-                
+                <SelectContent>
                   <SelectItem value="full-time">Full-time</SelectItem>
                   <SelectItem value="part-time">Part-time</SelectItem>
                   <SelectItem value="contract">Contract</SelectItem>
@@ -197,11 +153,11 @@ export function RegistrationWizard() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="salary">Desired Salary Range</Label>
-              
+              <Select>
                 <SelectTrigger id="salary">
                   <SelectValue placeholder="Select range" />
                 </SelectTrigger>
-                
+                <SelectContent>
                   <SelectItem value="15-18">$15-18/hr</SelectItem>
                   <SelectItem value="18-22">$18-22/hr</SelectItem>
                   <SelectItem value="22-28">$22-28/hr</SelectItem>

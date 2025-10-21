@@ -9,21 +9,44 @@ import { cn } from "@/lib/utils"
 
 type AlertType = "info" | "success" | "warning" | "error"
 
+interface Alert {
+  id: string
+  type: AlertType
+  title: string
+  message: string
+  timestamp: string
+  read?: boolean
+  actionLabel?: string
+  actionHref?: string
+}
+
+interface AlertsFeedProps {
+  alerts: Alert[]
+  onMarkAsRead?: (id) => void
+  onDismiss?: (id) => void
+  maxHeight?: string
+}
+
 const alertIcons = {
-  info,
+  info: InfoIcon,
   success: CheckCircle2Icon,
-  warning,
-  error,
+  warning: AlertCircleIcon,
+  error: XCircleIcon,
+}
+
 const alertColors = {
   info: "text-blue-500",
   success: "text-success",
   warning: "text-yellow-500",
   error: "text-destructive",
+}
+
 export function AlertsFeed({ alerts, onMarkAsRead, onDismiss, maxHeight = "400px" }) {
   const unreadCount = alerts.filter((alert) => !alert.read).length
 
   return (
-    
+    <Card>
+      <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <BellIcon className="h-5 w-5" />
@@ -37,7 +60,7 @@ export function AlertsFeed({ alerts, onMarkAsRead, onDismiss, maxHeight = "400px
         </div>
         <CardDescription>Stay updated with important notifications</CardDescription>
       </CardHeader>
-      
+      <CardContent>
         <ScrollArea style={{ height: maxHeight }}>
           <div className="space-y-3">
             {alerts.length === 0 ? (

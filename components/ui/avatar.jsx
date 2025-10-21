@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 function Avatar({
   className,
   ...props
-}.ComponentProps<typeof AvatarPrimitive.Root>) {
+}) {
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
@@ -19,10 +19,12 @@ function Avatar({
       {...props}
     />
   )
+}
+
 function AvatarImage({
   className,
   ...props
-}.ComponentProps<typeof AvatarPrimitive.Image>) {
+}) {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
@@ -30,10 +32,12 @@ function AvatarImage({
       {...props}
     />
   )
+}
+
 function AvatarFallback({
   className,
   ...props
-}.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}) {
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
@@ -44,4 +48,6 @@ function AvatarFallback({
       {...props}
     />
   )
+}
+
 export { Avatar, AvatarImage, AvatarFallback }

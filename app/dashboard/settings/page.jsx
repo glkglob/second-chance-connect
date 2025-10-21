@@ -12,12 +12,13 @@ export default function SettingsPage() {
       <PageHeader title="Settings" description="Manage your account preferences" />
 
       {/* Account Settings */}
-      <CardTitle>Account Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Account Settings</CardTitle>
           <CardDescription>Update your account information</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <Input id="email" type="email" defaultValue="john.doe@example.com" />
           </div>
@@ -38,12 +39,13 @@ export default function SettingsPage() {
       </Card>
 
       {/* Notification Preferences */}
-      <CardTitle>Notification Preferences</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Notification Preferences</CardTitle>
           <CardDescription>Choose how you want to be notified</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Email Notifications</Label>
               <p className="text-sm text-muted-foreground">Receive email updates about your applications</p>
@@ -75,18 +77,19 @@ export default function SettingsPage() {
       </Card>
 
       {/* Job Preferences */}
-      <CardTitle>Job Preferences</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Job Preferences</CardTitle>
           <CardDescription>Set your job search preferences</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label>Preferred Job Type</Label>
             <Select defaultValue="full-time">
-              
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              
+              <SelectContent>
                 <SelectItem value="full-time">Full-time</SelectItem>
                 <SelectItem value="part-time">Part-time</SelectItem>
                 <SelectItem value="contract">Contract</SelectItem>
@@ -97,10 +100,10 @@ export default function SettingsPage() {
           <div className="space-y-2">
             <Label>Desired Salary Range</Label>
             <Select defaultValue="15-20">
-              
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              
+              <SelectContent>
                 <SelectItem value="under-15">Under $15/hr</SelectItem>
                 <SelectItem value="15-20">$15-20/hr</SelectItem>
                 <SelectItem value="20-25">$20-25/hr</SelectItem>
@@ -115,10 +118,10 @@ export default function SettingsPage() {
           <div className="space-y-2">
             <Label htmlFor="radius">Search Radius (miles)</Label>
             <Select defaultValue="25">
-              
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              
+              <SelectContent>
                 <SelectItem value="10">10 miles</SelectItem>
                 <SelectItem value="25">25 miles</SelectItem>
                 <SelectItem value="50">50 miles</SelectItem>
@@ -131,12 +134,13 @@ export default function SettingsPage() {
       </Card>
 
       {/* Privacy Settings */}
-      <CardTitle>Privacy Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Privacy Settings</CardTitle>
           <CardDescription>Control your profile visibility</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Profile Visibility</Label>
               <p className="text-sm text-muted-foreground">Allow employers to find your profile</p>
@@ -155,13 +159,12 @@ export default function SettingsPage() {
 
       {/* Danger Zone */}
       <Card className="border-destructive">
-        
+        <CardHeader>
           <CardTitle className="text-destructive">Danger Zone</CardTitle>
           <CardDescription>Irreversible account actions</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Delete Account</Label>
               <p className="text-sm text-muted-foreground">Permanently delete your account and all data</p>

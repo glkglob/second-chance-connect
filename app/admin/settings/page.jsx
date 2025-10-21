@@ -12,12 +12,13 @@ export default function AdminSettingsPage() {
       <PageHeader title="Platform Settings" description="Configure system-wide settings" />
 
       {/* General Settings */}
-      <CardTitle>General Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>General Settings</CardTitle>
           <CardDescription>Basic platform configuration</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="site-name">Site Name</Label>
             <Input id="site-name" defaultValue="Second Chance Connect" />
           </div>
@@ -38,12 +39,13 @@ export default function AdminSettingsPage() {
       </Card>
 
       {/* Feature Toggles */}
-      <CardTitle>Feature Toggles</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Feature Toggles</CardTitle>
           <CardDescription>Enable or disable platform features</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>User Registration</Label>
               <p className="text-sm text-muted-foreground">Allow new users to register</p>
@@ -75,12 +77,13 @@ export default function AdminSettingsPage() {
       </Card>
 
       {/* Email Settings */}
-      <CardTitle>Email Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Email Settings</CardTitle>
           <CardDescription>Configure email notifications</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="smtp-host">SMTP Host</Label>
             <Input id="smtp-host" defaultValue="smtp.example.com" />
           </div>
@@ -97,12 +100,13 @@ export default function AdminSettingsPage() {
       </Card>
 
       {/* Security Settings */}
-      <CardTitle>Security Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Security Settings</CardTitle>
           <CardDescription>Platform security configuration</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Two-Factor Authentication</Label>
               <p className="text-sm text-muted-foreground">Require 2FA for admin accounts</p>

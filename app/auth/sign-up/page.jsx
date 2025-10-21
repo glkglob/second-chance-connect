@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import type React from "react"
 
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -21,12 +21,12 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [role, setRole] = useState("SEEKER")
-  const [error, setError] = useState(null)
+  const [role, setRole] = useState<UserRole>("SEEKER")
+  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e) => {
     e.preventDefault()
     const supabase = createClient()
     setIsLoading(true)
@@ -48,15 +48,13 @@ export default function SignUpPage() {
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/dashboard`,
-          data)
+        options)
 
       if (signUpError) throw signUpError
 
       router.push("/auth/sign-up-success")
     } catch (error) {
-      setError(error instanceof Error ? error.message)
+      setError(error instanceof Error ? error.message )
     } finally {
       setIsLoading(false)
     }
@@ -65,12 +63,12 @@ export default function SignUpPage() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-6">
       <div className="w-full max-w-md">
-        
+        <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
             <CardDescription>Join Second Chance Connect and start your journey</CardDescription>
           </CardHeader>
-          
+          <CardContent>
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
@@ -104,7 +102,7 @@ export default function SignUpPage() {
                   <SelectTrigger id="role">
                     <SelectValue />
                   </SelectTrigger>
-                  
+                  <SelectContent>
                     <SelectItem value="SEEKER">Job Seeker</SelectItem>
                     <SelectItem value="EMPLOYER">Employer</SelectItem>
                     <SelectItem value="OFFICER">Probation/Parole Officer</SelectItem>
@@ -139,7 +137,7 @@ export default function SignUpPage() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  {error}</AlertDescription>
+                  <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 

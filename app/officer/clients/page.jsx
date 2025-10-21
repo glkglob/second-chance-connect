@@ -12,40 +12,41 @@ export default function ClientsPage() {
   const clients = [
     {
       id: "1",
-      name,
+      name: "John Doe",
       caseNumber: "CR-2024-001",
-      employmentStatus,
-      housingStatus,
-      complianceStatus,
+      employmentStatus: "unemployed",
+      housingStatus: "stable",
+      complianceStatus: "alert",
       lastContact: "5 days ago",
-      nextCheckIn,
+      nextCheckIn: "Overdue",
+    },
     {
       id: "2",
-      name,
+      name: "Michael Chen",
       caseNumber: "CR-2024-002",
-      employmentStatus,
-      housingStatus,
-      complianceStatus,
+      employmentStatus: "unemployed",
+      housingStatus: "stable",
+      complianceStatus: "good",
       lastContact: "1 day ago",
       nextCheckIn: "Jan 28, 2024",
     },
     {
       id: "3",
-      name,
+      name: "James Rodriguez",
       caseNumber: "CR-2024-003",
-      employmentStatus,
-      housingStatus,
-      complianceStatus,
+      employmentStatus: "employed",
+      housingStatus: "stable",
+      complianceStatus: "good",
       lastContact: "3 days ago",
       nextCheckIn: "Today at 2:00 PM",
     },
     {
       id: "4",
-      name,
+      name: "David Thompson",
       caseNumber: "CR-2024-004",
-      employmentStatus,
-      housingStatus,
-      complianceStatus,
+      employmentStatus: "seeking",
+      housingStatus: "stable",
+      complianceStatus: "good",
       lastContact: "2 days ago",
       nextCheckIn: "Tomorrow at 10:00 AM",
     },
@@ -74,7 +75,8 @@ export default function ClientsPage() {
             Unemployed
           </Badge>
         )
-      default = "secondary">{status}</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
     }
   }
 
@@ -94,7 +96,8 @@ export default function ClientsPage() {
             Alert
           </Badge>
         )
-      default = "secondary">{status}</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
     }
   }
 
@@ -103,48 +106,8 @@ export default function ClientsPage() {
       <PageHeader title="My Clients" description="Manage and monitor your caseload" />
 
       {/* Search and Filters */}
-      <div className="flex flex-col gap-4 md:flex-row">
-        <div className="relative flex-1">
-          <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search clients..." className="pl-9" />
-        </div>
-        <Select defaultValue="all">
-          <SelectTrigger className="w-full md:w-48">
-            <SelectValue placeholder="Employment Status" />
-          </SelectTrigger>
-          
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="employed">Employed</SelectItem>
-            <SelectItem value="seeking">Job Seeking</SelectItem>
-            <SelectItem value="unemployed">Unemployed</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select defaultValue="all-compliance">
-          <SelectTrigger className="w-full md:w-48">
-            <SelectValue placeholder="Compliance" />
-          </SelectTrigger>
-          
-            <SelectItem value="all-compliance">All</SelectItem>
-            <SelectItem value="good">Compliant</SelectItem>
-            <SelectItem value="alert">Needs Attention</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Results Count */}
-      <div className="text-sm text-muted-foreground">Showing {clients.length} clients</div>
-
-      {/* Clients List */}
-      <div className="space-y-4">
-        {clients.map((client) => (
-          <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start gap-4">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src="/placeholder.svg" alt={client.name} />
-                  
-                    {client.name
-                      .split(" ")
+      <div className="flex flex-col gap-4 md) => (
+          <Card key={client.id} className={client.complianceStatus === "alert" ? "border-destructive/50" )
                       .map((n) => n[0])
                       .join("")}
                   </AvatarFallback>
@@ -160,9 +123,8 @@ export default function ClientsPage() {
                 </div>
               </div>
             </CardHeader>
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="grid gap-4 md:grid-cols-2">
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <div className="text-sm font-medium">Employment Status</div>
                   {getEmploymentBadge(client.employmentStatus)}
@@ -177,11 +139,11 @@ export default function ClientsPage() {
               </div>
 
               <div className="grid gap-4 text-sm md:grid-cols-2">
-                
+                <div>
                   <span className="text-muted-foreground">Last Contact:</span>{" "}
                   <span className="font-medium">{client.lastContact}</span>
                 </div>
-                
+                <div>
                   <span className="text-muted-foreground">Next Check-in:</span>{" "}
                   <span className={`font-medium ${client.nextCheckIn === "Overdue" ? "text-destructive" : ""}`}>
                     {client.nextCheckIn}

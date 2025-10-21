@@ -12,57 +12,16 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6">
       <PageHeader title="My Profile" description="Manage your profile information">
-        
+        <Button>
           <PencilIcon className="mr-2 h-4 w-4" />
           Edit Profile
         </Button>
       </PageHeader>
 
       {/* Profile Header */}
-      
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src="/placeholder.svg" alt="John Doe" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-2xl font-bold">John Doe</h2>
-              <p className="text-muted-foreground">john.doe@example.com</p>
-              <div className="mt-2 flex flex-wrap justify-center gap-2 sm:justify-start">
-                <Badge variant="secondary">Job Seeker</Badge>
-                <Badge variant="outline">Profile 85% Complete</Badge>
-              </div>
-            </div>
-            <Button variant="outline">Change Photo</Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Personal Information */}
-      <CardTitle>Personal Information</CardTitle>
-          <CardDescription>Your basic profile details</CardDescription>
-        </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" defaultValue="John" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" defaultValue="Doe" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue="john.doe@example.com" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" type="tel" defaultValue="(555) 123-4567" />
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex flex-col items-center gap-4 sm) 123-4567" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
@@ -72,12 +31,13 @@ export default function ProfilePage() {
       </Card>
 
       {/* About */}
-      <CardTitle>About Me</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>About Me</CardTitle>
           <CardDescription>Tell employers about yourself</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="bio">Professional Summary</Label>
             <Textarea
               id="bio"
@@ -90,9 +50,11 @@ export default function ProfilePage() {
       </Card>
 
       {/* Work Experience */}
-      
+      <Card>
+        <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Work Experience</CardTitle>
+            <div>
+              <CardTitle>Work Experience</CardTitle>
               <CardDescription>Your employment history</CardDescription>
             </div>
             <Button variant="outline" size="sm">
@@ -101,11 +63,10 @@ export default function ProfilePage() {
             </Button>
           </div>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2 border-b pb-4">
+        <CardContent className="space-y-4">
+          <div className="space-y-2 border-b pb-4">
             <div className="flex items-start justify-between">
-              
+              <div>
                 <h4 className="font-semibold">Warehouse Worker</h4>
                 <p className="text-sm text-muted-foreground">ABC Distribution Center</p>
                 <p className="text-xs text-muted-foreground">Jan 2020 - Dec 2021</p>
@@ -122,7 +83,7 @@ export default function ProfilePage() {
 
           <div className="space-y-2">
             <div className="flex items-start justify-between">
-              
+              <div>
                 <h4 className="font-semibold">Kitchen Assistant</h4>
                 <p className="text-sm text-muted-foreground">Local Restaurant</p>
                 <p className="text-xs text-muted-foreground">Jun 2018 - Dec 2019</p>
@@ -140,9 +101,11 @@ export default function ProfilePage() {
       </Card>
 
       {/* Skills */}
-      
+      <Card>
+        <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Skills</CardTitle>
+            <div>
+              <CardTitle>Skills</CardTitle>
               <CardDescription>Your key competencies</CardDescription>
             </div>
             <Button variant="outline" size="sm">
@@ -151,7 +114,7 @@ export default function ProfilePage() {
             </Button>
           </div>
         </CardHeader>
-        
+        <CardContent>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">Forklift Operation</Badge>
             <Badge variant="secondary">Inventory Management</Badge>

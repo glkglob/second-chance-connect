@@ -10,49 +10,53 @@ export default function ApplicationsPage() {
   const applications = [
     {
       id: "1",
-      jobTitle,
-      company,
-      location,
+      jobTitle: "Warehouse Associate",
+      company: "ABC Logistics",
+      location: "Chicago, IL",
       appliedDate: "2024-01-15",
       status: "under-review",
-      statusText,
+      statusText: "Under Review",
+    },
     {
       id: "2",
-      jobTitle,
-      company,
-      location,
+      jobTitle: "Kitchen Staff",
+      company: "Fresh Start Cafe",
+      location: "Chicago, IL",
       appliedDate: "2024-01-10",
-      status,
-      statusText,
+      status: "interview",
+      statusText: "Interview Scheduled",
       interviewDate: "2024-01-25 at 2:00 PM",
     },
     {
       id: "3",
-      jobTitle,
-      company,
-      location,
+      jobTitle: "Delivery Driver",
+      company: "QuickShip Delivery",
+      location: "Chicago, IL",
       appliedDate: "2024-01-08",
       status: "under-review",
-      statusText,
+      statusText: "Under Review",
+    },
     {
       id: "4",
-      jobTitle,
-      company,
-      location,
+      jobTitle: "Construction Laborer",
+      company: "BuildRight Construction",
+      location: "Chicago, IL",
       appliedDate: "2024-01-05",
-      status,
-      statusText,
+      status: "rejected",
+      statusText: "Not Selected",
+    },
     {
       id: "5",
-      jobTitle,
-      company,
-      location,
+      jobTitle: "Retail Associate",
+      company: "Second Chance Thrift",
+      location: "Chicago, IL",
       appliedDate: "2023-12-28",
-      status,
-      statusText,
+      status: "accepted",
+      statusText: "Offer Received",
+    },
   ]
 
-  const getStatusBadge = (status, statusText) => {
+  const getStatusBadge = (status) => {
     switch (status) {
       case "under-review":
         return (
@@ -82,7 +86,8 @@ export default function ApplicationsPage() {
             {statusText}
           </Badge>
         )
-      default = "secondary">{statusText}</Badge>
+      default:
+        return <Badge variant="secondary">{statusText}</Badge>
     }
   }
 
@@ -94,16 +99,16 @@ export default function ApplicationsPage() {
       <PageHeader title="My Applications" description="Track your job applications and their status" />
 
       <Tabs defaultValue="active" className="space-y-6">
-        
+        <TabsList>
           <TabsTrigger value="active">Active ({activeApplications.length})</TabsTrigger>
           <TabsTrigger value="past">Past ({pastApplications.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="active" className="space-y-4">
           {activeApplications.map((app) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={app.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{app.jobTitle}</CardTitle>
                     <CardDescription className="flex items-center gap-1">
@@ -114,9 +119,8 @@ export default function ApplicationsPage() {
                   {getStatusBadge(app.status, app.statusText)}
                 </div>
               </CardHeader>
-              <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <MapPinIcon className="h-4 w-4" />
                     {app.location}
@@ -131,10 +135,7 @@ export default function ApplicationsPage() {
                   <div className="rounded-lg bg-success/10 p-4">
                     <div className="flex items-center gap-2 text-sm font-medium text-success">
                       <CalendarIcon className="h-4 w-4" />
-                      Interview: {app.interviewDate}
-                    </div>
-                  </div>
-                )}
+                      Interview)}
 
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" asChild>
@@ -149,7 +150,7 @@ export default function ApplicationsPage() {
           ))}
 
           {activeApplications.length === 0 && (
-            
+            <Card>
               <CardContent className="flex flex-col items-center justify-center py-12 text-center">
                 <BriefcaseIcon className="h-12 w-12 text-muted-foreground" />
                 <h3 className="mt-4 text-lg font-semibold">No Active Applications</h3>
@@ -164,9 +165,9 @@ export default function ApplicationsPage() {
 
         <TabsContent value="past" className="space-y-4">
           {pastApplications.map((app) => (
-            <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
+            <Card key={app.id}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{app.jobTitle}</CardTitle>
                     <CardDescription className="flex items-center gap-1">
@@ -177,9 +178,8 @@ export default function ApplicationsPage() {
                   {getStatusBadge(app.status, app.statusText)}
                 </div>
               </CardHeader>
-              <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <MapPinIcon className="h-4 w-4" />
                     {app.location}

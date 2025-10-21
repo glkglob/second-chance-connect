@@ -11,28 +11,13 @@ export default function OfficerSettingsPage() {
       <PageHeader title="Settings" description="Manage your officer account preferences" />
 
       {/* Account Information */}
-      <CardTitle>Account Information</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Account Information</CardTitle>
           <CardDescription>Update your profile details</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" defaultValue="Maria" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" defaultValue="Garcia" />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
-            <Input id="email" type="email" defaultValue="m.garcia@corrections.gov" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" type="tel" defaultValue="(555) 234-5678" />
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md) 234-5678" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="badge">Badge Number</Label>
@@ -43,12 +28,13 @@ export default function OfficerSettingsPage() {
       </Card>
 
       {/* Notification Preferences */}
-      <CardTitle>Notification Preferences</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Notification Preferences</CardTitle>
           <CardDescription>Control how you receive alerts</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Client Check-in Reminders</Label>
               <p className="text-sm text-muted-foreground">Get notified before scheduled check-ins</p>
@@ -87,12 +73,13 @@ export default function OfficerSettingsPage() {
       </Card>
 
       {/* Security Settings */}
-      <CardTitle>Security Settings</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Security Settings</CardTitle>
           <CardDescription>Manage your password and security</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="space-y-2">
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
             <Label htmlFor="current-password">Current Password</Label>
             <Input id="current-password" type="password" />
           </div>

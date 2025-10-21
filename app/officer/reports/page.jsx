@@ -10,111 +10,51 @@ export default function ReportsPage() {
     {
       id: "1",
       title: "Monthly Caseload Summary - January 2024",
-      type,
+      type: "Monthly Summary",
       date: "2024-01-20",
-      status,
+      status: "completed",
+    },
     {
       id: "2",
       title: "Client Progress Report - John Doe",
-      type,
+      type: "Individual Report",
       date: "2024-01-18",
-      status,
+      status: "completed",
+    },
     {
       id: "3",
       title: "Employment Outcomes Report - Q4 2023",
-      type,
+      type: "Quarterly Report",
       date: "2024-01-15",
-      status,
+      status: "completed",
+    },
     {
       id: "4",
       title: "Compliance Report - December 2023",
-      type,
+      type: "Monthly Summary",
       date: "2024-01-05",
-      status,
+      status: "completed",
+    },
   ]
 
   return (
     <div className="space-y-6">
       <PageHeader title="Reports" description="Generate and view case reports">
-        
+        <Button>
           <FileTextIcon className="mr-2 h-4 w-4" />
           Generate New Report
         </Button>
       </PageHeader>
 
       {/* Report Filters */}
-      <CardTitle>Generate Report</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Generate Report</CardTitle>
           <CardDescription>Create custom reports for your caseload</CardDescription>
         </CardHeader>
-        <Card className="transition-shadow hover:shadow-md">
-      <CardHeader>
-        <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Report Type</label>
-              <Select defaultValue="monthly">
-                
-                  <SelectValue />
-                </SelectTrigger>
-                
-                  <SelectItem value="monthly">Monthly Summary</SelectItem>
-                  <SelectItem value="quarterly">Quarterly Report</SelectItem>
-                  <SelectItem value="individual">Individual Client</SelectItem>
-                  <SelectItem value="employment">Employment Outcomes</SelectItem>
-                  <SelectItem value="compliance">Compliance Report</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Time Period</label>
-              <Select defaultValue="current">
-                
-                  <SelectValue />
-                </SelectTrigger>
-                
-                  <SelectItem value="current">Current Month</SelectItem>
-                  <SelectItem value="last">Last Month</SelectItem>
-                  <SelectItem value="quarter">Last Quarter</SelectItem>
-                  <SelectItem value="year">Last Year</SelectItem>
-                  <SelectItem value="custom">Custom Range</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Format</label>
-              <Select defaultValue="pdf">
-                
-                  <SelectValue />
-                </SelectTrigger>
-                
-                  <SelectItem value="pdf">PDF</SelectItem>
-                  <SelectItem value="excel">Excel</SelectItem>
-                  <SelectItem value="csv">CSV</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <Button>Generate Report</Button>
-        </CardContent>
-      </Card>
-
-      {/* Recent Reports */}
-      <CardTitle>Recent Reports</CardTitle>
-          <CardDescription>Previously generated reports</CardDescription>
-        </CardHeader>
-        
-          <div className="space-y-4">
-            {reports.map((report) => (
-              <div key={report.id} className="flex items-center justify-between border-b pb-4 last:border-0">
-                <div className="space-y-1">
-                  <div className="font-medium">{report.title}</div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <Badge variant="secondary">{report.type}</Badge>
-                    <span className="flex items-center gap-1">
-                      <CalendarIcon className="h-3 w-3" />
-                      {new Date(report.date).toLocaleDateString()}
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md) => (
+              <div key={report.id} className="flex items-center justify-between border-b pb-4 last).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
@@ -134,10 +74,12 @@ export default function ReportsPage() {
       </Card>
 
       {/* Report Templates */}
-      <CardTitle>Report Templates</CardTitle>
+      <Card>
+        <CardHeader>
+          <CardTitle>Report Templates</CardTitle>
           <CardDescription>Quick access to common report types</CardDescription>
         </CardHeader>
-        
+        <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Button variant="outline" className="h-auto flex-col items-start gap-2 p-4 bg-transparent">
               <FileTextIcon className="h-5 w-5" />
