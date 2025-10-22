@@ -369,11 +369,22 @@ For production:
 
 ## License
 
-[License information to be added]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
-For questions or support, please contact [contact information to be added]
+For questions, support, or contributions:
+
+- **Documentation**: See [SETUP.md](SETUP.md), [DEBUGGING_GUIDE.md](DEBUGGING_GUIDE.md), and [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Bug Reports**: [Open an issue](https://github.com/bischoff99/v0-second-chance-connect/issues/new?labels=bug)
+- **Feature Requests**: [Open an issue](https://github.com/bischoff99/v0-second-chance-connect/issues/new?labels=enhancement)
+- **Security Issues**: Email security@secondchanceconnect.org (see [SECURITY.md](SECURITY.md))
+- **General Support**: support@secondchanceconnect.org
+- **Code of Conduct**: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+
+### Community
+
+We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
 
 ---
 
