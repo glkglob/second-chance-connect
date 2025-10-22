@@ -5,14 +5,22 @@ import { logApiRequest, logApiResponse } from '@/lib/logger'
 
 /**
  * Get system logs (Admin only)
- * 
- * In production, this would query a logging service like:
- * - CloudWatch Logs
- * - Datadog
- * - Sentry
- * - Custom logging database
- * 
- * For now, returns mock/sample data structure
+ *
+ * ⚠️  CRITICAL - MOCK DATA IMPLEMENTATION:
+ * This endpoint currently returns MOCK/SAMPLE data and does NOT query actual logs.
+ *
+ * Before deploying to production, you MUST:
+ * 1. Integrate with a real logging service:
+ *    - Sentry (error tracking)
+ *    - Datadog (full observability)
+ *    - CloudWatch Logs (AWS)
+ *    - Vercel Logs API
+ *    - Custom logging database
+ * 2. Remove the mock data below
+ * 3. Implement proper log querying with filtering, pagination, and search
+ * 4. Add rate limiting to prevent abuse of log queries
+ *
+ * The current implementation is for DEMONSTRATION PURPOSES ONLY.
  */
 async function handler(request) {
   logApiRequest('GET', '/api/admin/logs')
@@ -43,8 +51,7 @@ async function handler(request) {
     const limit = parseInt(searchParams.get('limit') || '100')
     const page = parseInt(searchParams.get('page') || '1')
 
-    // In a real implementation, query your logging service
-    // For now, return structure for demo purposes
+    // ⚠️  MOCK DATA - Replace with real log query implementation
     const logs = {
       logs: [
         {

@@ -10,6 +10,7 @@ export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [unauthorized, setUnauthorized] = useState(false)
 
   useEffect(() => {
     fetchAnalytics()
@@ -19,7 +20,12 @@ export default function AnalyticsPage() {
     try {
       setLoading(true)
       const response = await fetch('/api/admin/analytics')
-      
+
+      if (response.status === 403 || response.status === 401) {
+        setUnauthorized(true)
+        return
+      }
+
       if (!response.ok) {
         throw new Error('Failed to fetch analytics')
       }
@@ -51,6 +57,22 @@ export default function AnalyticsPage() {
             </Card>
           ))}
         </div>
+      </div>
+    )
+  }
+
+  if (unauthorized) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          heading="Platform Analytics"
+          description="Monitor platform metrics and user activity"
+        />
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-destructive">Access denied. Admin privileges required to view this page.</p>
+          </CardContent>
+        </Card>
       </div>
     )
   }

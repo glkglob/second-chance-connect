@@ -39,6 +39,7 @@ export default function LogsPage() {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [unauthorized, setUnauthorized] = useState(false)
   const [levelFilter, setLevelFilter] = useState('all')
   const [typeFilter, setTypeFilter] = useState('all')
 
@@ -54,7 +55,12 @@ export default function LogsPage() {
       if (typeFilter !== 'all') params.append('type', typeFilter)
 
       const response = await fetch(`/api/admin/logs?${params}`)
-      
+
+      if (response.status === 403 || response.status === 401) {
+        setUnauthorized(true)
+        return
+      }
+
       if (!response.ok) {
         throw new Error('Failed to fetch logs')
       }
@@ -67,6 +73,22 @@ export default function LogsPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (unauthorized) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          heading="System Logs"
+          description="Monitor application errors and events"
+        />
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-destructive">Access denied. Admin privileges required to view this page.</p>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
