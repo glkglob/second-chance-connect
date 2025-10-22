@@ -21,45 +21,45 @@ The Second Chance Connect application has been successfully rebuilt with all cri
 - [ ] Copy `service_role` secret → save securely (for future backend operations)
 
 ### Step 3: Configure Environment Variables
-```bash
+\`\`\`bash
 # Create/update .env.local with:
 NEXT_PUBLIC_SUPABASE_URL=your_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-```
+\`\`\`
 
 ### Step 4: Apply Database Schema
 In Supabase dashboard, go to **SQL Editor** and execute each script in order:
 
 **Step 4a:** Execute `scripts/001_create_tables.sql`
-```sql
+\`\`\`sql
 -- Creates: users, profiles, jobs, applications, messages, services tables
 -- Expected: ✓ Success (creates 6 tables)
-```
+\`\`\`
 
 **Step 4b:** Execute `scripts/002_enable_rls.sql`
-```sql
+\`\`\`sql
 -- Enables Row Level Security policies on all tables
 -- Expected: ✓ Success (RLS enabled on 6 tables)
-```
+\`\`\`
 
 **Step 4c:** Execute `scripts/003_create_profile_trigger.sql`
-```sql
+\`\`\`sql
 -- Creates trigger to auto-populate user profile on signup
 -- Expected: ✓ Success (trigger created)
-```
+\`\`\`
 
 **Step 4d:** Execute `scripts/004_seed_data.sql` *(optional, for testing)*
-```sql
+\`\`\`sql
 -- Populates demo data for testing (jobs, employers, etc.)
 -- Expected: ✓ Success (inserts sample records)
-```
+\`\`\`
 
 ---
 
 ## Phase 2: Application Testing ⏱️ **15-20 mins**
 
 ### Step 5: Verify Build & Start Dev Server
-```bash
+\`\`\`bash
 # Build validation
 npm run build
 # Expected: ✓ Compiled successfully in ~16-17s
@@ -67,7 +67,7 @@ npm run build
 # Start development server
 npm run dev
 # Expected: ✓ Ready on http://localhost:3000
-```
+\`\`\`
 
 ### Step 6: Test Homepage & Static Pages
 - [ ] Visit `http://localhost:3000`
@@ -112,7 +112,7 @@ npm run dev
 - [ ] Verify admin navigation: Users, Jobs, Reports, Content, Settings
 
 ### Step 9: Test API Routes with curl
-```bash
+\`\`\`bash
 # Test Jobs API
 curl http://localhost:3000/api/jobs
 # Expected: 200 OK (requires authentication in production)
@@ -128,7 +128,7 @@ curl http://localhost:3000/api/messages
 # Test Applications API
 curl http://localhost:3000/api/applications
 # Expected: 200 OK (requires auth)
-```
+\`\`\`
 
 ### Step 10: Test Profile & Settings
 - [ ] Navigate to `/dashboard/profile`
@@ -142,13 +142,13 @@ curl http://localhost:3000/api/applications
 - [ ] Verify settings page loads
 
 ### Step 11: Test Page Load Performance
-```bash
+\`\`\`bash
 npm run build
 # Check build output for:
 # - Next.js version: ✓ 15.5.6
 # - Compiled successfully: ✓
 # - Total size analysis
-```
+\`\`\`
 
 ---
 
@@ -157,7 +157,7 @@ npm run build
 ### Step 12: Choose Hosting Platform
 
 **Option A: Vercel (Recommended for Next.js)**
-```bash
+\`\`\`bash
 # Install Vercel CLI
 npm install -g vercel
 
@@ -165,10 +165,10 @@ npm install -g vercel
 vercel --prod
 
 # Follow prompts to link GitHub repo
-```
+\`\`\`
 
 **Option B: Docker/Self-Hosted**
-```bash
+\`\`\`bash
 # Build production image
 docker build -t second-chance-connect .
 
@@ -177,7 +177,7 @@ docker run -p 3000:3000 \
   -e NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
   -e NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
   second-chance-connect
-```
+\`\`\`
 
 **Option C: Railway, Render, or Other Platforms**
 - Set environment variables in platform dashboard
@@ -186,17 +186,17 @@ docker run -p 3000:3000 \
 
 ### Step 13: Set Production Environment Variables
 On your hosting platform, add:
-```
+\`\`\`
 NEXT_PUBLIC_SUPABASE_URL=your_production_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_production_anon_key
-```
+\`\`\`
 
 ### Step 14: Configure CORS (if needed)
 In Supabase dashboard → **Settings → API → CORS Allowed origins**, add:
-```
+\`\`\`
 https://yourdomain.com
 https://www.yourdomain.com
-```
+\`\`\`
 
 ### Step 15: Enable SSL/HTTPS
 - [ ] Ensure hosting platform provides SSL certificate
@@ -272,22 +272,22 @@ https://www.yourdomain.com
 ## Troubleshooting Guide
 
 ### "Cannot find module" errors
-```bash
+\`\`\`bash
 # Clear cache and reinstall
 rm -rf node_modules pnpm-lock.yaml
 npm install
 npm run build
-```
+\`\`\`
 
 ### Environment variables not loading
-```bash
+\`\`\`bash
 # Verify .env.local exists and contains:
 echo $NEXT_PUBLIC_SUPABASE_URL
 echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 # Check file location (must be in project root):
 ls -la .env.local
-```
+\`\`\`
 
 ### Database connection failures
 - [ ] Verify Supabase project is active
@@ -331,4 +331,3 @@ Your deployment is successful when:
 **Last Updated:** October 22, 2025  
 **Project Status:** Production Ready ✅  
 **Next Action:** Complete Phase 1 database setup, then proceed to Phase 2 testing.
-

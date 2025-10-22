@@ -24,11 +24,11 @@
 1. In Supabase dashboard, go to **Settings → API**
 2. Copy the following values into your `.env.local`:
 
-```env
+\`\`\`env
 # Copy from Supabase Settings → API
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
+\`\`\`
 
 **⚠️ Important:** The `NEXT_PUBLIC_*` prefix means these are public-facing keys (safe to expose). The database password and `service_role` key should stay private.
 
@@ -92,15 +92,15 @@ In Supabase dashboard, go to **SQL Editor** and run each script in order:
 ### In Your Application:
 
 1. Update `.env.local` with Supabase keys:
-```env
+\`\`\`env
 NEXT_PUBLIC_SUPABASE_URL=your_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
-```
+\`\`\`
 
 2. Start dev server:
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
 3. Navigate to `http://localhost:3000/auth/sign-up`
 
@@ -157,7 +157,7 @@ npm run dev
 
 ## Commands Cheat Sheet
 
-```bash
+\`\`\`bash
 # Start development server
 npm run dev
 
@@ -173,7 +173,7 @@ curl http://localhost:3000/api/jobs
 # Check environment variables
 echo $NEXT_PUBLIC_SUPABASE_URL
 echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
-```
+\`\`\`
 
 ---
 
@@ -182,11 +182,11 @@ echo $NEXT_PUBLIC_SUPABASE_ANON_KEY
 After testing locally, deploy to production:
 
 ### Option 1: Vercel (Recommended)
-```bash
+\`\`\`bash
 npm install -g vercel
 vercel --prod
 # Add environment variables during deployment
-```
+\`\`\`
 
 ### Option 2: Railway
 1. Go to [railway.app](https://railway.app)
@@ -195,17 +195,16 @@ vercel --prod
 4. Deploy
 
 ### Option 3: Docker/Self-Hosted
-```bash
+\`\`\`bash
 npm run build
 docker build -t second-chance-connect .
 docker run -p 3000:3000 \
   -e NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
   -e NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
   second-chance-connect
-```
+\`\`\`
 
 ---
 
 **Status:** Ready for database setup ✅  
 **Need help?** Check `DEPLOYMENT_CHECKLIST.md` for detailed troubleshooting
-

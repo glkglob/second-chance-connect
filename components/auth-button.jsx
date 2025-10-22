@@ -23,6 +23,10 @@ export function AuthButton() {
   const supabase = createClient()
 
   useEffect(() => {
+    if (!supabase) {
+      return
+    }
+
     const getUser = async () => {
       const {
         data: { user },
@@ -47,9 +51,21 @@ export function AuthButton() {
   }, [supabase])
 
   const handleSignOut = async () => {
+    if (!supabase) return
     await supabase.auth.signOut()
     router.push("/")
     router.refresh()
+  }
+
+  if (!supabase) {
+    return (
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" disabled>
+          Sign In
+        </Button>
+        <Button disabled>Sign Up</Button>
+      </div>
+    )
   }
 
   if (!user) {

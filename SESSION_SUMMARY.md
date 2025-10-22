@@ -64,13 +64,13 @@ This document ensures future AI agents can work productively in this codebase wi
 | `middleware.js` | Missing closing brace on function | Added proper function closure and export |
 
 **Build Result:**
-```
+\`\`\`
 ✅ Compiled successfully in 16.5s
 ✓ Checking validity of types    
 ✓ Generating static pages (37/37)
 ✓ Collecting build traces    
 ✓ Finalizing page optimization
-```
+\`\`\`
 
 ### 4. Code Quality Standardization (✅ Completed)
 
@@ -102,14 +102,14 @@ This document ensures future AI agents can work productively in this codebase wi
 ## Current Architecture
 
 ### Application Structure
-```
+\`\`\`
 Second Chance Connect
 ├── Frontend: Next.js 14 (App Router)
 ├── Backend: Supabase PostgreSQL with RLS
 ├── Auth: Supabase Auth + middleware
 ├── Styling: Tailwind CSS v4 + shadcn/ui
 └── API: RESTful routes with auth guards
-```
+\`\`\`
 
 ### Role-Based Access
 - **SEEKER** → `/dashboard` (job applications, profile, messages)
@@ -209,7 +209,7 @@ Second Chance Connect
 
 ## Key Commands Reference
 
-```bash
+\`\`\`bash
 # Development
 npm run dev                # Start dev server at localhost:3000
 
@@ -220,7 +220,7 @@ npm run lint               # Run ESLint
 # Testing
 npm run build              # Validate production build
 curl http://localhost:3000/api/jobs    # Test API endpoint
-```
+\`\`\`
 
 ---
 
@@ -300,4 +300,3 @@ curl http://localhost:3000/api/jobs    # Test API endpoint
 ---
 
 For detailed deployment instructions, see **`DEPLOYMENT_CHECKLIST.md`**.
-

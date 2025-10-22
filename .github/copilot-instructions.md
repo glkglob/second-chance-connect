@@ -58,7 +58,7 @@ This file contains comprehensive, actionable guidance for an automated coding ag
 - **Bypassing RLS**: Never disable RLS — all database access should respect row-level security
 
 ## 8. How to Add API Routes (Examples)
-```javascript
+\`\`\`javascript
 // app/api/jobs/route.js
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
@@ -74,7 +74,7 @@ export async function GET(request) {
   const { data, error } = await supabase.from('jobs').select('*')
   return NextResponse.json({ jobs: data })
 }
-```
+\`\`\`
 
 ## 9. Database & Migrations
 - **Raw SQL scripts**: Apply `scripts/` files in order (001, 002, 003, 004) when provisioning DB
