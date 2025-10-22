@@ -17,7 +17,15 @@ export default function OfficerSettingsPage() {
           <CardDescription>Update your profile details</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md) 234-5678" />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input id="name" defaultValue="Officer Jane Smith" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input id="phone" defaultValue="(555) 234-5678" />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="badge">Badge Number</Label>

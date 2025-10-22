@@ -3,9 +3,9 @@
 
 -- Insert sample services (these are public and don't require auth)
 insert into public.services (name, category, contact_email, contact_phone, location, address, description, website_url) values
-  ('Second Chance Housing', 'HOUSING', 'housing@secondchance.org', '555-0101', 'San Francisco, CA', '123 Hope St, San Francisco, CA 94102', 'Transitional housing assistance for individuals with criminal records', 'https://example.com/housing'),
-  ('Career Skills Training', 'EDUCATION', 'education@skillsup.org', '555-0102', 'Oakland, CA', '456 Learn Ave, Oakland, CA 94601', 'Free job training and certification programs', 'https://example.com/education'),
-  ('Community Health Center', 'HEALTH', 'health@community.org', '555-0103', 'San Jose, CA', '789 Wellness Blvd, San Jose, CA 95110', 'Affordable healthcare and mental health services', 'https://example.com/health'),
-  ('Legal Aid Society', 'LEGAL', 'legal@legalaid.org', '555-0104', 'Sacramento, CA', '321 Justice Way, Sacramento, CA 95814', 'Free legal assistance for record expungement and rights restoration', 'https://example.com/legal'),
-  ('Fresh Start Mentorship', 'OTHER', 'mentor@freshstart.org', '555-0105', 'Los Angeles, CA', '654 New Beginning Dr, Los Angeles, CA 90001', 'One-on-one mentorship and life coaching', 'https://example.com/mentorship')
+  ('Apex Trust', 'EDUCATION', 'info@apextrust.com', '01744 612 898', 'St Helens, UK', 'Apex Trust, Unit 10, Merton Bank Road, St Helens, WA9 1HZ', 'Provides skills training and works with employers to overcome barriers to employment for individuals with criminal records.', 'https://www.apextrust.com/'),
+  ('Bounce Back', 'HOUSING', 'info@bouncebackproject.com', '020 8799 3838', 'London, UK', 'Unit 5, 214-218 Horn Lane, London, W3 6PL', 'A charity and social enterprise focused on training and employment for ex-offenders, particularly in the construction sector.', 'https://www.bouncebackproject.com/'),
+  ('Clean Sheet', 'EMPLOYMENT', 'info@cleansheet.org.uk', '0300 123 3045', 'Remote, UK', 'Remote', 'A registered charity that provides remote employment support for men and women with convictions for up to three years.', 'https://cleansheet.org.uk/'),
+  ('Nacro', 'LEGAL', 'helpline@nacro.org.uk', '0300 123 1999', 'Nationwide, UK', 'Nacro, Walkden House, 16-17 Devonshire Square, London, EC2M 4SQ', 'Provides a dedicated Resettlement Plus Helpline offering information and advice to ex-offenders, serving prisoners, their families, and supporting organizations.', 'https://www.nacro.org.uk/'),
+  ('Working Chance', 'EMPLOYMENT', 'info@workingchance.org', '020 7278 1535', 'London, UK', 'Working Chance, 5th Floor, 1-3 Berry Street, London, EC1V 0AA', 'The UK''s only employment charity specifically for women with convictions, helping them transition into employment.', 'https://www.workingchance.org/')
 on conflict do nothing;

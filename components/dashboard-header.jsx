@@ -13,23 +13,30 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BellIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react"
 
-interface DashboardHeaderProps {
-  userName?: string
-  userEmail?: string
-  userAvatar?: string
-}
-
 export function DashboardHeader({
   userName = "User",
   userEmail = "user@example.com",
   userAvatar,
 }) {
+  const initials =
+    userName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter])
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()}
-                  </AvatarFallback>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
+        <div className="flex items-center gap-4">
+          <h2 className="text-lg font-semibold">Dashboard</h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-10 w-10 rounded-full">
+                <Avatar>
+                  {userAvatar ? <AvatarImage src={userAvatar} alt={userName} /> : <AvatarFallback>{initials}</AvatarFallback>}
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -42,22 +49,13 @@ export function DashboardHeader({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/profile">
-                  <UserIcon className="mr-2 h-4 w-4" />
-                  Profile
-                </Link>
+                <Link href="/dashboard/profile">Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/settings">
-                  <SettingsIcon className="mr-2 h-4 w-4" />
-                  Settings
-                </Link>
+                <Link href="/dashboard/settings">Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOutIcon className="mr-2 h-4 w-4" />
-                Sign Out
-              </DropdownMenuItem>
+              <DropdownMenuItem>Sign Out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -21,5 +21,60 @@ export default function DashboardPage() {
       <PageHeader title="Dashboard" description="Welcome back! Here's your overview." />
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md)
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Applications Sent"
+          value="12"
+          description="Jobs you've applied to"
+          icon={FileTextIcon}
+          trend={{ value: 3, isPositive: true }}
+        />
+        <StatCard
+          title="Profile Complete"
+          value="85%"
+          description="Complete your profile"
+          icon={CheckCircleIcon}
+        />
+        <StatCard
+          title="Messages"
+          value="4"
+          description="Unread messages"
+          icon={MessageSquareIcon}
+        />
+        <StatCard
+          title="Next Interview"
+          value="Tomorrow"
+          description="ABC Company at 2 PM"
+          icon={CalendarIcon}
+        />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Continue building your professional profile</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between p-3 border rounded">
+              <div>
+                <h4 className="font-medium">Complete Resume</h4>
+                <p className="text-sm text-muted-foreground">Add your work experience and skills</p>
+              </div>
+              <Button size="sm" asChild>
+                <Link href="/dashboard/profile">Continue</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <ProgressTracker
+          title="Profile Setup"
+          description="Complete these steps to improve your job prospects"
+          steps={profileSteps}
+          currentStep={3}
+        />
+      </div>
+    </div>
+  )
 }

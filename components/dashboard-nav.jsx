@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -16,16 +14,6 @@ import {
   UsersIcon,
 } from "lucide-react"
 
-interface NavItem {
-  title: string
-  href: string
-  icon: React.ComponentType<{ className?: string }>
-}
-
-interface DashboardNavProps {
-  items: NavItem[]
-}
-
 export function DashboardNav({ items }) {
   const pathname = usePathname()
 
@@ -38,7 +26,7 @@ export function DashboardNav({ items }) {
         return (
           <Button
             key={item.href}
-            variant={isActive ? "secondary" )}
+            variant={isActive ? "secondary" : "ghost"}
             asChild
           >
             <Link href={item.href}>
@@ -53,7 +41,7 @@ export function DashboardNav({ items }) {
 }
 
 // Predefined navigation items for different user types
-export const jobSeekerNavItems: NavItem[] = [
+export const jobSeekerNavItems = [
   { title: "Dashboard", href: "/dashboard", icon: HomeIcon },
   { title: "Find Jobs", href: "/dashboard/jobs", icon: BriefcaseIcon },
   { title: "Applications", href: "/dashboard/applications", icon: FileTextIcon },
@@ -62,7 +50,7 @@ export const jobSeekerNavItems: NavItem[] = [
   { title: "Settings", href: "/dashboard/settings", icon: SettingsIcon },
 ]
 
-export const employerNavItems: NavItem[] = [
+export const employerNavItems = [
   { title: "Dashboard", href: "/employer/dashboard", icon: HomeIcon },
   { title: "Job Postings", href: "/employer/jobs", icon: BriefcaseIcon },
   { title: "Candidates", href: "/employer/candidates", icon: UserIcon },
@@ -70,7 +58,7 @@ export const employerNavItems: NavItem[] = [
   { title: "Settings", href: "/employer/settings", icon: SettingsIcon },
 ]
 
-export const officerNavItems: NavItem[] = [
+export const officerNavItems = [
   { title: "Dashboard", href: "/officer/dashboard", icon: HomeIcon },
   { title: "My Clients", href: "/officer/clients", icon: UserIcon },
   { title: "Reports", href: "/officer/reports", icon: FileTextIcon },
@@ -78,7 +66,7 @@ export const officerNavItems: NavItem[] = [
   { title: "Settings", href: "/officer/settings", icon: SettingsIcon },
 ]
 
-export const adminNavItems: NavItem[] = [
+export const adminNavItems = [
   { title: "Dashboard", href: "/admin/dashboard", icon: HomeIcon },
   { title: "Users", href: "/admin/users", icon: UsersIcon },
   { title: "Job Postings", href: "/admin/jobs", icon: BriefcaseIcon },

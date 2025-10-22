@@ -11,18 +11,18 @@ import { Badge } from "@/components/ui/badge"
 import { PlusIcon, TrashIcon, DownloadIcon, EyeIcon } from "lucide-react"
 
 export function ResumeBuilder() {
-  const [skills, setSkills] = useState<string[]>(["Customer Service", "Team Leadership"])
+  const [skills, setSkills] = useState(["Customer Service", "Team Leadership"])
   const [newSkill, setNewSkill] = useState("")
 
   const addSkill = () => {
     if (newSkill.trim()) {
-      setSkills([...skills, newSkill.trim()])
+      setSkills((s) => [...s, newSkill.trim()])
       setNewSkill("")
     }
   }
 
   const removeSkill = (index) => {
-    setSkills(skills.filter((_, i) => i !== index))
+    setSkills((s) => s.filter((_, i) => i !== index))
   }
 
   return (
@@ -60,11 +60,15 @@ export function ResumeBuilder() {
               <CardDescription>Your contact details and basic information</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid gap-4 sm) 123-4567" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="resume-location">Location</Label>
-                <Input id="resume-location" placeholder="City, State" />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="resume-phone">Phone</Label>
+                  <Input id="resume-phone" placeholder="(123) 456-7890" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="resume-location">Location</Label>
+                  <Input id="resume-location" placeholder="City, State" />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -130,7 +134,9 @@ export function ResumeBuilder() {
                 <div className="space-y-2">
                   <Label>Responsibilities & Achievements</Label>
                   <Textarea
-                    placeholder="• Managed inventory and shipping operations&#10;• Operated forklifts and pallet jacks safely&#10;• Maintained 99% accuracy in order fulfillment"
+                    placeholder={
+                      "• Managed inventory and shipping operations\n• Operated forklifts and pallet jacks safely\n• Maintained 99% accuracy in order fulfillment"
+                    }
                     rows={4}
                   />
                 </div>

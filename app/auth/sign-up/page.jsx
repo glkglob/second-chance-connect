@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,15 +12,13 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-type UserRole = "SEEKER" | "EMPLOYER" | "OFFICER"
-
 export default function SignUpPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [role, setRole] = useState<UserRole>("SEEKER")
-  const [error, setError] = useState<string | null>(null)
+  const [role, setRole] = useState("SEEKER")
+  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -48,13 +44,14 @@ export default function SignUpPage() {
       const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
-        options)
+        options
+      })
 
       if (signUpError) throw signUpError
 
       router.push("/auth/sign-up-success")
     } catch (error) {
-      setError(error instanceof Error ? error.message )
+      setError(error instanceof Error ? error.message : "An error occurred")
     } finally {
       setIsLoading(false)
     }

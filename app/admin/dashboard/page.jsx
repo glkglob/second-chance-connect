@@ -52,5 +52,60 @@ export default function AdminDashboardPage() {
       <PageHeader title="Admin Dashboard" description="Platform overview and management" />
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md)
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Total Users"
+          value="2,847"
+          description="+12% from last month"
+          icon={UsersIcon}
+        />
+        <StatCard
+          title="Active Jobs"
+          value="156"
+          description="23 posted this week"
+          icon={BriefcaseIcon}
+        />
+        <StatCard
+          title="Employers"
+          value="89"
+          description="15 pending verification"
+          icon={BuildingIcon}
+        />
+        <StatCard
+          title="Successful Placements"
+          value="234"
+          description="+8% this month"
+          icon={ShieldCheckIcon}
+        />
+      </div>
+
+      {/* System Alerts and Quick Actions */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <AlertsFeed alerts={systemAlerts} maxHeight="500px" />
+        </div>
+
+        <div className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+              <CardDescription>Common administrative tasks</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button asChild className="w-full">
+                <Link href="/admin/users">Manage Users</Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/admin/jobs">Review Jobs</Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/admin/reports">Generate Reports</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
 }
+// cleaned up duplicated trailing content; component ends above

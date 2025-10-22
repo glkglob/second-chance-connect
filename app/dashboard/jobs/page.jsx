@@ -91,7 +91,38 @@ export default function JobsPage() {
       </PageHeader>
 
       {/* Search and Filters */}
-      <div className="flex flex-col gap-4 md) => (
+      <div className="flex flex-col gap-4 md:flex-row">
+        <div className="relative flex-1">
+          <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search jobs..." className="pl-8" />
+        </div>
+        <Select>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Job Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="full-time">Full-time</SelectItem>
+            <SelectItem value="part-time">Part-time</SelectItem>
+            <SelectItem value="contract">Contract</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Location" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Locations</SelectItem>
+            <SelectItem value="chicago">Chicago, IL</SelectItem>
+            <SelectItem value="milwaukee">Milwaukee, WI</SelectItem>
+            <SelectItem value="detroit">Detroit, MI</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Job Listings */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
+        {jobs.map((job) => (
           <JobCard key={job.id} {...job} />
         ))}
       </div>

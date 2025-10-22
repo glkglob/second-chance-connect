@@ -4,18 +4,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BriefcaseIcon, MapPinIcon, ClockIcon } from "lucide-react"
 
-interface JobCardProps {
-  id: string
-  title: string
-  company: string
-  location: string
-  type: string
-  salary?: string
-  postedDate: string
-  description: string
-  tags?: string[]
-}
-
 export function JobCard({
   id,
   title,
@@ -28,7 +16,23 @@ export function JobCard({
   tags = [],
 }) {
   return (
-    <Card className="transition-shadow hover) => (
+    <Card className="transition-shadow hover:shadow-lg">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription className="text-sm">{company}</CardDescription>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {postedDate}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-2 text-sm text-muted-foreground">{description}</p>
+        {tags.length > 0 && (
+          <div className="flex gap-2 mb-3">
+            {tags.map((tag) => (
               <Badge key={tag} variant="outline" className="text-xs">
                 {tag}
               </Badge>

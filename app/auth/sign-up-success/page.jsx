@@ -9,5 +9,28 @@ export default function SignUpSuccessPage() {
       <div className="w-full max-w-md">
         <Card>
           <CardHeader className="space-y-1 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark)
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+              <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
+            </div>
+            <CardTitle className="text-2xl font-bold">Account Created!</CardTitle>
+            <CardDescription>
+              Please check your email to verify your account before signing in.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-center">
+              <p className="mb-4 text-sm text-muted-foreground">
+                We've sent a verification link to your email address. Click the link to activate your account.
+              </p>
+              <Button asChild className="w-full">
+                <Link href="/auth/login">
+                  Back to Sign In
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
 }

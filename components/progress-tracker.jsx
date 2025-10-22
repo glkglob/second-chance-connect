@@ -5,21 +5,7 @@ import { Progress } from "@/components/ui/progress"
 import { CheckCircle2Icon, CircleIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface Step {
-  id: string
-  title: string
-  description?: string
-  completed: boolean
-}
-
-interface ProgressTrackerProps {
-  title: string
-  description?: string
-  steps: Step[]
-  currentStep?: number
-}
-
-export function ProgressTracker({ title, description, steps, currentStep = 0 }) {
+export function ProgressTracker({ title, description, steps = [], currentStep = 0 }) {
   const completedSteps = steps.filter((step) => step.completed).length
   const progressPercentage = (completedSteps / steps.length) * 100
 
@@ -46,8 +32,8 @@ export function ProgressTracker({ title, description, steps, currentStep = 0 }) 
                 {step.completed ? (
                   <CheckCircle2Icon className="h-5 w-5 text-success" />
                 ) : (
-                  <CircleIcon
-                    className={cn("h-5 w-5", index === currentStep ? "text-primary" )}
+                                    <CircleIcon
+                    className={cn("h-5 w-5", index === currentStep ? "text-primary" : "text-muted-foreground")}
                   />
                 )}
               </div>

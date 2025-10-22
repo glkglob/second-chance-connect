@@ -7,26 +7,6 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { AlertCircleIcon, BellIcon, CheckCircle2Icon, InfoIcon, XCircleIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-type AlertType = "info" | "success" | "warning" | "error"
-
-interface Alert {
-  id: string
-  type: AlertType
-  title: string
-  message: string
-  timestamp: string
-  read?: boolean
-  actionLabel?: string
-  actionHref?: string
-}
-
-interface AlertsFeedProps {
-  alerts: Alert[]
-  onMarkAsRead?: (id) => void
-  onDismiss?: (id) => void
-  maxHeight?: string
-}
-
 const alertIcons = {
   info: InfoIcon,
   success: CheckCircle2Icon,
@@ -41,7 +21,7 @@ const alertColors = {
   error: "text-destructive",
 }
 
-export function AlertsFeed({ alerts, onMarkAsRead, onDismiss, maxHeight = "400px" }) {
+export function AlertsFeed({ alerts = [], onMarkAsRead, onDismiss, maxHeight = "400px" }) {
   const unreadCount = alerts.filter((alert) => !alert.read).length
 
   return (

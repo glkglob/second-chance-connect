@@ -21,9 +21,18 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <Card>
         <CardContent className="pt-6">
-          <div className="flex flex-col items-center gap-4 sm) 123-4567" />
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center">
+            <Avatar>
+              <AvatarImage src="/avatar-placeholder.png" alt="Profile" />
+              <AvatarFallback>SC</AvatarFallback>
+            </Avatar>
+            <div className="ml-4 text-center sm:text-left">
+              <h3 className="text-lg font-semibold">John Doe</h3>
+              <p className="text-sm text-muted-foreground">Chicago, IL • (123) 456-7890</p>
+            </div>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-2 mt-6">
             <Label htmlFor="location">Location</Label>
             <Input id="location" defaultValue="Chicago, IL" />
           </div>
