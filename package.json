@@ -7,7 +7,11 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "validate": "node scripts/validate-env.js",
+    "type-check": "tsc --noEmit",
+    "dev:debug": "NODE_OPTIONS='--inspect' next dev",
+    "postinstall": "npm run validate || true"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -60,7 +64,7 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.9.9",
+    "vaul": "^1.0.0",
     "zod": "3.25.76"
   },
   "devDependencies": {
