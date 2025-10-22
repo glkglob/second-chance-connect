@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "baseUrl": ".",
+    "target": "ES6",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx"
+  },
+  "exclude": ["node_modules", ".next"]
+}
