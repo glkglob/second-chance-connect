@@ -38,10 +38,36 @@ export default function EmployerMessagesPage() {
     <div className="space-y-6">
       <PageHeader title="Messages" description="Communicate with candidates" />
 
-      <div className="grid gap-6 lg) => (
+      {/* Conversations List */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card>
+          <CardContent className="p-0">
+            <div className="border-b p-4">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input placeholder="Search messages..." className="pl-9" />
+              </div>
+            </div>
+            <div className="divide-y">
+              {conversations.map((conversation) => (
                 <button
                   key={conversation.id}
-                  className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover))}
+                  className="flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors hover:bg-muted"
+                >
+                  <Avatar>
+                    <AvatarImage src={conversation.avatar || "/placeholder.svg"} alt={conversation.name} />
+                    <AvatarFallback>{conversation.name.substring(0, 2)}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 overflow-hidden">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold">{conversation.name}</h4>
+                      <span className="text-xs text-muted-foreground">{conversation.timestamp}</span>
+                    </div>
+                    <p className="truncate text-sm text-muted-foreground">{conversation.lastMessage}</p>
+                  </div>
+                  {conversation.unread && <Badge className="ml-auto">New</Badge>}
+                </button>
+              ))}
             </div>
           </CardContent>
         </Card>

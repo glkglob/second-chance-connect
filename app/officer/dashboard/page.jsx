@@ -2,11 +2,8 @@ import { PageHeader } from "@/components/page-header"
 import { StatCard } from "@/components/stat-card"
 import { AlertsFeed } from "@/components/alerts-feed"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import Link from "next/link"
-import { UsersIcon, BriefcaseIcon, CheckCircleIcon, CalendarIcon, TrendingUpIcon } from "lucide-react"
+import { UsersIcon, BriefcaseIcon, CheckCircleIcon, CalendarIcon } from "lucide-react"
 
 export default function OfficerDashboardPage() {
   const alerts = [
@@ -55,33 +52,63 @@ export default function OfficerDashboardPage() {
       <PageHeader title="Officer Dashboard" description="Monitor and support your clients' reintegration progress" />
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md)</span>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard title="Total Clients" value="24" icon={UsersIcon} trend={{ value: 2, label: "new this month" }} />
+        <StatCard
+          title="Employed Clients"
+          value="18"
+          icon={BriefcaseIcon}
+          trend={{ value: 3, label: "vs last month" }}
+        />
+        <StatCard
+          title="Compliance Rate"
+          value="92%"
+          icon={CheckCircleIcon}
+          trend={{ value: 5, label: "vs last month" }}
+        />
+        <StatCard title="Upcoming Check-ins" value="7" icon={CalendarIcon} trend={{ value: 0, label: "this week" }} />
+      </div>
+
+      {/* Alerts Feed */}
+      <AlertsFeed alerts={alerts} />
+
+      {/* Client Support Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Client Support</CardTitle>
+          <CardDescription>Actions to help your clients</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span>Employment Assistance</span>
+              <span className="font-medium">21/24 (87%)</span>
             </div>
-            <Progress value={75} className="h-2" />
+            <Progress value={87} className="h-2" />
           </div>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span>Housing Stability</span>
-              <span className="font-medium">22/24 (92%)</span>
+              <span>Education Support</span>
+              <span className="font-medium">19/24 (79%)</span>
             </div>
-            <Progress value={92} className="h-2" />
+            <Progress value={79} className="h-2" />
           </div>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span>Program Compliance</span>
-              <span className="font-medium">22/24 (92%)</span>
-            </div>
-            <Progress value={92} className="h-2" />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span>Support Services Engagement</span>
+              <span>Health Services</span>
               <span className="font-medium">20/24 (83%)</span>
             </div>
             <Progress value={83} className="h-2" />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span>Financial Stability</span>
+              <span className="font-medium">22/24 (92%)</span>
+            </div>
+            <Progress value={92} className="h-2" />
           </div>
         </CardContent>
       </Card>

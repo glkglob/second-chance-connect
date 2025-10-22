@@ -106,8 +106,34 @@ export default function ClientsPage() {
       <PageHeader title="My Clients" description="Manage and monitor your caseload" />
 
       {/* Search and Filters */}
-      <div className="flex flex-col gap-4 md) => (
-          <Card key={client.id} className={client.complianceStatus === "alert" ? "border-destructive/50" )
+      <div className="flex flex-col gap-4 md:flex-row">
+        <div className="relative flex-1">
+          <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder="Search clients..." className="pl-9" />
+        </div>
+        <Select>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Clients</SelectItem>
+            <SelectItem value="alert">Needs Attention</SelectItem>
+            <SelectItem value="good">Compliant</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Clients List */}
+      <div className="space-y-4">
+        {clients.map((client) => (
+          <Card key={client.id} className={client.complianceStatus === "alert" ? "border-destructive/50" : ""}>
+            <CardHeader>
+              <div className="flex items-start gap-4">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src="/placeholder.svg" alt={client.name} />
+                  <AvatarFallback>
+                    {client.name
+                      .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </AvatarFallback>

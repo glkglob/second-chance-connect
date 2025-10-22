@@ -72,7 +72,27 @@ export default function CandidatesPage() {
       <PageHeader title="Candidates" description="Review and manage job applicants" />
 
       {/* Search and Filters */}
-      <div className="flex flex-col gap-4 md) => (
+      <div className="flex flex-col gap-4 md:flex-row">
+        <div className="relative flex-1">
+          <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder="Search candidates..." className="pl-9" />
+        </div>
+        <Select>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="new">New</SelectItem>
+            <SelectItem value="reviewed">Reviewed</SelectItem>
+            <SelectItem value="interview">Interview</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Candidates List */}
+      <div className="space-y-4">
+        {candidates.map((candidate) => (
           <Card key={candidate.id}>
             <CardHeader>
               <div className="flex items-start gap-4">

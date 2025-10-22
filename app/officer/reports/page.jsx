@@ -53,9 +53,66 @@ export default function ReportsPage() {
           <CardDescription>Create custom reports for your caseload</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md) => (
-              <div key={report.id} className="flex items-center justify-between border-b pb-4 last).toLocaleDateString()}
-                    </span>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Report Type</label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="monthly">Monthly Summary</SelectItem>
+                  <SelectItem value="individual">Individual Client</SelectItem>
+                  <SelectItem value="employment">Employment Outcomes</SelectItem>
+                  <SelectItem value="compliance">Compliance Report</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Date Range</label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="this-month">This Month</SelectItem>
+                  <SelectItem value="last-month">Last Month</SelectItem>
+                  <SelectItem value="quarter">This Quarter</SelectItem>
+                  <SelectItem value="year">This Year</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-end">
+              <Button className="w-full">Generate Report</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Recent Reports */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Reports</CardTitle>
+          <CardDescription>Previously generated reports</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {reports.map((report) => (
+              <div key={report.id} className="flex items-center justify-between border-b pb-4 last:border-0">
+                <div className="flex items-center gap-3">
+                  <FileTextIcon className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">{report.title}</div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Badge variant="secondary" className="text-xs">
+                        {report.type}
+                      </Badge>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <CalendarIcon className="h-3 w-3" />
+                        {new Date(report.date).toLocaleDateString()}
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2">

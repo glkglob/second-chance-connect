@@ -44,11 +44,63 @@ export function RegistrationWizard() {
       <CardHeader>
         <CardTitle>Create Your Account</CardTitle>
         <CardDescription>
-          Step {currentStep} of {steps.length})}
+          Step {currentStep} of {steps.length}
+        </CardDescription>
+        <Progress value={progress} className="mt-2" />
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Step Indicators */}
+        <div className="flex justify-between">
+          {steps.map((step) => (
+            <div
+              key={step.id}
+              className={`flex flex-col items-center gap-2 ${currentStep >= step.id ? "text-primary" : "text-muted-foreground"}`}
+            >
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep >= step.id ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground"}`}
+              >
+                {step.id}
+              </div>
+              <div className="text-center">
+                <div className="text-xs font-medium">{step.title}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Step Content */}
+        {currentStep === 1 && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
+              <Input id="email" type="email" placeholder="your.email@example.com" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" placeholder="Create a secure password" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm Password</Label>
+              <Input id="confirm-password" type="password" placeholder="Re-enter your password" />
+            </div>
+          </div>
+        )}
 
         {currentStep === 2 && (
           <div className="space-y-4">
-            <div className="grid gap-4 sm) 123-4567" />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="first-name">First Name</Label>
+                <Input id="first-name" placeholder="John" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="last-name">Last Name</Label>
+                <Input id="last-name" placeholder="Doe" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input id="phone" type="tel" placeholder="(555) 123-4567" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="address">Street Address</Label>

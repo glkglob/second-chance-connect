@@ -56,7 +56,7 @@ export default function ApplicationsPage() {
     },
   ]
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status, statusText) => {
     switch (status) {
       case "under-review":
         return (
@@ -135,7 +135,10 @@ export default function ApplicationsPage() {
                   <div className="rounded-lg bg-success/10 p-4">
                     <div className="flex items-center gap-2 text-sm font-medium text-success">
                       <CalendarIcon className="h-4 w-4" />
-                      Interview)}
+                      Interview: {app.interviewDate}
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" asChild>

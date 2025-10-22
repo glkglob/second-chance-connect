@@ -35,5 +35,57 @@ export default function AdminContentPage() {
                 <div className="flex items-center justify-between border-b pb-4">
                   <div className="space-y-1">
                     <div className="font-medium">About Us</div>
-                    <div className="text-sm text-muted-foreground">Last updated)
+                    <div className="text-sm text-muted-foreground">Last updated: Jan 15, 2024</div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline">
+                      <EditIcon className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        {/* Added TabsContent for resources */}
+        <TabsContent value="resources" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Support Resources</CardTitle>
+                  <CardDescription>Manage resource listings</CardDescription>
+                </div>
+                <Button>
+                  <PlusIcon className="mr-2 h-4 w-4" />
+                  Add Resource
+                </Button>
+              </div>
+            </CardHeader>
+          </Card>
+        </TabsContent>
+        {/* Added TabsContent for announcements */}
+        <TabsContent value="announcements" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Platform Announcements</CardTitle>
+                  <CardDescription>Manage system-wide announcements</CardDescription>
+                </div>
+                <Button>
+                  <PlusIcon className="mr-2 h-4 w-4" />
+                  New Announcement
+                </Button>
+              </div>
+            </CardHeader>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  )
 }
