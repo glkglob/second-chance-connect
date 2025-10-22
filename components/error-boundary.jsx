@@ -30,6 +30,9 @@ class ErrorBoundary extends React.Component {
     console.error('Error caught by boundary:', error, errorInfo)
 
     // Log to external service if configured
+    // Sentry integration is currently commented out.
+    // To enable Sentry error reporting, install the Sentry SDK and uncomment the line below.
+    // See docs/MONITORING_SETUP.md for setup instructions.
     if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
       // Sentry.captureException(error, { contexts: { react: errorInfo } })
     }

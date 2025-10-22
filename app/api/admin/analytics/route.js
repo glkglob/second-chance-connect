@@ -58,21 +58,29 @@ async function fetchAnalytics(supabase, options = {}) {
     dateFilter.lte = endDate
   }
 
-  // Fetch users statistics
-  const usersQuery = supabase.from('profiles').select('id, role, created_at', { count: 'exact' })
-  if (startDate || endDate) {
-    if (startDate) usersQuery.gte('created_at', startDate)
-    if (endDate) usersQuery.lte('created_at', endDate)
-  }
-  const { data: users, count: totalUsers, error: usersError } = await usersQuery
+  // Fetch users statistics (total count only)
+  const usersCountQuery = supabase.from('profiles').select('id', { count: 'exact', head: true })
+  if (startDate) usersCountQuery.gte('created_at', startDate)
+  if (endDate) usersCountQuery.lte('created_at', endDate)
+  const { count: totalUsers, error: usersCountError } = await usersCountQuery
+  
+  if (usersCountError) throw usersCountError
 
-  if (usersError) throw usersError
-
-  // Count users by role
-  const usersByRole = users?.reduce((acc, user) => {
-    acc[user.role] = (acc[user.role] || 0) + 1
-    return acc
-  }, {}) || {}
+  // Count users by role using separate queries (more efficient than loading all data)
+  const usersByRole = {}
+  const roles = ['SEEKER', 'EMPLOYER', 'OFFICER', 'ADMIN']
+  
+  await Promise.all(roles.map(async (role) => {
+    const roleQuery = supabase
+      .from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('role', role)
+    if (startDate) roleQuery.gte('created_at', startDate)
+    if (endDate) roleQuery.lte('created_at', endDate)
+    
+    const { count } = await roleQuery
+    usersByRole[role] = count || 0
+  }))
 
   // Fetch jobs statistics
   const jobsQuery = supabase.from('jobs').select('id, status, created_at', { count: 'exact' })

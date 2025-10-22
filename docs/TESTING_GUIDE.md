@@ -26,17 +26,19 @@ This guide covers the testing strategy and implementation for Second Chance Conn
 
 ### Prerequisites
 
-Install testing dependencies:
+Install testing dependencies (with compatible versions):
 
 ```bash
 npm install --save-dev \
-  jest \
-  @testing-library/react \
-  @testing-library/jest-dom \
-  @testing-library/user-event \
-  jest-environment-jsdom \
-  @jest/globals
+  jest@^29.0.0 \
+  @jest/globals@^29.0.0 \
+  @testing-library/react@^14.0.0 \
+  @testing-library/jest-dom@^6.0.0 \
+  @testing-library/user-event@^14.0.0 \
+  jest-environment-jsdom@^29.0.0
 ```
+
+> **Note:** Jest 29+ is required for `@jest/globals`. React Testing Library packages listed above are compatible with React 19+. If you are using a different React version, please consult the respective package documentation for compatibility.
 
 ### Configuration Files
 
