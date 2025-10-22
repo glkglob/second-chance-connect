@@ -1,72 +1,40 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { PageHeader } from '@/components/page-header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { 
-  Activity, 
-  Users, 
-  Briefcase, 
-  FileText, 
-  MessageSquare,
-  Clock,
-  AlertTriangle
-} from 'lucide-react'
-import { logger } from '@/lib/logger'
+import { BarChart3, Users, Briefcase, FileText, TrendingUp, Activity } from 'lucide-react'
+import { PageHeader } from '@/components/page-header'
 
-/**
- * Admin Analytics Dashboard
- * Displays system metrics, user activity, and performance data
- */
-export default function AdminAnalyticsPage() {
-  const [metrics, setMetrics] = useState(null)
+export default function AnalyticsPage() {
+  const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [unauthorized, setUnauthorized] = useState(false)
 
   useEffect(() => {
     fetchAnalytics()
   }, [])
 
-  const fetchAnalytics = async () => {
+  async function fetchAnalytics() {
     try {
       setLoading(true)
-      // Mock data for demonstration - replace with actual API call
-      const mockData = {
-        overview: {
-          totalUsers: 1247,
-          userGrowth: 12.5,
-          activeJobs: 156,
-          jobGrowth: 8.3,
-          totalApplications: 892,
-          applicationGrowth: 15.7,
-          totalMessages: 3421,
-          messageGrowth: 22.1,
-          usersByRole: {
-            SEEKER: 845,
-            EMPLOYER: 312,
-            OFFICER: 78,
-            ADMIN: 12
-          },
-          recentActivity: {
-            newUsers: 87,
-            jobsPosted: 34,
-            applicationsSubmitted: 156,
-            messagesSent: 421
-          }
-        },
-        performance: {
-          avgResponseTime: 245,
-          errorRate: 0.8,
-          uptime: 99.9
-        }
+      const response = await fetch('/api/admin/analytics')
+
+      if (response.status === 403 || response.status === 401) {
+        setUnauthorized(true)
+        return
       }
-      
-      setMetrics(mockData)
-      setError(null)
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch analytics')
+      }
+
+      const data = await response.json()
+      setAnalytics(data)
     } catch (err) {
-      logger.error('Failed to load analytics', err)
       setError(err.message)
+      console.error('Error fetching analytics:', err)
     } finally {
       setLoading(false)
     }
@@ -76,15 +44,35 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="space-y-6">
         <PageHeader
-          title="Analytics Dashboard"
-          description="System metrics and performance monitoring"
+          heading="Platform Analytics"
+          description="Monitor platform metrics and user activity"
         />
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto" />
-            <p className="mt-4 text-muted-foreground">Loading analytics...</p>
-          </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map(i => (
+            <Card key={i}>
+              <CardHeader className="animate-pulse">
+                <div className="h-4 bg-muted rounded w-24 mb-2" />
+                <div className="h-8 bg-muted rounded w-16" />
+              </CardHeader>
+            </Card>
+          ))}
         </div>
+      </div>
+    )
+  }
+
+  if (unauthorized) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          heading="Platform Analytics"
+          description="Monitor platform metrics and user activity"
+        />
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-destructive">Access denied. Admin privileges required to view this page.</p>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -93,21 +81,12 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="space-y-6">
         <PageHeader
-          title="Analytics Dashboard"
-          description="System metrics and performance monitoring"
+          heading="Platform Analytics"
+          description="Monitor platform metrics and user activity"
         />
-        <Card className="border-destructive">
-          <CardHeader>
-            <CardTitle className="text-destructive">Error Loading Analytics</CardTitle>
-            <CardDescription>{error}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <button
-              onClick={fetchAnalytics}
-              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              Retry
-            </button>
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-destructive">Error loading analytics: {error}</p>
           </CardContent>
         </Card>
       </div>
@@ -117,204 +96,204 @@ export default function AdminAnalyticsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Analytics Dashboard"
-        description="System metrics, user activity, and performance monitoring"
+        heading="Platform Analytics"
+        description="Monitor platform metrics and user activity"
       />
 
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          {/* Key Metrics */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* Summary Metrics */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <MetricCard
               title="Total Users"
-              value={metrics?.overview?.totalUsers || 0}
-              change={metrics?.overview?.userGrowth || 0}
+              value={analytics?.summary.totalUsers || 0}
               icon={Users}
+              description={`+${analytics?.growth.newUsersThisMonth || 0} this month`}
             />
             <MetricCard
               title="Active Jobs"
-              value={metrics?.overview?.activeJobs || 0}
-              change={metrics?.overview?.jobGrowth || 0}
+              value={analytics?.summary.activeJobs || 0}
               icon={Briefcase}
+              description={`${analytics?.summary.totalJobs || 0} total`}
             />
             <MetricCard
               title="Applications"
-              value={metrics?.overview?.totalApplications || 0}
-              change={metrics?.overview?.applicationGrowth || 0}
+              value={analytics?.summary.totalApplications || 0}
               icon={FileText}
+              description={`${analytics?.summary.pendingApplications || 0} pending`}
             />
             <MetricCard
-              title="Messages"
-              value={metrics?.overview?.totalMessages || 0}
-              change={metrics?.overview?.messageGrowth || 0}
-              icon={MessageSquare}
+              title="Success Rate"
+              value={`${analytics?.summary.successRate || 0}%`}
+              icon={TrendingUp}
+              description={`${analytics?.summary.successfulPlacements || 0} placements`}
             />
           </div>
 
-          {/* User Distribution */}
+          {/* Growth Metrics */}
           <Card>
             <CardHeader>
-              <CardTitle>User Distribution by Role</CardTitle>
-              <CardDescription>Breakdown of users by role type</CardDescription>
+              <CardTitle>Growth (Last 30 Days)</CardTitle>
+              <CardDescription>New registrations and activity</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <RoleDistribution
-                  role="Job Seekers"
-                  count={metrics?.overview?.usersByRole?.SEEKER || 0}
-                  total={metrics?.overview?.totalUsers || 1}
-                  color="bg-blue-500"
-                />
-                <RoleDistribution
-                  role="Employers"
-                  count={metrics?.overview?.usersByRole?.EMPLOYER || 0}
-                  total={metrics?.overview?.totalUsers || 1}
-                  color="bg-green-500"
-                />
-                <RoleDistribution
-                  role="Officers"
-                  count={metrics?.overview?.usersByRole?.OFFICER || 0}
-                  total={metrics?.overview?.totalUsers || 1}
-                  color="bg-purple-500"
-                />
-                <RoleDistribution
-                  role="Admins"
-                  count={metrics?.overview?.usersByRole?.ADMIN || 0}
-                  total={metrics?.overview?.totalUsers || 1}
-                  color="bg-red-500"
-                />
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">New Users</p>
+                  <p className="text-2xl font-bold">{analytics?.growth.newUsersThisMonth || 0}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">New Jobs</p>
+                  <p className="text-2xl font-bold">{analytics?.growth.newJobsThisMonth || 0}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">New Applications</p>
+                  <p className="text-2xl font-bold">{analytics?.growth.newApplicationsThisMonth || 0}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
 
-          {/* Recent Activity Summary */}
+        <TabsContent value="users" className="space-y-6">
+          {/* Users by Role */}
           <Card>
             <CardHeader>
-              <CardTitle>Activity Summary (Last 30 Days)</CardTitle>
-              <CardDescription>Key platform activities</CardDescription>
+              <CardTitle>Users by Role</CardTitle>
+              <CardDescription>Distribution of user types</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <ActivitySummaryRow
-                  label="New Users"
-                  value={metrics?.overview?.recentActivity?.newUsers || 0}
-                  icon={Users}
+                <RoleBar
+                  label="Job Seekers"
+                  count={analytics?.usersByRole.SEEKER || 0}
+                  total={analytics?.summary.totalUsers || 1}
+                  color="bg-primary"
                 />
-                <ActivitySummaryRow
-                  label="Jobs Posted"
-                  value={metrics?.overview?.recentActivity?.jobsPosted || 0}
-                  icon={Briefcase}
+                <RoleBar
+                  label="Employers"
+                  count={analytics?.usersByRole.EMPLOYER || 0}
+                  total={analytics?.summary.totalUsers || 1}
+                  color="bg-secondary"
                 />
-                <ActivitySummaryRow
-                  label="Applications Submitted"
-                  value={metrics?.overview?.recentActivity?.applicationsSubmitted || 0}
-                  icon={FileText}
+                <RoleBar
+                  label="Officers"
+                  count={analytics?.usersByRole.OFFICER || 0}
+                  total={analytics?.summary.totalUsers || 1}
+                  color="bg-accent"
                 />
-                <ActivitySummaryRow
-                  label="Messages Sent"
-                  value={metrics?.overview?.recentActivity?.messagesSent || 0}
-                  icon={MessageSquare}
+                <RoleBar
+                  label="Admins"
+                  count={analytics?.usersByRole.ADMIN || 0}
+                  total={analytics?.summary.totalUsers || 1}
+                  color="bg-muted"
                 />
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-3">
-            <MetricCard
-              title="API Response Time"
-              value={`${metrics?.performance?.avgResponseTime || 0}ms`}
-              icon={Clock}
-            />
-            <MetricCard
-              title="Error Rate"
-              value={`${metrics?.performance?.errorRate || 0}%`}
-              icon={AlertTriangle}
-            />
-            <MetricCard
-              title="Uptime"
-              value={`${metrics?.performance?.uptime || 100}%`}
-              icon={Activity}
-            />
-          </div>
+        <TabsContent value="activity" className="space-y-6">
+          {/* Recent Activity */}
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Jobs</CardTitle>
+                <CardDescription>Latest job postings</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {analytics?.recentActivity.jobs.length > 0 ? (
+                  <div className="space-y-4">
+                    {analytics.recentActivity.jobs.map(job => (
+                      <div key={job.id} className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium">{job.title}</p>
+                          <p className="text-sm text-muted-foreground">{job.company}</p>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(job.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No recent jobs</p>
+                )}
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Performance Metrics</CardTitle>
-              <CardDescription>System performance and health indicators</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Detailed performance charts and metrics will be displayed here.
-              </p>
-            </CardContent>
-          </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Applications</CardTitle>
+                <CardDescription>Latest job applications</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {analytics?.recentActivity.applications.length > 0 ? (
+                  <div className="space-y-4">
+                    {analytics.recentActivity.applications.map(app => (
+                      <div key={app.id} className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium">{app.jobs?.title || 'Job'}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Status: {app.status}
+                          </p>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(app.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No recent applications</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
   )
 }
 
-function MetricCard({ title, value, change, icon: Icon }) {
-  const isPositive = change >= 0
-
+function MetricCard({ title, value, icon: Icon, description }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
+        <Icon className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        {change !== undefined && (
-          <p className={`text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-            {isPositive ? '+' : ''}{change}% from last period
-          </p>
-        )}
+        <p className="text-xs text-muted-foreground">{description}</p>
       </CardContent>
     </Card>
   )
 }
 
-function RoleDistribution({ role, count, total, color }) {
-  const percentage = Math.round((count / total) * 100)
+function RoleBar({ label, count, total, color }) {
+  const percentage = total > 0 ? (count / total) * 100 : 0
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between text-sm">
-        <span className="font-medium">{role}</span>
+      <div className="flex justify-between text-sm">
+        <span>{label}</span>
         <span className="text-muted-foreground">
-          {count} ({percentage}%)
+          {count} ({percentage.toFixed(1)}%)
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+      <div className="h-2 bg-muted rounded-full overflow-hidden">
         <div
-          className={`h-full ${color} transition-all duration-300`}
+          className={`h-full ${color} transition-all`}
           style={{ width: `${percentage}%` }}
         />
       </div>
-    </div>
-  )
-}
-
-function ActivitySummaryRow({ label, value, icon: Icon }) {
-  return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        {Icon && (
-          <div className="rounded-lg bg-primary/10 p-2">
-            <Icon className="h-4 w-4 text-primary" />
-          </div>
-        )}
-        <span className="font-medium">{label}</span>
-      </div>
-      <span className="text-2xl font-bold">{value}</span>
     </div>
   )
 }

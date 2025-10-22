@@ -1,31 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
-import { logger, logApiError } from '@/lib/logger'
+import { withErrorHandling, createAuthError, createPermissionError } from '@/lib/api-error-handler'
+import { logApiRequest, logApiResponse, startPerformanceMonitor } from '@/lib/logger'
 
-/**
- * Admin Analytics API
- * GET /api/admin/analytics
- * 
- * Returns aggregated analytics data for admin dashboard
- * Requires ADMIN role
- */
-export async function GET(request) {
-  const startTime = Date.now()
-  
+async function handler(request) {
+  const monitor = startPerformanceMonitor('admin-analytics')
+  logApiRequest('GET', '/api/admin/analytics')
+
   try {
-    logger.apiRequest('GET', '/api/admin/analytics')
-    
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      logger.warn('Unauthorized access attempt to admin analytics', { 
-        type: 'unauthorized_access' 
-      })
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      throw createAuthError()
     }
 
-    // Check user role - only admins can access analytics
+    // Verify admin role
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
@@ -33,152 +23,157 @@ export async function GET(request) {
       .single()
 
     if (!profile || profile.role !== 'ADMIN') {
-      logger.security('Non-admin attempted to access analytics', { 
-        userId: user.id, 
-        userRole: profile?.role 
-      })
-      return NextResponse.json({ 
-        error: 'Forbidden - Admin access required' 
-      }, { status: 403 })
+      throw createPermissionError('Admin access required')
     }
 
-    // Fetch analytics data
-    const analytics = await fetchAnalyticsData(supabase)
+    // Parse query parameters
+    const { searchParams } = new URL(request.url)
+    const startDate = searchParams.get('startDate')
+    const endDate = searchParams.get('endDate')
+    const metric = searchParams.get('metric')
 
-    const duration = Date.now() - startTime
-    logger.apiResponse('GET', '/api/admin/analytics', 200, duration)
+    // Get analytics data
+    const analytics = await fetchAnalytics(supabase, { startDate, endDate, metric })
+
+    const duration = monitor.end()
+    logApiResponse('GET', '/api/admin/analytics', 200, duration)
 
     return NextResponse.json(analytics)
   } catch (error) {
-    logApiError(error, request, { operation: 'GET /api/admin/analytics' })
-    return NextResponse.json({ 
-      error: 'Failed to fetch analytics' 
-    }, { status: 500 })
+    const duration = monitor.end()
+    logApiResponse('GET', '/api/admin/analytics', error.statusCode || 500, duration)
+    throw error
   }
 }
 
-/**
- * Fetch all analytics data from database
- */
-async function fetchAnalyticsData(supabase) {
-  // Get total users and breakdown by role
-  const { data: profiles, error: profilesError } = await supabase
-    .from('profiles')
-    .select('role, created_at')
+async function fetchAnalytics(supabase, options = {}) {
+  const { startDate, endDate } = options
 
-  if (profilesError) {
-    logger.error('Failed to fetch profiles for analytics', profilesError)
+  // Build date filter
+  let dateFilter = {}
+  if (startDate) {
+    dateFilter.gte = startDate
+  }
+  if (endDate) {
+    dateFilter.lte = endDate
   }
 
-  const totalUsers = profiles?.length || 0
-  const usersByRole = profiles?.reduce((acc, profile) => {
-    acc[profile.role] = (acc[profile.role] || 0) + 1
-    return acc
-  }, {}) || {}
+  // Fetch users statistics (total count only)
+  const usersCountQuery = supabase.from('profiles').select('id', { count: 'exact', head: true })
+  if (startDate) usersCountQuery.gte('created_at', startDate)
+  if (endDate) usersCountQuery.lte('created_at', endDate)
+  const { count: totalUsers, error: usersCountError } = await usersCountQuery
+  
+  if (usersCountError) throw usersCountError
 
-  // Get total jobs
-  const { count: totalJobs, error: jobsError } = await supabase
-    .from('jobs')
-    .select('*', { count: 'exact', head: true })
+  // Count users by role using separate queries (more efficient than loading all data)
+  const usersByRole = {}
+  const roles = ['SEEKER', 'EMPLOYER', 'OFFICER', 'ADMIN']
+  
+  await Promise.all(roles.map(async (role) => {
+    const roleQuery = supabase
+      .from('profiles')
+      .select('id', { count: 'exact', head: true })
+      .eq('role', role)
+    if (startDate) roleQuery.gte('created_at', startDate)
+    if (endDate) roleQuery.lte('created_at', endDate)
+    
+    const { count } = await roleQuery
+    usersByRole[role] = count || 0
+  }))
 
-  if (jobsError) {
-    logger.error('Failed to fetch jobs count', jobsError)
-  }
+  // Fetch jobs statistics
+  const jobsQuery = supabase.from('jobs').select('id, status, created_at', { count: 'exact' })
+  if (startDate) jobsQuery.gte('created_at', startDate)
+  if (endDate) jobsQuery.lte('created_at', endDate)
+  const { data: jobs, count: totalJobs, error: jobsError } = await jobsQuery
 
-  // Get active jobs
-  const { count: activeJobs, error: activeJobsError } = await supabase
-    .from('jobs')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', 'ACTIVE')
+  if (jobsError) throw jobsError
 
-  if (activeJobsError) {
-    logger.error('Failed to fetch active jobs count', activeJobsError)
-  }
+  const activeJobs = jobs?.filter(j => j.status === 'ACTIVE').length || 0
 
-  // Get total applications
-  const { count: totalApplications, error: applicationsError } = await supabase
-    .from('applications')
-    .select('*', { count: 'exact', head: true })
+  // Fetch applications statistics
+  const appsQuery = supabase.from('applications').select('id, status, created_at', { count: 'exact' })
+  if (startDate) appsQuery.gte('created_at', startDate)
+  if (endDate) appsQuery.lte('created_at', endDate)
+  const { data: applications, count: totalApplications, error: appsError } = await appsQuery
 
-  if (applicationsError) {
-    logger.error('Failed to fetch applications count', applicationsError)
-  }
+  if (appsError) throw appsError
 
-  // Get total messages
+  const successfulPlacements = applications?.filter(a => a.status === 'ACCEPTED').length || 0
+  const pendingApplications = applications?.filter(a => a.status === 'PENDING').length || 0
+
+  // Fetch messages statistics
   const { count: totalMessages, error: messagesError } = await supabase
     .from('messages')
     .select('*', { count: 'exact', head: true })
 
-  if (messagesError) {
-    logger.error('Failed to fetch messages count', messagesError)
-  }
+  if (messagesError) throw messagesError
 
-  // Get recent activity (last 30 days)
-  const thirtyDaysAgo = new Date()
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  // Calculate growth metrics
+  const now = new Date()
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 
-  const { count: newUsers } = await supabase
+  const { count: newUsersThisMonth } = await supabase
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .gte('created_at', thirtyDaysAgo.toISOString())
 
-  const { count: jobsPosted } = await supabase
+  const { count: newJobsThisMonth } = await supabase
     .from('jobs')
     .select('*', { count: 'exact', head: true })
     .gte('created_at', thirtyDaysAgo.toISOString())
 
-  const { count: applicationsSubmitted } = await supabase
+  const { count: newApplicationsThisMonth } = await supabase
     .from('applications')
     .select('*', { count: 'exact', head: true })
     .gte('created_at', thirtyDaysAgo.toISOString())
 
-  const { count: messagesSent } = await supabase
-    .from('messages')
-    .select('*', { count: 'exact', head: true })
-    .gte('created_at', thirtyDaysAgo.toISOString())
+  // Calculate success rate
+  const successRate = totalApplications > 0 
+    ? ((successfulPlacements / totalApplications) * 100).toFixed(1)
+    : 0
 
-  // Calculate growth percentages (mock for now)
-  // In production, compare with previous period
-  const userGrowth = calculateGrowth(newUsers, totalUsers)
-  const jobGrowth = calculateGrowth(jobsPosted, totalJobs)
-  const applicationGrowth = calculateGrowth(applicationsSubmitted, totalApplications)
-  const messageGrowth = calculateGrowth(messagesSent, totalMessages)
+  // Get recent activity
+  const { data: recentJobs } = await supabase
+    .from('jobs')
+    .select('id, title, company, created_at')
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  const { data: recentApplications } = await supabase
+    .from('applications')
+    .select('id, status, created_at, jobs(title, company)')
+    .order('created_at', { ascending: false })
+    .limit(5)
 
   return {
-    overview: {
+    summary: {
       totalUsers: totalUsers || 0,
-      userGrowth: userGrowth || 0,
-      activeJobs: activeJobs || 0,
-      jobGrowth: jobGrowth || 0,
+      totalJobs: totalJobs || 0,
+      activeJobs: activeJobs,
       totalApplications: totalApplications || 0,
-      applicationGrowth: applicationGrowth || 0,
+      successfulPlacements: successfulPlacements,
+      pendingApplications: pendingApplications,
       totalMessages: totalMessages || 0,
-      messageGrowth: messageGrowth || 0,
-      usersByRole: {
-        SEEKER: usersByRole.SEEKER || 0,
-        EMPLOYER: usersByRole.EMPLOYER || 0,
-        OFFICER: usersByRole.OFFICER || 0,
-        ADMIN: usersByRole.ADMIN || 0,
-      },
-      recentActivity: {
-        newUsers: newUsers || 0,
-        jobsPosted: jobsPosted || 0,
-        applicationsSubmitted: applicationsSubmitted || 0,
-        messagesSent: messagesSent || 0,
-      },
+      successRate: parseFloat(successRate)
     },
-    performance: {
-      avgResponseTime: 0, // Would need to track in production
-      errorRate: 0, // Would need to track in production
-      uptime: 100, // Would need to track in production
+    growth: {
+      newUsersThisMonth: newUsersThisMonth || 0,
+      newJobsThisMonth: newJobsThisMonth || 0,
+      newApplicationsThisMonth: newApplicationsThisMonth || 0
     },
+    usersByRole: {
+      SEEKER: usersByRole.SEEKER || 0,
+      EMPLOYER: usersByRole.EMPLOYER || 0,
+      OFFICER: usersByRole.OFFICER || 0,
+      ADMIN: usersByRole.ADMIN || 0
+    },
+    recentActivity: {
+      jobs: recentJobs || [],
+      applications: recentApplications || []
+    }
   }
 }
 
-/**
- * Calculate growth percentage
- */
-function calculateGrowth(recent, total) {
-  if (!total || total === 0) return 0
-  return Math.round((recent / total) * 100 * 10) / 10 // Round to 1 decimal
-}
+export const GET = withErrorHandling(handler)

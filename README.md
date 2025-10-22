@@ -373,18 +373,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For questions, support, or contributions:
+For questions or support:
+- 📖 See [SUPPORT.md](SUPPORT.md) for detailed support information
+- 🐛 Report bugs via [GitHub Issues](https://github.com/bischoff99/v0-second-chance-connect/issues)
+- 💬 Ask questions in [GitHub Discussions](https://github.com/bischoff99/v0-second-chance-connect/discussions)
+- 🔒 Report security issues via [SECURITY.md](SECURITY.md)
 
-- **Documentation**: See [SETUP.md](SETUP.md), [DEBUGGING_GUIDE.md](DEBUGGING_GUIDE.md), and [CONTRIBUTING.md](CONTRIBUTING.md)
-- **Bug Reports**: [Open an issue](https://github.com/bischoff99/v0-second-chance-connect/issues/new?labels=bug)
-- **Feature Requests**: [Open an issue](https://github.com/bischoff99/v0-second-chance-connect/issues/new?labels=enhancement)
-- **Security Issues**: Email security@secondchanceconnect.org (see [SECURITY.md](SECURITY.md))
-- **General Support**: support@secondchanceconnect.org
-- **Code of Conduct**: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+## Contributing
 
-### Community
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
+## Code of Conduct
+
+This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ---
 

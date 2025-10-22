@@ -2,190 +2,219 @@
 
 ## Supported Versions
 
-We release patches for security vulnerabilities for the following versions:
+We release security updates for the following versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| 1.0.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-The Second Chance Connect team takes security vulnerabilities seriously. We appreciate your efforts to responsibly disclose your findings.
+The Second Chance Connect team takes security seriously. We appreciate your efforts to responsibly disclose your findings.
 
 ### How to Report
 
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
-Instead, please report security vulnerabilities by emailing:
+Instead, please report security vulnerabilities by email to:
 
-**security@secondchanceconnect.org**
+**[INSERT SECURITY EMAIL ADDRESS]**
 
-Include the following information:
+Include the following information in your report:
+
 - Type of vulnerability
-- Full paths of affected source files
-- Location of the affected code (tag/branch/commit or direct URL)
+- Full paths of source file(s) related to the vulnerability
+- Location of the affected source code (tag/branch/commit or direct URL)
 - Step-by-step instructions to reproduce the issue
 - Proof-of-concept or exploit code (if possible)
 - Impact of the vulnerability
-- Any suggested fixes (if available)
+- Any potential fixes you've identified
 
 ### What to Expect
 
-You should receive a response within **48 hours** acknowledging receipt of your report. We will:
+- **Initial Response**: Within 48 hours
+- **Status Update**: Within 7 days
+- **Fix Timeline**: Depends on severity (see below)
 
-1. Confirm the vulnerability and determine its impact
-2. Work on a fix with priority based on severity
-3. Release a security patch as soon as possible
-4. Credit you in the security advisory (unless you prefer to remain anonymous)
+### Severity Levels
 
-### Disclosure Policy
+#### Critical (Fix within 24-48 hours)
+- Remote code execution
+- Authentication bypass
+- SQL injection
+- Unauthorized access to user data
 
-- **Immediate Response**: We respond to security reports within 48 hours
-- **Fix Timeline**: Critical vulnerabilities are patched within 7 days
-- **Public Disclosure**: We coordinate disclosure with the reporter
-- **Advisory**: We publish a security advisory after the patch is released
+#### High (Fix within 1 week)
+- Cross-site scripting (XSS)
+- Cross-site request forgery (CSRF)
+- Authorization bypass
+- Sensitive data exposure
 
-### Security Best Practices
+#### Medium (Fix within 2 weeks)
+- Information disclosure
+- Denial of service
+- Session management issues
 
-When contributing to this project, please follow these security practices:
+#### Low (Fix within 1 month)
+- Minor security improvements
+- Best practice violations
+- Low-risk configuration issues
 
-#### Authentication & Authorization
+## Security Best Practices
 
-- Never bypass Row Level Security (RLS) policies
-- Always verify user identity before data access
-- Use Supabase Auth for all authentication
-- Implement proper role-based access control
-- Never store passwords in plain text
+### For Users
 
-#### Data Protection
+1. **Strong Passwords**: Use unique, complex passwords
+2. **Email Verification**: Always verify your email address
+3. **Suspicious Activity**: Report unusual account activity immediately
+4. **Privacy Settings**: Review and configure your privacy settings
+5. **Secure Connection**: Always use HTTPS
 
-- Use HTTPS for all production deployments
-- Sanitize all user inputs
-- Use parameterized queries to prevent SQL injection
-- Implement rate limiting on API routes
-- Never expose sensitive data in error messages
-- Use environment variables for secrets
+### For Contributors
 
-#### Code Security
+1. **Never Commit Secrets**: No API keys, passwords, or tokens in code
+2. **Input Validation**: Always validate and sanitize user input
+3. **Output Encoding**: Encode output to prevent XSS
+4. **Authentication**: Use Supabase Auth for all authentication
+5. **Authorization**: Implement proper role-based access control
+6. **RLS Policies**: Never bypass Row Level Security
+7. **Dependencies**: Keep dependencies updated
+8. **Code Review**: All security-sensitive code requires review
 
-- Keep dependencies up to date
-- Run security audits regularly (`npm audit`)
-- Use CSP headers to prevent XSS
-- Implement CSRF protection
-- Validate all input on both client and server
-- Use prepared statements for database queries
+## Security Features
 
-#### API Security
+### Authentication & Authorization
 
-- Authenticate all API requests
-- Implement request rate limiting
-- Validate and sanitize all inputs
-- Use proper HTTP methods (GET for reads, POST for writes)
-- Return appropriate error codes without exposing internals
-- Log security events for monitoring
+- **Supabase Auth**: Industry-standard authentication
+- **Email Verification**: Required for all accounts
+- **Role-Based Access Control**: Four distinct user roles (SEEKER, EMPLOYER, OFFICER, ADMIN)
+- **Session Management**: Secure, httpOnly cookies
+- **Password Security**: Bcrypt hashing with proper salting
 
-#### Database Security
+### Data Protection
 
-- Enable Row Level Security on all tables
-- Use least privilege principle for database roles
-- Regularly backup database
-- Encrypt sensitive data at rest
-- Use SSL for database connections
-- Audit database access logs
+- **Row Level Security (RLS)**: Database-level access control
+- **Encryption at Rest**: All data encrypted in Supabase
+- **Encryption in Transit**: TLS 1.3 for all connections
+- **Data Minimization**: Only collect necessary data
+- **Regular Backups**: Automated daily backups
 
-#### Environment Variables
+### Application Security
 
-Never commit the following to source control:
-- Database credentials
-- API keys
-- Supabase keys (except anon key in public code)
-- JWT secrets
-- Third-party service credentials
+- **Input Validation**: Server-side validation for all inputs
+- **SQL Injection Prevention**: Parameterized queries only
+- **XSS Protection**: Content Security Policy headers
+- **CSRF Protection**: Next.js built-in CSRF protection
+- **Rate Limiting**: API rate limiting implemented
+- **Error Handling**: Safe error messages (no sensitive data)
 
-Use `.env.local` for local development and set environment variables in your deployment platform.
+### Infrastructure Security
 
-### Known Security Considerations
+- **HTTPS Only**: Forced HTTPS on all production environments
+- **Security Headers**: HSTS, X-Frame-Options, X-Content-Type-Options
+- **Environment Variables**: Sensitive config in environment variables
+- **Logging**: Security events logged for audit
+- **Monitoring**: Real-time security monitoring
 
-#### Supabase RLS Policies
+## Known Security Considerations
 
-Our application relies on Supabase Row Level Security (RLS) for data access control. The policies are defined in `scripts/002_enable_rls.sql`. 
+### Sensitive Data Handling
 
-**Critical RLS Policies:**
+This application handles sensitive information:
+- Criminal records (limited disclosure)
+- Employment history
+- Personal contact information
+- Communication between users
 
-1. **Profiles**: Users can view all profiles but only update their own
-2. **Jobs**: Anyone can view active jobs; only employers can create/modify
-3. **Applications**: Seekers see their applications; employers see applications for their jobs
-4. **Messages**: Users can only access their own messages
-5. **Services**: Public read access; admin-only write access
+We implement:
+- Strict access controls
+- Data minimization principles
+- Regular security audits
+- Compliance with applicable regulations
 
-**Security Review Checklist:**
+### Third-Party Services
 
-- [ ] All tables have RLS enabled
-- [ ] Policies are tested with different user roles
-- [ ] No policy allows unrestricted access
-- [ ] Service role key is never exposed to client
-- [ ] Admin role checks are properly implemented
+We use the following third-party services:
+- **Supabase**: Database and authentication
+- **Vercel**: Hosting and deployment
+- **Vercel Analytics**: Privacy-focused analytics
 
-#### Common Vulnerabilities to Check
+All third-party services are vetted for security and compliance.
 
-- **SQL Injection**: Use parameterized queries (Supabase handles this)
-- **XSS**: Sanitize all user-generated content
-- **CSRF**: Use SameSite cookies and CSRF tokens
-- **Authentication Bypass**: Always verify user session
-- **Authorization Issues**: Check user roles before data access
-- **Mass Assignment**: Explicitly define allowed fields
-- **Rate Limiting**: Implement on all public endpoints
-- **File Upload**: Validate file types and scan for malware
+## Compliance
 
-### Security Tools
+### Data Protection
 
-We use the following tools to maintain security:
+- **Privacy by Design**: Privacy built into system architecture
+- **Data Retention**: Clear data retention policies
+- **User Rights**: Users can access, modify, and delete their data
+- **Transparency**: Clear privacy policy and terms of service
 
-- **npm audit**: Dependency vulnerability scanning
-- **ESLint**: Code quality and security linting
-- **CodeQL**: Static code analysis (GitHub Actions)
-- **Supabase RLS**: Database-level access control
-- **Vercel Security Headers**: CSP, HSTS, etc.
+### Accessibility
 
-### Automated Security Checks
+- **WCAG-AA Compliance**: Accessibility is a security consideration
+- **Screen Reader Support**: All features accessible
+- **Keyboard Navigation**: Full keyboard support
 
-Our CI/CD pipeline includes:
+## Security Updates
 
-- Dependency vulnerability scans on every PR
-- Static code analysis with CodeQL
-- Security headers verification
-- RLS policy tests
+### Dependency Updates
 
-### Incident Response
+- Dependencies are reviewed weekly
+- Security updates applied within 48 hours of release
+- Automated dependency scanning via Dependabot
 
-In case of a security incident:
+### Security Patches
 
-1. **Contain**: Immediately isolate affected systems
-2. **Assess**: Determine scope and impact
-3. **Notify**: Inform affected users within 72 hours
-4. **Remediate**: Deploy fixes and patches
-5. **Review**: Conduct post-incident analysis
-6. **Document**: Update security measures
+Security patches are released as needed:
+- Critical: Immediate release
+- High: Within 1 week
+- Medium: Next minor release
+- Low: Next major release
 
-### Security Contacts
+## Security Audit Trail
 
-- **General Security**: security@secondchanceconnect.org
-- **Urgent Issues**: Include [URGENT] in email subject
+### Recent Security Reviews
 
-### Acknowledgments
+- **[DATE]**: Initial security audit (pending)
+- **[DATE]**: RLS policies review (pending)
+- **[DATE]**: Authentication flow review (pending)
 
-We appreciate researchers and contributors who help keep Second Chance Connect secure. Security researchers who report valid vulnerabilities will be:
+### Planned Reviews
 
-- Credited in our security advisories (with permission)
-- Listed in our Hall of Fame
-- Eligible for recognition in release notes
+- Quarterly security audits
+- Annual penetration testing
+- Continuous dependency scanning
 
-Thank you for helping keep Second Chance Connect and our users safe!
+## Responsible Disclosure Program
+
+We currently do not have a bug bounty program, but we deeply appreciate security researchers who:
+
+- Follow responsible disclosure practices
+- Give us time to fix issues before public disclosure
+- Respect user privacy during testing
+- Don't access or modify user data
+
+## Hall of Fame
+
+Security researchers who have responsibly disclosed vulnerabilities:
+
+(None yet - we appreciate your future contributions!)
 
 ## Additional Resources
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [Supabase Security Best Practices](https://supabase.com/docs/guides/auth/row-level-security)
-- [Next.js Security](https://nextjs.org/docs/advanced-features/security-headers)
-- [CWE Top 25](https://cwe.mitre.org/top25/archive/2023/2023_top25_list.html)
+- [Supabase Security](https://supabase.com/security)
+- [Next.js Security](https://nextjs.org/docs/pages/building-your-application/configuring/security)
+- [Vercel Security](https://vercel.com/security)
+
+## Contact
+
+For security concerns: **[INSERT SECURITY EMAIL]**  
+For general inquiries: **[INSERT GENERAL EMAIL]**  
+For urgent issues: **[INSERT EMERGENCY CONTACT]**
+
+---
+
+**Last Updated**: 2025-01-22  
+**Next Review**: 2025-04-22
