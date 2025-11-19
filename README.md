@@ -46,86 +46,86 @@ A comprehensive full-stack web application connecting individuals with criminal 
 \`\`\`
 second-chance-connect/
 ├── app/
-│   ├── api/                   # API routes
-│   │   ├── jobs/              # Job CRUD operations
-│   │   ├── applications/      # Application management
-│   │   ├── messages/          # Messaging system
-│   │   └── services/          # Support services
-│   ├── auth/                  # Authentication pages
-│   │   ├── login/             # Sign in page
-│   │   ├── sign-up/           # Registration page
-│   │   ├── sign-up-success/   # Email confirmation notice
-│   │   └── error/             # Auth error page
-│   ├── dashboard/             # Job Seeker dashboard
-│   │   ├── layout.tsx
-│   │   ├── page.tsx           # Dashboard home
-│   │   ├── jobs/              # Job browsing
-│   │   ├── applications/      # Application tracking
-│   │   ├── profile/           # Profile management
-│   │   ├── messages/          # Messaging
-│   │   └── settings/          # Settings
-│   ├── employer/              # Employer dashboard
-│   │   ├── layout.tsx
-│   │   ├── dashboard/         # Employer home
-│   │   ├── jobs/              # Job posting management
-│   │   ├── candidates/        # Candidate review
-│   │   ├── messages/          # Messaging
-│   │   └── settings/          # Settings
-│   ├── officer/               # Probation Officer dashboard
-│   │   ├── layout.tsx
-│   │   ├── dashboard/         # Officer home
-│   │   ├── clients/           # Client management
-│   │   ├── reports/           # Reporting
-│   │   ├── messages/          # Messaging
-│   │   └── settings/          # Settings
-│   ├── admin/                 # Admin panel
-│   │   ├── layout.tsx
-│   │   ├── dashboard/         # Admin home
-│   │   ├── users/             # User management
-│   │   ├── jobs/              # Job moderation
-│   │   ├── reports/           # System reports
-│   │   ├── content/           # Content management
-│   │   └── settings/          # Platform settings
-│   ├── page.tsx               # Home page
-│   ├── about/                 # About page
-│   ├── services/              # Support services page
-│   ├── layout.tsx             # Root layout
-│   └── globals.css            # Global styles
+│ ├── api/ # API routes
+│ │ ├── jobs/ # Job CRUD operations
+│ │ ├── applications/ # Application management
+│ │ ├── messages/ # Messaging system
+│ │ └── services/ # Support services
+│ ├── auth/ # Authentication pages
+│ │ ├── login/ # Sign in page
+│ │ ├── sign-up/ # Registration page
+│ │ ├── sign-up-success/ # Email confirmation notice
+│ │ └── error/ # Auth error page
+│ ├── dashboard/ # Job Seeker dashboard
+│ │ ├── layout.tsx
+│ │ ├── page.tsx # Dashboard home
+│ │ ├── jobs/ # Job browsing
+│ │ ├── applications/ # Application tracking
+│ │ ├── profile/ # Profile management
+│ │ ├── messages/ # Messaging
+│ │ └── settings/ # Settings
+│ ├── employer/ # Employer dashboard
+│ │ ├── layout.tsx
+│ │ ├── dashboard/ # Employer home
+│ │ ├── jobs/ # Job posting management
+│ │ ├── candidates/ # Candidate review
+│ │ ├── messages/ # Messaging
+│ │ └── settings/ # Settings
+│ ├── officer/ # Probation Officer dashboard
+│ │ ├── layout.tsx
+│ │ ├── dashboard/ # Officer home
+│ │ ├── clients/ # Client management
+│ │ ├── reports/ # Reporting
+│ │ ├── messages/ # Messaging
+│ │ └── settings/ # Settings
+│ ├── admin/ # Admin panel
+│ │ ├── layout.tsx
+│ │ ├── dashboard/ # Admin home
+│ │ ├── users/ # User management
+│ │ ├── jobs/ # Job moderation
+│ │ ├── reports/ # System reports
+│ │ ├── content/ # Content management
+│ │ └── settings/ # Platform settings
+│ ├── page.tsx # Home page
+│ ├── about/ # About page
+│ ├── services/ # Support services page
+│ ├── layout.tsx # Root layout
+│ └── globals.css # Global styles
 ├── components/
-│   ├── ui/                    # shadcn/ui components
-│   ├── auth-button.tsx        # Authentication button
-│   ├── site-header.tsx        # Public site header
-│   ├── site-footer.tsx        # Public site footer
-│   ├── dashboard-header.tsx   # Dashboard header
-│   ├── dashboard-nav.tsx      # Dashboard navigation
-│   ├── stat-card.tsx          # Statistics card
-│   ├── job-card.tsx           # Job listing card
-│   ├── page-header.tsx        # Page header component
-│   ├── progress-tracker.tsx   # Progress tracking widget
-│   ├── alerts-feed.tsx        # Alerts feed component
-│   ├── registration-wizard.tsx # Multi-step registration
-│   └── resume-builder.tsx     # Resume builder component
+│ ├── ui/ # shadcn/ui components
+│ ├── auth-button.tsx # Authentication button
+│ ├── site-header.tsx # Public site header
+│ ├── site-footer.tsx # Public site footer
+│ ├── dashboard-header.tsx # Dashboard header
+│ ├── dashboard-nav.tsx # Dashboard navigation
+│ ├── stat-card.tsx # Statistics card
+│ ├── job-card.tsx # Job listing card
+│ ├── page-header.tsx # Page header component
+│ ├── progress-tracker.tsx # Progress tracking widget
+│ ├── alerts-feed.tsx # Alerts feed component
+│ ├── registration-wizard.tsx # Multi-step registration
+│ └── resume-builder.tsx # Resume builder component
 ├── lib/
-│   ├── supabase/              # Supabase client utilities
-│   │   ├── client.ts          # Browser client
-│   │   ├── server.ts          # Server client
-│   │   └── middleware.ts      # Auth middleware
-│   ├── hooks/                 # Custom React hooks
-│   │   ├── use-jobs.ts        # Jobs data fetching
-│   │   ├── use-applications.ts # Applications data
-│   │   ├── use-messages.ts    # Messaging data
-│   │   └── use-services.ts    # Services data
-│   ├── types/                 # TypeScript types
-│   │   └── database.ts        # Database types
-│   └── utils.ts               # Utility functions
-├── scripts/                   # Database scripts
-│   ├── 001_create_tables.sql  # Table creation
-│   ├── 002_enable_rls.sql     # Row Level Security
-│   ├── 003_create_profile_trigger.sql # Auto-profile creation
-│   └── 004_seed_data.sql      # Sample data
-├── middleware.ts              # Next.js middleware
-├── .env.example               # Environment variables template
-└── SETUP.md                   # Detailed setup guide
+│ ├── supabase/ # Supabase client utilities
+│ │ ├── client.ts # Browser client
+│ │ ├── server.ts # Server client
+│ │ └── middleware.ts # Auth middleware
+│ ├── hooks/ # Custom React hooks
+│ │ ├── use-jobs.ts # Jobs data fetching
+│ │ ├── use-applications.ts # Applications data
+│ │ ├── use-messages.ts # Messaging data
+│ │ └── use-services.ts # Services data
+│ ├── types/ # TypeScript types
+│ │ └── database.ts # Database types
+│ └── utils.ts # Utility functions
+├── scripts/ # Database scripts
+│ ├── 001_create_tables.sql # Table creation
+│ ├── 002_enable_rls.sql # Row Level Security
+│ ├── 003_create_profile_trigger.sql # Auto-profile creation
+│ └── 004_seed_data.sql # Sample data
+├── middleware.ts # Next.js middleware
+├── .env.example # Environment variables template
+└── SETUP.md # Detailed setup guide
 \`\`\`
 
 ## Database Schema
@@ -154,6 +154,7 @@ second-chance-connect/
 ### Security
 
 All tables use Row Level Security (RLS) with policies that:
+
 - Enforce role-based access control
 - Allow users to view their own data
 - Restrict modifications to data owners
@@ -162,6 +163,7 @@ All tables use Row Level Security (RLS) with policies that:
 ## API Routes
 
 ### Jobs
+
 - `GET /api/jobs` - List jobs (with filters: status, employerId, search)
 - `POST /api/jobs` - Create job (employers only)
 - `GET /api/jobs/[id]` - Get job details
@@ -169,16 +171,19 @@ All tables use Row Level Security (RLS) with policies that:
 - `DELETE /api/jobs/[id]` - Delete job (owner only)
 
 ### Applications
+
 - `GET /api/applications` - List applications (filtered by user)
 - `POST /api/applications` - Apply to job (seekers only)
 - `PATCH /api/applications/[id]` - Update application status
 
 ### Messages
+
 - `GET /api/messages` - List messages (user's conversations)
 - `POST /api/messages` - Send message
 - `PATCH /api/messages/[id]` - Mark as read
 
 ### Services
+
 - `GET /api/services` - List support services (public, with filters)
 
 ## Authentication Flow
@@ -203,6 +208,7 @@ All tables use Row Level Security (RLS) with policies that:
 ## Features
 
 ### For Job Seekers
+
 - Browse fair-chance job opportunities
 - Build and manage professional profiles
 - Track job applications
@@ -211,6 +217,7 @@ All tables use Row Level Security (RLS) with policies that:
 - Personalized job recommendations
 
 ### For Employers
+
 - Post job opportunities
 - Review candidate applications
 - Manage hiring pipeline
@@ -219,6 +226,7 @@ All tables use Row Level Security (RLS) with policies that:
 - Track hiring metrics
 
 ### For Probation Officers
+
 - Monitor client employment status
 - Track compliance and progress
 - Generate reports
@@ -227,6 +235,7 @@ All tables use Row Level Security (RLS) with policies that:
 - View employment analytics
 
 ### For Administrators
+
 - Manage all user types
 - Moderate job postings
 - Generate system-wide reports
@@ -245,15 +254,16 @@ All tables use Row Level Security (RLS) with policies that:
 ### Quick Start
 
 1. **Clone and Install**
-\`\`\`bash
-git clone <repository-url>
-cd second-chance-connect
-npm install
-\`\`\`
+   \`\`\`bash
+   git clone <repository-url>
+   cd second-chance-connect
+   npm install
+   \`\`\`
 
 2. **Configure Supabase**
 
 The Supabase integration is already connected in v0. Environment variables are automatically available:
+
 - `SUPABASE_SUPABASE_NEXT_PUBLIC_SUPABASE_URL`
 - `SUPABASE_NEXT_PUBLIC_SUPABASE_ANON_KEY_ANON_KEY`
 
@@ -265,15 +275,16 @@ NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000/dashboard
 3. **Initialize Database**
 
 Run the SQL scripts in order (located in `scripts/` folder):
+
 - `001_create_tables.sql` - Creates tables and indexes
 - `002_enable_rls.sql` - Enables Row Level Security
 - `003_create_profile_trigger.sql` - Auto-creates profiles
 - `004_seed_data.sql` - Adds sample services (optional)
 
 4. **Start Development Server**
-\`\`\`bash
-npm run dev
-\`\`\`
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
 Open [http://localhost:3000](http://localhost:3000)
 
@@ -292,6 +303,7 @@ Client-side data fetching with TypeScript:
 - **useServices(options)** - Fetch support services (category, search)
 
 All hooks include:
+
 - Loading states
 - Error handling
 - Refetch capabilities
@@ -300,6 +312,7 @@ All hooks include:
 ## Development Guidelines
 
 ### Component Structure
+
 - Use TypeScript for all components
 - Follow shadcn/ui patterns for consistency
 - Implement proper error boundaries
@@ -307,12 +320,14 @@ All hooks include:
 - Leverage custom hooks for data fetching
 
 ### API Development
+
 - All routes include authentication checks
 - Use RLS for database-level security
 - Return consistent error responses
 - Log errors with `[v0]` prefix for debugging
 
 ### Database Operations
+
 - Never bypass RLS policies
 - Use Supabase client utilities (client.ts/server.ts)
 - Always check user permissions
@@ -338,6 +353,7 @@ All hooks include:
 ### Database Migration
 
 For production:
+
 1. Run SQL scripts in Supabase dashboard
 2. Or use v0 to execute scripts directly
 3. Verify RLS policies are active
@@ -374,6 +390,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For questions or support:
+
 - 📖 See [SUPPORT.md](SUPPORT.md) for detailed support information
 - 🐛 Report bugs via [GitHub Issues](https://github.com/bischoff99/v0-second-chance-connect/issues)
 - 💬 Ask questions in [GitHub Discussions](https://github.com/bischoff99/v0-second-chance-connect/discussions)
@@ -381,7 +398,23 @@ For questions or support:
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please follow these guidelines:
+
+- **Branching Strategy**: See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for our Git workflow
+- **Contribution Guidelines**: See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines
+- **Code Standards**: Follow our ESLint and Prettier configurations
+- **Commit Format**: Use [Conventional Commits](https://www.conventionalcommits.org/)
+
+### Quick Start for Contributors
+
+1. Fork the repository
+2. Create a feature branch from `develop`: `git checkout -b feature/your-feature`
+3. Make your changes and commit: `git commit -m "feat: add feature"`
+4. Push to your fork: `git push origin feature/your-feature`
+5. Create a Pull Request to the `develop` branch
+6. Ensure all CI checks pass and request review
+
+See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete workflow details.
 
 ## Code of Conduct
 
