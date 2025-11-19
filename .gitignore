@@ -20,6 +20,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Claude Code configuration (may contain secrets)
+claude.json
+
 # vercel
 .vercel
 

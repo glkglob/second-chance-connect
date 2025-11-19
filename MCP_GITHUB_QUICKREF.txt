@@ -1,0 +1,49 @@
+# GitHub MCP Shell Fix - Quick Reference
+
+## What Was Fixed
+GitHub MCP authentication failure in Claude Code caused by subprocess not inheriting shell PATH configuration.
+
+## Root Cause
+stdio subprocesses run in minimal shell environment → `/opt/homebrew/bin` not in PATH → npx not found
+
+## The Fix
+Changed `claude.json` GitHub MCP config from:
+```json
+"command": "npx",
+"args": ["-y", "@robinson_ai_systems/github-mcp"]
+```
+
+To:
+```json
+"command": "/bin/zsh",
+"args": ["-l", "-c", "source ~/.zshenv && npx -y @robinson_ai_systems/github-mcp"]
+```
+
+## Key Changes Explained
+- **`/bin/zsh`**: Use zsh shell (not npx directly)
+- **`-l`**: Login shell mode (sources initialization files)
+- **`-c 'command'`**: Execute command in that shell
+- **`source ~/.zshenv`**: Load environment variables including HOMEBREW_PREFIX
+- **RESULT**: npx is now accessible ✅
+
+## Implementation Location
+`/Users/capp/second-chance-connect/claude.json`
+
+## Testing
+1. Restart Claude Code
+2. Ask Claude: "List my GitHub repositories"
+3. Should succeed without auth errors
+
+## Why This Works
+Terminal works because it sources `.zshenv` → Subprocess wrapper now does the same → Consistent environment
+
+## Alternative Approaches
+- Option A: Use absolute paths (fragile, hardcoded)
+- Option C: Add PATH to env vars (less maintainable)
+- **Option B (used)**: Shell wrapper (robust, maintainable, recommended) ✅
+
+## Files Modified
+- `claude.json` - GitHub MCP stdio configuration
+
+## Full Documentation
+See `MCP_GITHUB_SHELL_FIX.md` for comprehensive details
