@@ -59,11 +59,13 @@ If using a develop branch, apply similar but slightly relaxed rules:
 Navigate to **Settings → Secrets and variables → Actions → New repository secret**
 
 #### For CI/CD
+
 1. **CODECOV_TOKEN** (optional)
    - Get from https://codecov.io
    - Enables code coverage reporting
 
 #### For Vercel Deployment
+
 2. **VERCEL_TOKEN**
    - Generate at https://vercel.com/account/tokens
    - Enables automated deployments
@@ -77,6 +79,7 @@ Navigate to **Settings → Secrets and variables → Actions → New repository 
    - Required for CLI deployments
 
 #### For Build Environment
+
 5. **NEXT_PUBLIC_SUPABASE_URL**
    - Your Supabase project URL
    - Public variable, safe to expose in builds
@@ -125,8 +128,9 @@ Navigate to **Settings → General**
 Navigate to **Settings → Collaborators and teams**
 
 Add team members with appropriate permissions:
+
 - **Admin:** Repository owners
-- **Write:** Core contributors  
+- **Write:** Core contributors
 - **Read:** External contributors
 
 ### Actions Settings
@@ -135,7 +139,6 @@ Navigate to **Settings → Actions → General**
 
 - **Actions permissions:**
   - ✅ Allow all actions and reusable workflows
-  
 - **Workflow permissions:**
   - ✅ Read and write permissions
   - ✅ Allow GitHub Actions to create and approve pull requests
@@ -153,6 +156,7 @@ Navigate to **Settings → Environments → New environment**
 - ✅ **Deployment branches:** Selected branches only → `main`
 
 **Environment secrets:**
+
 - All production secrets (Supabase, Redis, etc.)
 
 ### Preview Environment
@@ -163,6 +167,7 @@ Navigate to **Settings → Environments → New environment**
 - ✅ **Deployment branches:** All branches
 
 **Environment secrets:**
+
 - Preview/staging secrets
 
 ## Webhooks & Integrations
@@ -186,6 +191,7 @@ Navigate to **Settings → Environments → New environment**
 ### Branch Protection Notifications
 
 Set up Slack/Discord webhooks for:
+
 - Failed status checks
 - Required reviews
 - Protected branch policy violations
@@ -228,3 +234,4 @@ After setup, verify:
 
 **Last Updated:** 2025-11-19
 **Maintainer:** Development Team
+GitHub secrets configured for CI/CD pipeline
