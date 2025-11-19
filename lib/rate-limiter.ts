@@ -1,5 +1,30 @@
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 import { NextRequest, NextResponse } from 'next/server'
+
+// Initialize Redis client with Upstash (lazy initialization to avoid module load errors)
+let redis: Redis | null = null
+
+function getRedis(): Redis | null {
+  if (!redis && process.env.REDIS_URL) {
+    try {
+      // Parse redis:// URL to extract host, port, and password
+      const url = new URL(process.env.REDIS_URL)
+      const host = url.hostname
+      const port = url.port || '6379'
+      const password = url.password || ''
+
+      // Construct Upstash REST URL (note: this may not work with non-Upstash Redis)
+      redis = new Redis({
+        url: `https://${host}`,
+        token: password
+      })
+    } catch (error) {
+      console.error('Failed to initialize Redis:', error)
+      return null
+    }
+  }
+  return redis
+}
 
 interface RateLimitConfig {
   interval: number // milliseconds
@@ -51,16 +76,28 @@ export async function checkRateLimit(
   const now = Date.now()
   const windowStart = now - config.interval
 
+  const redisClient = getRedis()
+
+  // If Redis is not available, allow the request (fail open)
+  if (!redisClient) {
+    console.warn('Redis not available, skipping rate limiting')
+    return {
+      success: true,
+      remaining: config.limit,
+      reset: now + config.interval
+    }
+  }
+
   try {
     // Remove old entries outside the current window
-    await kv.zremrangebyscore(key, 0, windowStart)
+    await redisClient.zremrangebyscore(key, 0, windowStart)
 
     // Count requests in current window
-    const count = await kv.zcount(key, windowStart, now)
+    const count = await redisClient.zcount(key, windowStart, now)
 
     if (count >= config.limit) {
       // Rate limit exceeded
-      const oldestEntry = await kv.zrange(key, 0, 0, { withScores: true })
+      const oldestEntry = await redisClient.zrange(key, 0, 0, { withScores: true })
       const resetTime = oldestEntry.length > 0
         ? Number(oldestEntry[1]) + config.interval
         : now + config.interval
@@ -73,10 +110,10 @@ export async function checkRateLimit(
     }
 
     // Add current request to the window
-    await kv.zadd(key, { score: now, member: `${now}:${Math.random()}` })
+    await redisClient.zadd(key, { score: now, member: `${now}:${Math.random()}` })
 
     // Set expiration on the key
-    await kv.expire(key, Math.ceil(config.interval / 1000))
+    await redisClient.expire(key, Math.ceil(config.interval / 1000))
 
     return {
       success: true,

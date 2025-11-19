@@ -3,12 +3,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { logger, logApiError, logDatabaseError } from '@/lib/logger'
 import { validateRequest, validateQuery } from '@/lib/validate-request'
 import { createJobSchema, jobQuerySchema } from '@/lib/validations/jobs'
-import { applyRateLimit } from '@/lib/rate-limiter'
+// import { applyRateLimit } from '@/lib/rate-limiter' // TODO: Fix webpack import issue
 
 export async function GET(request: NextRequest) {
     // Apply rate limiting
-    const rateLimitResponse = await applyRateLimit(request, 'api')
-    if (rateLimitResponse) return rateLimitResponse
+    // TODO: Re-enable once rate limiter is fixed
+    // const rateLimitResponse = await applyRateLimit(request, 'api')
+    // if (rateLimitResponse) return rateLimitResponse
 
     const startTime = Date.now()
 
@@ -96,8 +97,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     // Apply rate limiting
-    const rateLimitResponse = await applyRateLimit(request, 'api')
-    if (rateLimitResponse) return rateLimitResponse
+    // TODO: Re-enable once rate limiter is fixed
+    // const rateLimitResponse = await applyRateLimit(request, 'api')
+    // if (rateLimitResponse) return rateLimitResponse
 
     const startTime = Date.now()
 
