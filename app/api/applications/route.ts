@@ -1,8 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { validateRequest, validateQuery } from '@/lib/validate-request'
+import { createApplicationSchema, applicationQuerySchema } from '@/lib/validations/applications'
+import { applyRateLimit } from '@/lib/rate-limiter'
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
+        // Validate query parameters
+        const { data: query, error: validationError } = validateQuery(
+            request,
+            applicationQuerySchema
+        )
+
+        if (validationError) {
+            return validationError
+        }
+
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
@@ -10,12 +27,9 @@ export async function GET(request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const { searchParams } = new URL(request.url)
-        const seekerId = searchParams.get('seekerId')
-        const jobId = searchParams.get('jobId')
-        const status = searchParams.get('status')
+        const { seekerId, jobId, status } = query || {}
 
-        let query = supabase.from('applications').select(`
+        let dbQuery = supabase.from('applications').select(`
       id,
       status,
       cover_letter,
@@ -48,32 +62,32 @@ export async function GET(request) {
 
         // Role-based filtering
         if (profile?.role === 'SEEKER') {
-            query = query.eq('seeker_id', user.id)
+            dbQuery = dbQuery.eq('seeker_id', user.id)
         } else if (profile?.role === 'EMPLOYER') {
             // Employers see applications for their jobs
-            query = query.eq('jobs.employer_id', user.id)
+            dbQuery = dbQuery.eq('jobs.employer_id', user.id)
         } else if (profile?.role === 'OFFICER') {
             // Officers see applications for their assigned clients
             // Note: This would need a client_officers table for proper implementation
             if (seekerId) {
-                query = query.eq('seeker_id', seekerId)
+                dbQuery = dbQuery.eq('seeker_id', seekerId)
             }
         }
 
         // Apply additional filters
         if (seekerId && (profile?.role === 'EMPLOYER' || profile?.role === 'ADMIN')) {
-            query = query.eq('seeker_id', seekerId)
+            dbQuery = dbQuery.eq('seeker_id', seekerId)
         }
         if (jobId) {
-            query = query.eq('job_id', jobId)
+            dbQuery = dbQuery.eq('job_id', jobId)
         }
         if (status) {
-            query = query.eq('status', status)
+            dbQuery = dbQuery.eq('status', status)
         }
 
-        query = query.order('created_at', { ascending: false })
+        dbQuery = dbQuery.order('created_at', { ascending: false })
 
-        const { data, error } = await query
+        const { data, error } = await dbQuery
 
         if (error) {
             console.error('[v0] Applications API error:', error)
@@ -87,7 +101,11 @@ export async function GET(request) {
     }
 }
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
@@ -107,21 +125,21 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Forbidden - Only job seekers can apply for jobs' }, { status: 403 })
         }
 
-        const body = await request.json()
-        const { job_id, cover_letter, resume_url } = body
+        // Validate request body
+        const { data: applicationData, error: validationError } = await validateRequest(
+            request,
+            createApplicationSchema
+        )
 
-        // Validate required fields
-        if (!job_id) {
-            return NextResponse.json({
-                error: 'Missing required field: job_id'
-            }, { status: 400 })
+        if (validationError || !applicationData) {
+            return validationError || NextResponse.json({ error: 'Invalid request' }, { status: 400 })
         }
 
         // Check if job exists and is active
         const { data: job } = await supabase
             .from('jobs')
             .select('id, status')
-            .eq('id', job_id)
+            .eq('id', applicationData.job_id)
             .single()
 
         if (!job) {
@@ -136,7 +154,7 @@ export async function POST(request) {
         const { data: existingApplication } = await supabase
             .from('applications')
             .select('id')
-            .eq('job_id', job_id)
+            .eq('job_id', applicationData.job_id)
             .eq('seeker_id', user.id)
             .single()
 
@@ -147,10 +165,8 @@ export async function POST(request) {
         const { data, error } = await supabase
             .from('applications')
             .insert({
-                job_id,
+                ...applicationData,
                 seeker_id: user.id,
-                cover_letter,
-                resume_url,
                 status: 'PENDING'
             })
             .select(`

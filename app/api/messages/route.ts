@@ -1,8 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { validateRequest, validateQuery } from '@/lib/validate-request'
+import { createMessageSchema, messageQuerySchema } from '@/lib/validations/messages'
+import { applyRateLimit } from '@/lib/rate-limiter'
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
+        // Validate query parameters
+        const { data: query, error: validationError } = validateQuery(
+            request,
+            messageQuerySchema
+        )
+
+        if (validationError) {
+            return validationError
+        }
+
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
@@ -10,10 +27,9 @@ export async function GET(request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const { searchParams } = new URL(request.url)
-        const conversationWith = searchParams.get('conversationWith')
+        const { senderId, receiverId, unreadOnly } = query || {}
 
-        let query = supabase.from('messages').select(`
+        let dbQuery = supabase.from('messages').select(`
       id,
       subject,
       content,
@@ -32,18 +48,23 @@ export async function GET(request) {
     `)
 
         // Filter messages where user is sender or receiver
-        query = query.or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
+        dbQuery = dbQuery.or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
 
-        // If conversationWith is specified, filter to that conversation
-        if (conversationWith) {
-            query = query.or(
-                `and(sender_id.eq.${user.id},receiver_id.eq.${conversationWith}),and(sender_id.eq.${conversationWith},receiver_id.eq.${user.id})`
+        // If senderId or receiverId is specified, filter to that conversation
+        if (senderId && receiverId) {
+            dbQuery = dbQuery.or(
+                `and(sender_id.eq.${senderId},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${senderId})`
             )
         }
 
-        query = query.order('created_at', { ascending: false })
+        // Filter unread messages
+        if (unreadOnly) {
+            dbQuery = dbQuery.eq('read', false)
+        }
 
-        const { data, error } = await query
+        dbQuery = dbQuery.order('created_at', { ascending: false })
+
+        const { data, error } = await dbQuery
 
         if (error) {
             console.error('[v0] Messages API error:', error)
@@ -57,7 +78,11 @@ export async function GET(request) {
     }
 }
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
@@ -66,21 +91,21 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const body = await request.json()
-        const { receiver_id, subject, content } = body
+        // Validate request body
+        const { data: messageData, error: validationError } = await validateRequest(
+            request,
+            createMessageSchema
+        )
 
-        // Validate required fields
-        if (!receiver_id || !content) {
-            return NextResponse.json({
-                error: 'Missing required fields: receiver_id, content'
-            }, { status: 400 })
+        if (validationError || !messageData) {
+            return validationError || NextResponse.json({ error: 'Invalid request' }, { status: 400 })
         }
 
         // Check that receiver exists
         const { data: receiver } = await supabase
             .from('profiles')
             .select('id, name, role')
-            .eq('id', receiver_id)
+            .eq('id', messageData.receiver_id)
             .single()
 
         if (!receiver) {
@@ -88,7 +113,7 @@ export async function POST(request) {
         }
 
         // Prevent sending to self
-        if (receiver_id === user.id) {
+        if (messageData.receiver_id === user.id) {
             return NextResponse.json({ error: 'Cannot send message to yourself' }, { status: 400 })
         }
 
@@ -96,9 +121,9 @@ export async function POST(request) {
             .from('messages')
             .insert({
                 sender_id: user.id,
-                receiver_id,
-                subject: subject || 'No Subject',
-                content,
+                receiver_id: messageData.receiver_id,
+                subject: messageData.subject,
+                content: messageData.content,
                 read: false
             })
             .select(`
