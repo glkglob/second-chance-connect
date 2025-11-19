@@ -6,6 +6,18 @@ import tseslint from 'typescript-eslint'
 
 export default [
   {
+    ignores: [
+      '.next/**',
+      'out/**',
+      'build/**',
+      'dist/**',
+      'node_modules/**',
+      'coverage/**',
+      '*.tsbuildinfo',
+      'next-env.d.ts',
+    ],
+  },
+  {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
       parser: tseslint.parser,
