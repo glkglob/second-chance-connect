@@ -2,8 +2,13 @@ import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateRequest, validateQuery } from '@/lib/validate-request'
 import { createMessageSchema, messageQuerySchema } from '@/lib/validations/messages'
+import { applyRateLimit } from '@/lib/rate-limiter'
 
 export async function GET(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
         // Validate query parameters
         const { data: query, error: validationError } = validateQuery(
@@ -74,6 +79,10 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    // Apply rate limiting
+    const rateLimitResponse = await applyRateLimit(request, 'api')
+    if (rateLimitResponse) return rateLimitResponse
+
     try {
         const supabase = await createClient()
         const { data: { user } } = await supabase.auth.getUser()
