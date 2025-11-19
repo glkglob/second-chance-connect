@@ -25,7 +25,7 @@
 ## Repository Analysis
 
 ### Tech Stack
-```
+\`\`\`
 Framework:      Next.js 14 (App Router)
 Language:       TypeScript/JavaScript (mixed)
 Database:       PostgreSQL (Supabase)
@@ -33,7 +33,7 @@ Authentication: Supabase Auth
 Styling:        Tailwind CSS v4
 UI Components:  shadcn/ui
 Deployment:     Vercel (recommended)
-```
+\`\`\`
 
 ### Architecture Pattern
 - **Role-based multi-tenant application** with 4 user types
@@ -109,16 +109,16 @@ Deployment:     Vercel (recommended)
 ## Component Dependencies Map
 
 ### Authentication Flow
-```
+\`\`\`
 Entry Points: /auth/login, /auth/sign-up
     ↓
 Depends On: Supabase Auth, middleware.js, lib/supabase/server.js
     ↓
 Outputs: User session, Profile record, Role-based redirect
-```
+\`\`\`
 
 ### Role-Based Routing
-```
+\`\`\`
 Middleware: middleware.js
     ↓
 Reads: profiles.role from database
@@ -128,10 +128,10 @@ Routes:
   - EMPLOYER → /employer
   - OFFICER  → /officer
   - ADMIN    → /admin
-```
+\`\`\`
 
 ### API Layer
-```
+\`\`\`
 Location: app/api/*
 Endpoints:
   - GET/POST /api/jobs
@@ -144,10 +144,10 @@ Endpoints:
 
 Authentication: Required (except /api/services)
 Security: Database RLS policies enforced
-```
+\`\`\`
 
 ### Data Hooks
-```
+\`\`\`
 Location: lib/hooks/*
 Hooks:
   - use-jobs.js
@@ -157,7 +157,7 @@ Hooks:
 
 Pattern: Client-side → API routes → Supabase → Database
 Features: Loading states, error handling, refetch capability
-```
+\`\`\`
 
 ---
 
@@ -293,7 +293,7 @@ The application has a **stable build** with:
 
 ### Development Workflow
 
-```
+\`\`\`
 Step 1: Review DEPLOYMENT_CHECKLIST.md for detailed setup instructions
 Step 2: Create Supabase project and apply database schema from scripts/ folder
 Step 3: Update .env.local with NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -301,7 +301,7 @@ Step 4: Start development server and test authentication flow for each role
 Step 5: Test API endpoints using curl or Postman to verify CRUD operations
 Step 6: Deploy to production and conduct final validation
 Step 7: Monitor application logs and address any runtime issues
-```
+\`\`\`
 
 ### Architecture Patterns
 
@@ -354,12 +354,12 @@ Step 7: Monitor application logs and address any runtime issues
 ### Troubleshooting Guide
 
 **Build Failures:**
-```bash
+\`\`\`bash
 # Clear cache and reinstall with legacy peer deps
 rm -rf node_modules package-lock.json
 npm install --legacy-peer-deps
 npm run build
-```
+\`\`\`
 
 **Auth Issues:**
 - Verify `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set

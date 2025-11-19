@@ -14,18 +14,18 @@ All authenticated endpoints require a valid session cookie. Authentication is ha
 
 ### Headers
 
-```
+\`\`\`
 Cookie: sb-<project-ref>-auth-token=<token>
 Content-Type: application/json
-```
+\`\`\`
 
 ### Error Responses
 
-```json
+\`\`\`json
 {
   "error": "Unauthorized"
 }
-```
+\`\`\`
 
 **Status Codes**:
 - `401 Unauthorized` - Missing or invalid authentication
@@ -50,14 +50,14 @@ Get a list of job postings with optional filters.
 - `search` (optional) - Search in title, company, description
 
 **Request Example**:
-```bash
+\`\`\`bash
 curl -X GET \
   'https://your-domain.com/api/jobs?status=ACTIVE&search=developer' \
   -H 'Cookie: sb-auth-token=...'
-```
+\`\`\`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "jobs": [
     {
@@ -80,7 +80,7 @@ curl -X GET \
     }
   ]
 }
-```
+\`\`\`
 
 **Errors**:
 - `401` - Not authenticated
@@ -95,7 +95,7 @@ Create a new job posting (Employer role only).
 **Endpoint**: `POST /api/jobs`
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "title": "Software Developer",
   "company": "Tech Company Inc",
@@ -106,12 +106,12 @@ Create a new job posting (Employer role only).
   "employment_type": "FULL_TIME",
   "status": "ACTIVE"
 }
-```
+\`\`\`
 
 **Required Fields**: `title`, `company`, `location`, `description`
 
 **Response**: `201 Created`
-```json
+\`\`\`json
 {
   "job": {
     "id": "uuid",
@@ -128,7 +128,7 @@ Create a new job posting (Employer role only).
     "updated_at": "2025-01-20T10:00:00Z"
   }
 }
-```
+\`\`\`
 
 **Errors**:
 - `400` - Missing required fields
@@ -148,7 +148,7 @@ Get details of a specific job posting.
 - `id` - Job UUID
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "job": {
     "id": "uuid",
@@ -156,7 +156,7 @@ Get details of a specific job posting.
     ...
   }
 }
-```
+\`\`\`
 
 **Errors**:
 - `401` - Not authenticated
@@ -172,15 +172,15 @@ Update an existing job posting (Owner only).
 **Endpoint**: `PATCH /api/jobs/[id]`
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "title": "Senior Software Developer",
   "status": "CLOSED"
 }
-```
+\`\`\`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "job": {
     "id": "uuid",
@@ -188,7 +188,7 @@ Update an existing job posting (Owner only).
     ...
   }
 }
-```
+\`\`\`
 
 **Errors**:
 - `401` - Not authenticated
@@ -205,11 +205,11 @@ Delete a job posting (Owner only).
 **Endpoint**: `DELETE /api/jobs/[id]`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "message": "Job deleted successfully"
 }
-```
+\`\`\`
 
 **Errors**:
 - `401` - Not authenticated
@@ -233,7 +233,7 @@ Get applications filtered by user role.
 - `status` (optional) - Filter by status: `PENDING`, `REVIEWED`, `ACCEPTED`, `REJECTED`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "applications": [
     {
@@ -257,7 +257,7 @@ Get applications filtered by user role.
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -268,18 +268,18 @@ Submit a job application (Seeker role only).
 **Endpoint**: `POST /api/applications`
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "job_id": "uuid",
   "cover_letter": "I am interested...",
   "resume_url": "https://storage.../resume.pdf"
 }
-```
+\`\`\`
 
 **Required Fields**: `job_id`
 
 **Response**: `201 Created`
-```json
+\`\`\`json
 {
   "application": {
     "id": "uuid",
@@ -289,7 +289,7 @@ Submit a job application (Seeker role only).
     ...
   }
 }
-```
+\`\`\`
 
 **Errors**:
 - `400` - Missing job_id or duplicate application
@@ -306,27 +306,27 @@ Update application status or details.
 **Endpoint**: `PATCH /api/applications/[id]`
 
 **Request Body** (Seeker):
-```json
+\`\`\`json
 {
   "cover_letter": "Updated letter",
   "resume_url": "https://..."
 }
-```
+\`\`\`
 
 **Request Body** (Employer):
-```json
+\`\`\`json
 {
   "status": "ACCEPTED",
   "notes": "Great candidate"
 }
-```
+\`\`\`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "application": { ... }
 }
-```
+\`\`\`
 
 ---
 
@@ -342,7 +342,7 @@ Get user's messages (sent and received).
 - `conversationWith` (optional) - Filter messages with specific user UUID
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "messages": [
     {
@@ -364,7 +364,7 @@ Get user's messages (sent and received).
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -375,18 +375,18 @@ Send a message to another user.
 **Endpoint**: `POST /api/messages`
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "receiver_id": "uuid",
   "subject": "Application Follow-up",
   "content": "Thank you for applying..."
 }
-```
+\`\`\`
 
 **Required Fields**: `receiver_id`, `content`
 
 **Response**: `201 Created`
-```json
+\`\`\`json
 {
   "message": {
     "id": "uuid",
@@ -398,7 +398,7 @@ Send a message to another user.
     "created_at": "2025-01-20T10:00:00Z"
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -409,11 +409,11 @@ Mark a received message as read.
 **Endpoint**: `PATCH /api/messages/[id]`
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "read": true
 }
-```
+\`\`\`
 
 **Response**: `200 OK`
 
@@ -433,7 +433,7 @@ Get support services directory (Public - no auth required).
 - `search` (optional) - Search in name, description
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "services": [
     {
@@ -451,7 +451,7 @@ Get support services directory (Public - no auth required).
     }
   ]
 }
-```
+\`\`\`
 
 ---
 
@@ -469,7 +469,7 @@ Get platform analytics (Admin only).
 - `metric` - Metric type: `users`, `jobs`, `applications`, `placements`
 
 **Response**: `200 OK`
-```json
+\`\`\`json
 {
   "metrics": {
     "totalUsers": 1250,
@@ -485,7 +485,7 @@ Get platform analytics (Admin only).
     }
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -497,19 +497,19 @@ API rate limits (per IP address):
 - **POST requests**: 20 requests per minute
 
 **Rate Limit Headers**:
-```
+\`\`\`
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1642694400
-```
+\`\`\`
 
 **Rate Limit Response**: `429 Too Many Requests`
-```json
+\`\`\`json
 {
   "error": "Too many requests, please try again later",
   "retryAfter": 60
 }
-```
+\`\`\`
 
 ---
 
@@ -526,7 +526,7 @@ Event-driven webhooks for integrations.
 
 ### Payload Format
 
-```json
+\`\`\`json
 {
   "event": "application.created",
   "timestamp": "2025-01-20T10:00:00Z",
@@ -537,7 +537,7 @@ Event-driven webhooks for integrations.
     "status": "PENDING"
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -560,7 +560,7 @@ Event-driven webhooks for integrations.
 
 ### JavaScript/TypeScript
 
-```typescript
+\`\`\`typescript
 import { SecondChanceAPI } from '@second-chance/api-client'
 
 const client = new SecondChanceAPI({
@@ -576,7 +576,7 @@ const app = await client.applications.create({
   job_id: 'uuid',
   cover_letter: '...'
 })
-```
+\`\`\`
 
 ---
 
@@ -584,7 +584,7 @@ const app = await client.applications.create({
 
 ### Error Handling
 
-```javascript
+\`\`\`javascript
 try {
   const response = await fetch('/api/jobs', {
     method: 'POST',
@@ -603,11 +603,11 @@ try {
   console.error('Failed to create job:', error)
   // Handle error appropriately
 }
-```
+\`\`\`
 
 ### Pagination (Future)
 
-```javascript
+\`\`\`javascript
 // Future implementation
 const response = await fetch('/api/jobs?page=2&perPage=20')
 const data = await response.json()
@@ -622,7 +622,7 @@ const data = await response.json()
     "totalPages": 8
   }
 }
-```
+\`\`\`
 
 ### Caching
 
@@ -636,7 +636,7 @@ const data = await response.json()
 
 ### Using curl
 
-```bash
+\`\`\`bash
 # List jobs
 curl -X GET 'https://your-domain.com/api/jobs?status=ACTIVE' \
   -H 'Cookie: sb-auth-token=...'
@@ -651,18 +651,18 @@ curl -X POST 'https://your-domain.com/api/jobs' \
     "location": "Remote",
     "description": "Test description"
   }'
-```
+\`\`\`
 
 ### Using JavaScript
 
-```javascript
+\`\`\`javascript
 // Using fetch
 const response = await fetch('/api/jobs', {
   method: 'GET',
   credentials: 'include' // Include cookies
 })
 const data = await response.json()
-```
+\`\`\`
 
 ---
 

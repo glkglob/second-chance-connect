@@ -8,7 +8,7 @@ Our CI/CD pipeline uses **GitHub Actions** for automated testing, building, and 
 
 ## Pipeline Architecture
 
-```
+\`\`\`
 ┌─────────────┐
 │   PR/Push   │
 └──────┬──────┘
@@ -28,7 +28,7 @@ Our CI/CD pipeline uses **GitHub Actions** for automated testing, building, and 
                             │  All Checks    │
                             │    Passed      │
                             └────────────────┘
-```
+\`\`\`
 
 ## Workflows
 
@@ -45,37 +45,37 @@ Our CI/CD pipeline uses **GitHub Actions** for automated testing, building, and 
 - Performs TypeScript type checking
 - **Duration:** ~30-60 seconds
 
-```bash
+\`\`\`bash
 npm run lint
 npm run type-check
-```
+\`\`\`
 
 #### Test
 - Runs all Jest tests with coverage
 - Uploads coverage to Codecov
 - **Duration:** ~1-2 minutes
 
-```bash
+\`\`\`bash
 npm test -- --coverage
-```
+\`\`\`
 
 #### Build
 - Builds Next.js production bundle
 - Verifies build artifacts
 - **Duration:** ~2-3 minutes
 
-```bash
+\`\`\`bash
 npm run build
-```
+\`\`\`
 
 #### Security Audit
 - Runs npm audit for vulnerabilities
 - Checks production and all dependencies
 - **Non-blocking:** Warnings don't fail the build
 
-```bash
+\`\`\`bash
 npm audit --production --audit-level=high
-```
+\`\`\`
 
 #### All Checks Passed
 - Final gate that requires all previous jobs to succeed
@@ -105,13 +105,13 @@ npm audit --production --audit-level=high
 
 Runs **before** each commit:
 
-```bash
+\`\`\`bash
 # 1. Lint-staged (auto-fix)
 npx lint-staged
 
 # 2. Type check
 npm run type-check
-```
+\`\`\`
 
 **What it does:**
 - Formats code with Prettier
@@ -119,41 +119,41 @@ npm run type-check
 - Ensures no TypeScript errors
 
 **Skip (emergency only):**
-```bash
+\`\`\`bash
 git commit --no-verify -m "message"
-```
+\`\`\`
 
 ### Pre-push Hook
 
 Runs **before** pushing to remote:
 
-```bash
+\`\`\`bash
 # Run all tests
 npm run test:ci
-```
+\`\`\`
 
 **What it does:**
 - Runs entire test suite
 - Ensures all tests pass before push
 
 **Skip (emergency only):**
-```bash
+\`\`\`bash
 git push --no-verify
-```
+\`\`\`
 
 ### Commit-msg Hook
 
 Validates commit message format:
 
 **Required format:**
-```
+\`\`\`
 type(scope): subject
 
 Examples:
   feat: add user authentication
   fix(api): resolve rate limiting bug
   docs: update README
-```
+\`\`\`
 
 **Valid types:**
 - `feat`: New feature
@@ -187,11 +187,11 @@ Set in **GitHub Secrets** (Settings → Secrets and variables → Actions):
 
 Stored in `.env.local` (not committed):
 
-```bash
+\`\`\`bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 REDIS_URL=redis://your-redis-url
-```
+\`\`\`
 
 ## Deployment Flow
 
@@ -205,18 +205,18 @@ REDIS_URL=redis://your-redis-url
 
 ### Production Deployment
 
-```
+\`\`\`
 main branch ──→ GitHub Actions ──→ Vercel Production
                       │
                       ├──→ Run tests
                       ├──→ Build Next.js
                       └──→ Deploy to Vercel
-```
+\`\`\`
 
 **Automatic on push to `main`:**
-```bash
+\`\`\`bash
 git push origin main
-```
+\`\`\`
 
 ## Monitoring & Debugging
 
@@ -233,43 +233,43 @@ git push origin main
 **Error:** ESLint fails
 
 **Solution:**
-```bash
+\`\`\`bash
 npm run lint -- --fix
 git add .
 git commit --amend
-```
+\`\`\`
 
 #### ❌ Type Errors
 
 **Error:** TypeScript errors
 
 **Solution:**
-```bash
+\`\`\`bash
 npm run type-check
 # Fix errors in editor
-```
+\`\`\`
 
 #### ❌ Test Failures
 
 **Error:** Jest tests fail
 
 **Solution:**
-```bash
+\`\`\`bash
 npm test
 # Fix failing tests
 # Ensure mocks are up to date
-```
+\`\`\`
 
 #### ❌ Build Failures
 
 **Error:** Next.js build fails
 
 **Solution:**
-```bash
+\`\`\`bash
 npm run build
 # Check for missing environment variables
 # Fix import errors
-```
+\`\`\`
 
 #### ❌ Deployment Failures
 
@@ -284,7 +284,7 @@ npm run build
 
 Run the same checks that CI runs:
 
-```bash
+\`\`\`bash
 # Full CI check locally
 npm run lint
 npm run type-check
@@ -293,7 +293,7 @@ npm run build
 
 # Verify all pass
 echo "All checks passed! Ready to push."
-```
+\`\`\`
 
 ## Performance Optimization
 
@@ -355,7 +355,7 @@ Review and merge regularly.
 
 ### Commands
 
-```bash
+\`\`\`bash
 # Run CI checks locally
 npm run lint
 npm run type-check
@@ -371,15 +371,15 @@ vercel --prod
 
 # View Vercel logs
 vercel logs
-```
+\`\`\`
 
 ### Status Badge
 
 Add to README.md:
 
-```markdown
+\`\`\`markdown
 ![CI](https://github.com/your-username/second-chance-connect/actions/workflows/ci.yml/badge.svg)
-```
+\`\`\`
 
 ---
 

@@ -6,9 +6,9 @@ This guide will help you set up Vercel KV (Redis) for rate limiting in your Seco
 
 Run the setup script:
 
-```bash
+\`\`\`bash
 ./scripts/setup-vercel-kv.sh
-```
+\`\`\`
 
 This script will:
 1. ✅ Install Vercel CLI (if needed)
@@ -26,22 +26,22 @@ If you prefer to set up manually:
 
 ### Step 1: Install Vercel CLI
 
-```bash
+\`\`\`bash
 npm install -g vercel
-```
+\`\`\`
 
 ### Step 2: Login to Vercel
 
-```bash
+\`\`\`bash
 vercel login
-```
+\`\`\`
 
 ### Step 3: Link Your Project
 
-```bash
+\`\`\`bash
 cd /Users/capp/second-chance-connect
 vercel link
-```
+\`\`\`
 
 Follow the prompts:
 - Set up and deploy? **N** (No, just link)
@@ -66,17 +66,17 @@ Follow the prompts:
 
 **Option B: Via CLI**
 
-```bash
+\`\`\`bash
 vercel storage create kv
-```
+\`\`\`
 
 This will open your browser to complete the setup.
 
 ### Step 5: Pull Environment Variables
 
-```bash
+\`\`\`bash
 vercel env pull .env.local
-```
+\`\`\`
 
 This downloads all environment variables (including KV credentials) to `.env.local`.
 
@@ -84,16 +84,16 @@ This downloads all environment variables (including KV credentials) to `.env.loc
 
 Check that `.env.local` contains:
 
-```bash
+\`\`\`bash
 cat .env.local | grep KV
-```
+\`\`\`
 
 Should show:
-```
+\`\`\`
 KV_REST_API_URL=https://...
 KV_REST_API_TOKEN=...
 KV_REST_API_READ_ONLY_TOKEN=...
-```
+\`\`\`
 
 ---
 
@@ -102,17 +102,17 @@ KV_REST_API_READ_ONLY_TOKEN=...
 ### Test Locally
 
 1. **Start development server:**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 2. **Test rate limiting:**
-   ```bash
+   \`\`\`bash
    ./scripts/test-rate-limit.sh
-   ```
+   \`\`\`
 
    Expected output:
-   ```
+   \`\`\`
    ✓ Request 1: Success
    ✓ Request 10: Success
    ...
@@ -121,35 +121,35 @@ KV_REST_API_READ_ONLY_TOKEN=...
 
    Test Result: ✅ PASS
    Rate limiting is working correctly! 🎉
-   ```
+   \`\`\`
 
 3. **Manual test:**
-   ```bash
+   \`\`\`bash
    # Make a request
    curl http://localhost:3000/api/jobs
 
    # Check rate limit headers
    curl -I http://localhost:3000/api/jobs
-   ```
+   \`\`\`
 
    Headers should include:
-   ```
+   \`\`\`
    X-RateLimit-Limit: 100
    X-RateLimit-Remaining: 99
    X-RateLimit-Reset: 1234567890
-   ```
+   \`\`\`
 
 ### Test in Production
 
 After deploying:
 
-```bash
+\`\`\`bash
 # Deploy to production
 git push origin feature/production-readiness
 
 # Test rate limiting
 ./scripts/test-rate-limit.sh https://your-app.vercel.app/api/jobs
-```
+\`\`\`
 
 ---
 
@@ -166,13 +166,13 @@ Current limits set in `lib/rate-limiter.ts`:
 
 To modify limits, edit `lib/rate-limiter.ts`:
 
-```typescript
+\`\`\`typescript
 export const rateLimitConfigs = {
   api: { interval: 60 * 1000, limit: 100 },    // Change limit here
   auth: { interval: 60 * 1000, limit: 5 },
   // ...
 }
-```
+\`\`\`
 
 ---
 
@@ -183,13 +183,13 @@ export const rateLimitConfigs = {
 **Cause:** Environment variables not loaded
 
 **Solution:**
-```bash
+\`\`\`bash
 # Pull latest env vars
 vercel env pull .env.local
 
 # Restart dev server
 npm run dev
-```
+\`\`\`
 
 ### Issue: Rate limiting not working
 
@@ -198,20 +198,20 @@ npm run dev
 **Solutions:**
 
 1. **Check environment variables:**
-   ```bash
+   \`\`\`bash
    cat .env.local | grep KV
-   ```
+   \`\`\`
 
    Should show 3 KV variables. If not, pull again:
-   ```bash
+   \`\`\`bash
    vercel env pull .env.local
-   ```
+   \`\`\`
 
 2. **Restart development server:**
-   ```bash
+   \`\`\`bash
    # Stop server (Ctrl+C)
    npm run dev
-   ```
+   \`\`\`
 
 3. **Verify KV database exists:**
    - Go to Vercel Dashboard → Storage
@@ -219,9 +219,9 @@ npm run dev
    - Status should be "Active"
 
 4. **Check API route has rate limiting:**
-   ```bash
+   \`\`\`bash
    grep -n "applyRateLimit" app/api/jobs/route.ts
-   ```
+   \`\`\`
 
    Should show rate limit calls at the start of GET and POST functions.
 
@@ -236,9 +236,9 @@ npm run dev
    - Check KV variables exist for all environments
 
 2. **Check network connectivity:**
-   ```bash
+   \`\`\`bash
    curl https://vercel.com
-   ```
+   \`\`\`
 
 3. **Recreate KV database:**
    - Go to Dashboard → Storage
@@ -251,13 +251,13 @@ npm run dev
 **Cause:** Environment variables not deployed
 
 **Solution:**
-```bash
+\`\`\`bash
 # Redeploy with latest env vars
 vercel --prod
 
 # Or via git
 git push origin main
-```
+\`\`\`
 
 Vercel automatically includes environment variables in deployments.
 
@@ -284,11 +284,11 @@ If you can't use Vercel KV, use Upstash Redis:
 1. **Create account:** https://upstash.com
 2. **Create Redis database**
 3. **Copy credentials to `.env.local`:**
-   ```bash
+   \`\`\`bash
    KV_REST_API_URL=https://your-db.upstash.io
    KV_REST_API_TOKEN=your-token
    KV_REST_API_READ_ONLY_TOKEN=your-readonly-token
-   ```
+   \`\`\`
 
 The code works with both Vercel KV and Upstash (they use the same API).
 
@@ -299,23 +299,23 @@ The code works with both Vercel KV and Upstash (they use the same API).
 If you encounter issues:
 
 1. **Check logs:**
-   ```bash
+   \`\`\`bash
    # Local
    Check terminal where `npm run dev` is running
 
    # Production
    vercel logs
-   ```
+   \`\`\`
 
 2. **Verify setup:**
-   ```bash
+   \`\`\`bash
    ./scripts/setup-vercel-kv.sh
-   ```
+   \`\`\`
 
 3. **Test rate limiting:**
-   ```bash
+   \`\`\`bash
    ./scripts/test-rate-limit.sh
-   ```
+   \`\`\`
 
 ---
 

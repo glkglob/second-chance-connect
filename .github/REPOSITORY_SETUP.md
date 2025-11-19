@@ -92,7 +92,7 @@ Navigate to **Settings → Secrets and variables → Actions → New repository 
 
 Create `.github/CODEOWNERS` file:
 
-```
+\`\`\`
 # Global owners
 *                       @your-username
 
@@ -109,7 +109,7 @@ Create `.github/CODEOWNERS` file:
 # CI/CD & tooling
 /.github/**             @devops-team @your-username
 /scripts/**             @devops-team
-```
+\`\`\`
 
 ## Repository Settings
 

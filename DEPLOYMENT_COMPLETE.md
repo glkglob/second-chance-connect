@@ -42,31 +42,31 @@ Generated on: 2025-11-19
 ## 🗂️ Files Created/Modified
 
 ### Configuration Files
-```
+\`\`\`
 ✅ claude.json                  - MCP server configuration
 ✅ .env.local                   - Supabase credentials (updated)
 ✅ lib/logger.js                - Fixed logger exports
-```
+\`\`\`
 
 ### Deployment Scripts
-```
+\`\`\`
 ✅ scripts/deploy.sh            - Bash deployment (executable)
 ✅ scripts/deploy.py            - Python deployment helper
 ✅ scripts/deploy-schema.js     - Node.js deployment helper
-```
+\`\`\`
 
 ### Documentation Files
-```
+\`\`\`
 ✅ SQL_DEPLOYMENT.md            - 221 lines - Comprehensive deployment guide
 ✅ DEPLOYMENT_READY.md          - 263 lines - Quick start guide
-```
+\`\`\`
 
 ---
 
 ## 🚀 Three Ways to Deploy (Pick One)
 
 ### Option 1: Supabase Dashboard (⭐ Recommended)
-```
+\`\`\`
 Time: 5 minutes
 Steps:
   1. Go to https://app.supabase.com
@@ -74,22 +74,22 @@ Steps:
   3. Copy & paste scripts/001_create_tables.sql
   4. Click Run
   5. Repeat for 002 and 003 scripts
-```
+\`\`\`
 
 ### Option 2: Bash Script
-```
+\`\`\`
 Time: 2 minutes
 Command: ./scripts/deploy.sh
-```
+\`\`\`
 
 ### Option 3: psql CLI
-```
+\`\`\`
 Time: 3 minutes
 Commands:
   psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/001_create_tables.sql
   psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/002_enable_rls.sql
   psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/003_create_profile_trigger.sql
-```
+\`\`\`
 
 ---
 
@@ -128,7 +128,7 @@ Commands:
 
 After deploying the schema:
 
-```bash
+\`\`\`bash
 # Step 1: Check API Health
 curl http://localhost:3000/api/health | jq .
 # Expected: "database": "healthy"
@@ -145,7 +145,7 @@ curl http://localhost:3000/api/health | jq .
 # Supabase → SQL Editor → New Query
 # Copy: scripts/004_seed_data.sql
 # Click: Run
-```
+\`\`\`
 
 ---
 
@@ -193,7 +193,7 @@ Quick links to helpful docs:
 
 ## 🏗️ Project Architecture
 
-```
+\`\`\`
 ┌─────────────────────────────────┐
 │   Frontend (Next.js 14)         │
 │   http://localhost:3000         │
@@ -206,7 +206,7 @@ Quick links to helpful docs:
 │   PostgreSQL Database           │
 │   5 Tables + Security Policies  │
 └─────────────────────────────────┘
-```
+\`\`\`
 
 ---
 

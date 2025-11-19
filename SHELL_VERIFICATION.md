@@ -39,7 +39,7 @@
 
 ### System Aliases
 
-```
+\`\`\`
 ✅ l           → ls -la
 ✅ ll          → ls -lh
 ✅ la          → ls -A
@@ -48,32 +48,32 @@
 ✅ grep        → grep --color=auto
 ✅ mkdir       → mkdir -p
 ✅ rm/cp/mv    → Interactive versions
-```
+\`\`\`
 
 ### Git Aliases
 
-```
+\`\`\`
 ✅ gs          → git status
 ✅ ga          → git add
 ✅ gc          → git commit
 ✅ gp          → git push
 ✅ gl          → git log --oneline -10
-```
+\`\`\`
 
 ### Second Chance Connect Project Aliases
 
-```
+\`\`\`
 ✅ scc         → cd /Users/capp/second-chance-connect
 ✅ sccd        → cd && npm run dev
 ✅ sccz        → code /Users/capp/second-chance-connect
 ✅ sccbuild    → npm run build
 ✅ scctest     → npm run test
 ✅ scclint     → npm run lint
-```
+\`\`\`
 
 ### NPM Shortcuts
 
-```
+\`\`\`
 ✅ n           → npm
 ✅ ni          → npm install
 ✅ nci         → npm ci
@@ -82,18 +82,18 @@
 ✅ nrb         → npm run build
 ✅ nrt         → npm run test
 ✅ nrl         → npm run lint
-```
+\`\`\`
 
 ### Utility Functions
 
-```
+\`\`\`
 ✅ extract()   → Multi-format archive extraction
 ✅ mkgit()     → Create and initialize git repo
 ✅ cdd()       → Smart cd with history tracking
 ✅ print_info()   → Colored info output
 ✅ print_success() → Colored success output
 ✅ print_error()   → Colored error output
-```
+\`\`\`
 
 ---
 
@@ -172,14 +172,14 @@
 
 ### 1. Activate Configuration (Required)
 
-```bash
+\`\`\`bash
 # Reload shell to use new configuration
 exec zsh
-```
+\`\`\`
 
 ### 2. Move API Keys to Project (Recommended)
 
-```bash
+\`\`\`bash
 cd /Users/capp/second-chance-connect
 
 # Create .env.local with sensitive data
@@ -189,11 +189,11 @@ EOF
 
 # Add to .gitignore
 echo '.env.local' >> .gitignore
-```
+\`\`\`
 
 ### 3. Install Optional Tools (Optional)
 
-```bash
+\`\`\`bash
 # Zoxide for smarter cd
 brew install zoxide
 
@@ -206,7 +206,7 @@ brew install direnv
 # Starship for modern prompt (optional)
 brew install starship
 # Then uncomment in .zshrc
-```
+\`\`\`
 
 ---
 
@@ -214,7 +214,7 @@ brew install starship
 
 ### Test Shell Configuration
 
-```bash
+\`\`\`bash
 # Verify zsh loads without errors
 zsh -i -c 'echo "✅ Shell configuration OK"'
 
@@ -224,21 +224,21 @@ alias | wc -l  # Should show 20+ aliases
 # Verify git integration
 cd /Users/capp/second-chance-connect
 # Prompt should show: (main) or current branch
-```
+\`\`\`
 
 ### Test Completion System
 
-```bash
+\`\`\`bash
 # Type and press TAB
 npm ru<TAB>    # Should complete to 'npm run'
 
 # File completion
 ls ~/.z<TAB>   # Should show .zshrc, .zshenv
-```
+\`\`\`
 
 ### Test Project Shortcuts
 
-```bash
+\`\`\`bash
 # Navigate to project
 scc            # Should cd to second-chance-connect
 
@@ -247,7 +247,7 @@ sccd           # Should run npm run dev
 
 # Open in VS Code
 sccz           # Should open code editor
-```
+\`\`\`
 
 ---
 
@@ -272,45 +272,45 @@ sccz           # Should open code editor
 
 **Solution**: Reload shell
 
-```bash
+\`\`\`bash
 exec zsh
 # Or: source ~/.zshrc
-```
+\`\`\`
 
 ### Issue: Completion not working
 
 **Solution**: Clear completion cache
 
-```bash
+\`\`\`bash
 rm -rf ~/.cache/zsh/completions
 exec zsh
-```
+\`\`\`
 
 ### Issue: Git branch not showing in prompt
 
 **Solution**: Verify you're in a git repository
 
-```bash
+\`\`\`bash
 cd /Users/capp/second-chance-connect
 git status  # Should work if valid repo
-```
+\`\`\`
 
 ### Issue: NVM not loading
 
 **Solution**: Verify NVM installation
 
-```bash
+\`\`\`bash
 ls -la ~/.nvm/nvm.sh
 # If missing: brew install nvm
-```
+\`\`\`
 
 ### Issue: Colors not showing
 
 **Solution**: Check TERM variable
 
-```bash
+\`\`\`bash
 echo $TERM  # Should be xterm-256color
-```
+\`\`\`
 
 ---
 

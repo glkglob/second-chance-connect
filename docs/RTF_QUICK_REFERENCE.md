@@ -23,7 +23,7 @@
 
 ## 🏗️ Architecture Summary
 
-```
+\`\`\`
 Next.js 14 App Router
 ├── Frontend: 37+ pages, 70+ components
 ├── API: 8 RESTful endpoints with auth guards
@@ -31,7 +31,7 @@ Next.js 14 App Router
 ├── Database: PostgreSQL with Row Level Security
 ├── Styling: Tailwind CSS v4 + shadcn/ui
 └── Deploy: Vercel (recommended)
-```
+\`\`\`
 
 **Roles:** SEEKER → EMPLOYER → OFFICER → ADMIN  
 **Security:** RLS policies + middleware + auth guards
@@ -63,7 +63,7 @@ Next.js 14 App Router
 
 ## 🔧 Quick Commands
 
-```bash
+\`\`\`bash
 # Install dependencies (React 19 compat)
 npm install --legacy-peer-deps
 
@@ -75,13 +75,13 @@ npm run build
 
 # Test API endpoint
 curl http://localhost:3000/api/jobs
-```
+\`\`\`
 
 ---
 
 ## 📊 Component Dependencies
 
-```
+\`\`\`
 Auth Flow:
   /auth/login → Supabase Auth → middleware.js → Role redirect
 
@@ -90,7 +90,7 @@ API Layer:
 
 Protected Routes:
   User request → middleware.js → Check auth → Check role → Allow/Deny
-```
+\`\`\`
 
 ---
 
@@ -109,10 +109,10 @@ Protected Routes:
 
 ## 🔐 Environment Variables Required
 
-```bash
+\`\`\`bash
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbG...
-```
+\`\`\`
 
 Get from: Supabase Dashboard → Settings → API
 
@@ -137,9 +137,9 @@ Get from: Supabase Dashboard → Settings → API
 ## 🐛 Quick Troubleshooting
 
 **Build fails:**
-```bash
+\`\`\`bash
 npm install --legacy-peer-deps
-```
+\`\`\`
 
 **Auth not working:**
 - Check env vars are set in `.env.local`

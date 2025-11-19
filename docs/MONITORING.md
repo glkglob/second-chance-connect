@@ -36,7 +36,7 @@ This document describes the monitoring, logging, and observability practices for
 
 We use a custom logger (`lib/logger.js`) that provides structured, contextual logging:
 
-```javascript
+\`\`\`javascript
 import { logger } from '@/lib/logger'
 
 // Error logging
@@ -64,7 +64,7 @@ logger.debug('Processing request', {
   requestId: req.id,
   params: req.params
 })
-```
+\`\`\`
 
 ### Log Levels
 
@@ -77,7 +77,7 @@ logger.debug('Processing request', {
 
 ### Specialized Logging
 
-```javascript
+\`\`\`javascript
 // API request/response
 logger.apiRequest('GET', '/api/jobs', { userId: user.id })
 logger.apiResponse('GET', '/api/jobs', 200, 145, { count: 25 })
@@ -93,18 +93,18 @@ logger.security('Failed login attempt', {
   email: email, 
   attempts: 3 
 })
-```
+\`\`\`
 
 ### Viewing Logs
 
 #### Development
-```bash
+\`\`\`bash
 # Enable debug mode
 NEXT_PUBLIC_DEBUG=true npm run dev
-```
+\`\`\`
 
 #### Production (Vercel)
-```bash
+\`\`\`bash
 # View real-time logs
 vercel logs
 
@@ -113,7 +113,7 @@ vercel logs [deployment-url]
 
 # Follow logs
 vercel logs --follow
-```
+\`\`\`
 
 ## Error Tracking
 
@@ -121,7 +121,7 @@ vercel logs --follow
 
 React error boundaries catch component errors and display fallback UI:
 
-```javascript
+\`\`\`javascript
 import { ErrorBoundary } from '@/components/error-boundary'
 
 export default function MyApp({ children }) {
@@ -131,7 +131,7 @@ export default function MyApp({ children }) {
     </ErrorBoundary>
   )
 }
-```
+\`\`\`
 
 Error boundaries automatically:
 - Display user-friendly error message
@@ -143,7 +143,7 @@ Error boundaries automatically:
 
 All API routes include error handling:
 
-```javascript
+\`\`\`javascript
 import { logApiError } from '@/lib/logger'
 
 export async function GET(request) {
@@ -159,11 +159,11 @@ export async function GET(request) {
     )
   }
 }
-```
+\`\`\`
 
 ### Database Error Handling
 
-```javascript
+\`\`\`javascript
 import { logDatabaseError } from '@/lib/logger'
 
 const { data, error } = await supabase
@@ -176,17 +176,17 @@ if (error) {
   })
   // Handle error
 }
-```
+\`\`\`
 
 ### Integrating Sentry (Optional)
 
 1. Install Sentry:
-```bash
+\`\`\`bash
 npm install @sentry/nextjs
-```
+\`\`\`
 
 2. Initialize Sentry:
-```javascript
+\`\`\`javascript
 // sentry.client.config.js
 import * as Sentry from '@sentry/nextjs'
 
@@ -195,7 +195,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV,
 })
-```
+\`\`\`
 
 3. Update logger to send to Sentry (already configured in `lib/logger.js`)
 
@@ -209,7 +209,7 @@ Automatically tracks:
 - User navigation patterns
 
 Enable in `app/layout.jsx`:
-```javascript
+\`\`\`javascript
 import { Analytics } from '@vercel/analytics/react'
 
 export default function RootLayout({ children }) {
@@ -222,11 +222,11 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-```
+\`\`\`
 
 ### Custom Performance Metrics
 
-```javascript
+\`\`\`javascript
 import { logPerformance } from '@/lib/logger'
 
 // Measure operation time
@@ -238,18 +238,18 @@ logPerformance('operation_name', duration, {
   userId: user.id,
   itemCount: items.length
 })
-```
+\`\`\`
 
 ### API Response Times
 
 Automatically logged by API routes:
-```javascript
+\`\`\`javascript
 const startTime = Date.now()
 // ... API logic ...
 const duration = Date.now() - startTime
 
 logger.apiResponse('GET', '/api/jobs', 200, duration)
-```
+\`\`\`
 
 ## Health Checks
 
@@ -257,7 +257,7 @@ logger.apiResponse('GET', '/api/jobs', 200, duration)
 
 `GET /api/health` returns system status:
 
-```json
+\`\`\`json
 {
   "status": "healthy",
   "timestamp": "2025-01-15T10:30:00.000Z",
@@ -276,7 +276,7 @@ logger.apiResponse('GET', '/api/jobs', 200, duration)
   },
   "responseTime": 52
 }
-```
+\`\`\`
 
 Status values:
 - `healthy` (200): All systems operational
@@ -285,13 +285,13 @@ Status values:
 
 ### Monitoring Health
 
-```bash
+\`\`\`bash
 # Check health locally
 curl http://localhost:3000/api/health
 
 # Check health in production
 curl https://your-domain.com/api/health
-```
+\`\`\`
 
 ### Uptime Monitoring
 
@@ -319,7 +319,7 @@ Configure to check `/api/health` every 5 minutes.
 
 Create alert rules based on logs:
 
-```javascript
+\`\`\`javascript
 // Example: Alert on high error rate
 if (errorRate > 5) {
   logger.error('High error rate detected', null, {
@@ -335,7 +335,7 @@ if (errorRate > 5) {
     severity: 'critical'
   })
 }
-```
+\`\`\`
 
 ### Alert Channels
 
@@ -443,7 +443,7 @@ Create custom dashboards using:
 
 ### Quick Debugging
 
-```bash
+\`\`\`bash
 # Check recent errors
 vercel logs --filter=error
 
@@ -455,7 +455,7 @@ vercel logs --follow
 
 # Check health
 curl https://your-domain.com/api/health
-```
+\`\`\`
 
 ## Metrics to Track
 

@@ -344,7 +344,7 @@ As requested in the problem statement, this audit addressed:
 
 All documentation is organized in the repository:
 
-```
+\`\`\`
 /
 ├── README.md                    # Main overview
 ├── LICENSE                      # MIT License
@@ -360,7 +360,7 @@ All documentation is organized in the repository:
     ├── MONITORING_SETUP.md            # Observability
     ├── IMPLEMENTATION_EXAMPLES.md     # Code patterns
     └── PRODUCTION_READINESS_CHECKLIST.md
-```
+\`\`\`
 
 ### Key Resources
 

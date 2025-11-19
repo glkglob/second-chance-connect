@@ -2,9 +2,9 @@
 
 ## Issue
 Direct PostgreSQL connections (psql) are failing due to IPv6 routing:
-```
+\`\`\`
 No route to host (IPv6: 2a05:d01c:30c:9d1f:48b6:1f70:aa21:b3fa)
-```
+\`\`\`
 
 This is a **network/ISP limitation**, not a problem with your setup.
 
@@ -63,25 +63,25 @@ The Supabase Dashboard uses HTTPS and will work regardless of network constraint
 
 Verify everything is working:
 
-```bash
+\`\`\`bash
 # Check API health
 curl http://localhost:3000/api/health | jq .
 
 # Test sign-up
 # Visit: http://localhost:3000/auth/sign-up
-```
+\`\`\`
 
 ---
 
 ## 📋 File Locations
 
 All SQL files are in your project:
-```
+\`\`\`
 scripts/
 ├── 001_create_tables.sql           86 lines
 ├── 002_enable_rls.sql              88 lines
 └── 003_create_profile_trigger.sql  59 lines
-```
+\`\`\`
 
 ---
 

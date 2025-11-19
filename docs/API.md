@@ -29,20 +29,20 @@ All protected endpoints require authentication via Supabase Auth. Authentication
 
 ### Unauthorized Response
 
-```json
+\`\`\`json
 {
   "error": "Unauthorized"
 }
-```
+\`\`\`
 Status: `401`
 
 ### Forbidden Response
 
-```json
+\`\`\`json
 {
   "error": "Forbidden - Reason for denial"
 }
-```
+\`\`\`
 Status: `403`
 
 ## Error Handling
@@ -51,11 +51,11 @@ All API routes follow consistent error handling patterns.
 
 ### Error Response Format
 
-```json
+\`\`\`json
 {
   "error": "Error message describing what went wrong"
 }
-```
+\`\`\`
 
 ### Common Status Codes
 
@@ -87,7 +87,7 @@ Check system health and dependencies.
 **Authentication**: None required
 
 **Response**:
-```json
+\`\`\`json
 {
   "status": "healthy",
   "timestamp": "2025-01-15T10:30:00.000Z",
@@ -106,7 +106,7 @@ Check system health and dependencies.
   },
   "responseTime": 52
 }
-```
+\`\`\`
 
 **Status Codes**:
 - `200`: All systems healthy
@@ -127,12 +127,12 @@ List job postings with optional filters.
 - `search` (string, optional): Search in title, company, or description
 
 **Example Request**:
-```bash
+\`\`\`bash
 GET /api/jobs?status=ACTIVE&search=engineer
-```
+\`\`\`
 
 **Response**:
-```json
+\`\`\`json
 {
   "jobs": [
     {
@@ -154,7 +154,7 @@ GET /api/jobs?status=ACTIVE&search=engineer
     }
   ]
 }
-```
+\`\`\`
 
 ### POST /api/jobs
 
@@ -163,7 +163,7 @@ Create a new job posting.
 **Authentication**: Required (EMPLOYER role)
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "title": "Software Engineer",
   "company": "Tech Co",
@@ -174,12 +174,12 @@ Create a new job posting.
   "employment_type": "FULL_TIME",
   "status": "DRAFT"
 }
-```
+\`\`\`
 
 **Required Fields**: `title`, `company`, `location`, `description`
 
 **Response**:
-```json
+\`\`\`json
 {
   "job": {
     "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -195,7 +195,7 @@ Create a new job posting.
     "employer_id": "650e8400-e29b-41d4-a716-446655440000"
   }
 }
-```
+\`\`\`
 
 Status: `201 Created`
 
@@ -239,7 +239,7 @@ List applications. Seekers see their applications; employers see applications to
 - `status` (string, optional): Filter by status (PENDING, REVIEWED, ACCEPTED, REJECTED)
 
 **Response**:
-```json
+\`\`\`json
 {
   "applications": [
     {
@@ -255,7 +255,7 @@ List applications. Seekers see their applications; employers see applications to
     }
   ]
 }
-```
+\`\`\`
 
 ### POST /api/applications
 
@@ -264,13 +264,13 @@ Submit a job application.
 **Authentication**: Required (SEEKER role)
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "job_id": "550e8400-e29b-41d4-a716-446655440000",
   "cover_letter": "I am very interested...",
   "resume_url": "https://storage.example.com/resume.pdf"
 }
-```
+\`\`\`
 
 **Response**: Created application object
 
@@ -283,12 +283,12 @@ Update an application. Seekers can update their application; employers can updat
 **Authentication**: Required (seeker or employer of job)
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "status": "REVIEWED",
   "notes": "Looks promising"
 }
-```
+\`\`\`
 
 **Response**: Updated application object
 
@@ -304,7 +304,7 @@ List messages for the authenticated user.
 - `conversationWith` (string, optional): Filter by conversation partner
 
 **Response**:
-```json
+\`\`\`json
 {
   "messages": [
     {
@@ -318,7 +318,7 @@ List messages for the authenticated user.
     }
   ]
 }
-```
+\`\`\`
 
 ### POST /api/messages
 
@@ -327,13 +327,13 @@ Send a message.
 **Authentication**: Required
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "receiver_id": "650e8400-e29b-41d4-a716-446655440000",
   "subject": "Question about the position",
   "content": "I was wondering..."
 }
-```
+\`\`\`
 
 **Response**: Created message object
 
@@ -346,11 +346,11 @@ Mark a message as read.
 **Authentication**: Required (must be receiver)
 
 **Request Body**:
-```json
+\`\`\`json
 {
   "read": true
 }
-```
+\`\`\`
 
 **Response**: Updated message object
 
@@ -367,7 +367,7 @@ List support services (public directory).
 - `search` (string, optional): Search in name or description
 
 **Response**:
-```json
+\`\`\`json
 {
   "services": [
     {
@@ -384,7 +384,7 @@ List support services (public directory).
     }
   ]
 }
-```
+\`\`\`
 
 ## Admin APIs
 
@@ -395,7 +395,7 @@ Get platform analytics and metrics.
 **Authentication**: Required (ADMIN role)
 
 **Response**:
-```json
+\`\`\`json
 {
   "overview": {
     "totalUsers": 1247,
@@ -425,13 +425,13 @@ Get platform analytics and metrics.
     "uptime": 99.9
   }
 }
-```
+\`\`\`
 
 ## Testing
 
 ### Using curl
 
-```bash
+\`\`\`bash
 # Health check
 curl http://localhost:3000/api/health
 
@@ -444,7 +444,7 @@ curl -X POST \
   -b cookies.txt \
   -d '{"title":"Test Job","company":"Test Co","location":"Remote","description":"Test"}' \
   http://localhost:3000/api/jobs
-```
+\`\`\`
 
 ### Using Postman
 

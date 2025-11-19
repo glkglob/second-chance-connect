@@ -23,7 +23,7 @@
 **Why**: Move npm configuration out of shell into dedicated file  
 **Time**: 2 minutes
 
-```bash
+\`\`\`bash
 cat > ~/.npmrc << 'EOF'
 prefix=/Users/capp/.npm-global
 save-exact=true
@@ -36,14 +36,14 @@ EOF
 
 # Verify
 cat ~/.npmrc
-```
+\`\`\`
 
 ### Action 2: Create ~/.zprofile
 
 **Why**: macOS login shell setup separate from universal shell setup  
 **Time**: 2 minutes
 
-```bash
+\`\`\`bash
 cat > ~/.zprofile << 'EOF'
 # ~/.zprofile - macOS Login Shell Initialization
 # Runs once when opening Terminal (login shells only)
@@ -59,37 +59,37 @@ EOF
 
 # Verify
 cat ~/.zprofile
-```
+\`\`\`
 
 ### Action 3: Verify ~/.zshenv has brew shellenv
 
 **Why**: Ensures all shell contexts (including subprocesses) have proper PATH  
 **Time**: 2 minutes
 
-```bash
+\`\`\`bash
 # Check if brew shellenv is present
 grep -n "brew shellenv" ~/.zshenv
 
 # If NOT present, add near the top after the header:
 # Find the line number for the first export
 head -20 ~/.zshenv
-```
+\`\`\`
 
 **Expected**: Should see line with `eval "$(brew shellenv)"`
 
 If missing, add after line 5:
 
-```bash
+\`\`\`bash
 sed -i '' '5a\
 eval "$(brew shellenv)"' ~/.zshenv
-```
+\`\`\`
 
 ### Action 4: Move API keys from ~/.zshenv to .env.local
 
 **Why**: Security - API keys shouldn't be in shell config  
 **Time**: 3 minutes
 
-```bash
+\`\`\`bash
 # Check what's in ~/.zshenv
 grep -i "api_key\|token" ~/.zshenv
 
@@ -100,14 +100,14 @@ grep -i "api_key\|token" ~/.zshenv
 cat /Users/capp/second-chance-connect/.env.local | grep -i "supabase\|github"
 
 # Should see SUPABASE_URL, SUPABASE_ANON_KEY, etc.
-```
+\`\`\`
 
 ### Action 5: Test that everything works
 
 **Why**: Validate changes before proceeding  
 **Time**: 5 minutes
 
-```bash
+\`\`\`bash
 # Open new Terminal window (to load ~/.zprofile)
 # Then run these tests:
 
@@ -130,7 +130,7 @@ git --version
 # Test 5: Check if ~/.zprofile was sourced
 echo $HOMEBREW_PREFIX
 # Expected: /opt/homebrew
-```
+\`\`\`
 
 ---
 
@@ -138,7 +138,7 @@ echo $HOMEBREW_PREFIX
 
 After doing the above 5 actions, verify:
 
-```bash
+\`\`\`bash
 # 1. Check all config files exist and are readable
 ls -la ~/.zshenv ~/.zshrc ~/.zprofile ~/.npmrc
 
@@ -148,7 +148,7 @@ npx @robinson_ai_systems/github-mcp --version
 
 # 3. Verify ~/.zshenv simplification is compatible
 # Restart Claude Code and test GitHub MCP again
-```
+\`\`\`
 
 ---
 
@@ -192,7 +192,7 @@ Total for all 5 actions: **15-20 minutes**
 
 **Recovery**:
 
-```bash
+\`\`\`bash
 # Restore from backup or reinstall from defaults
 # ~/.zshenv and ~/.zshrc are usually OK to edit, but if broken:
 
@@ -201,7 +201,7 @@ Total for all 5 actions: **15-20 minutes**
 
 # Verify basic shell still works
 zsh --version
-```
+\`\`\`
 
 ---
 

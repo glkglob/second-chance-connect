@@ -38,11 +38,11 @@ We follow a simplified Git Flow strategy with the following branches:
 
 **Examples**:
 
-```
+\`\`\`
 feature/add-user-notifications
 feature/123-job-search-filters
 feature/improve-dashboard-performance
-```
+\`\`\`
 
 #### Bugfix Branches
 
@@ -53,11 +53,11 @@ feature/improve-dashboard-performance
 
 **Examples**:
 
-```
+\`\`\`
 bugfix/fix-login-redirect
 bugfix/456-message-pagination
 bugfix/profile-image-upload
-```
+\`\`\`
 
 #### Hotfix Branches
 
@@ -69,11 +69,11 @@ bugfix/profile-image-upload
 
 **Examples**:
 
-```
+\`\`\`
 hotfix/security-vulnerability
 hotfix/payment-processing-error
 hotfix/database-connection-issue
-```
+\`\`\`
 
 ---
 
@@ -83,25 +83,25 @@ hotfix/database-connection-issue
 
 1. **Create feature branch from develop**:
 
-   ```bash
+   \`\`\`bash
    git checkout develop
    git pull origin develop
    git checkout -b feature/your-feature-name
-   ```
+   \`\`\`
 
 2. **Develop and commit**:
 
-   ```bash
+   \`\`\`bash
    # Make changes
    git add .
    git commit -m "feat: add your feature"
-   ```
+   \`\`\`
 
 3. **Push to remote**:
 
-   ```bash
+   \`\`\`bash
    git push -u origin feature/your-feature-name
-   ```
+   \`\`\`
 
 4. **Create Pull Request**:
    - Base: `develop`
@@ -117,14 +117,14 @@ hotfix/database-connection-issue
 
 1. **Create release PR from develop to main**:
 
-   ```bash
+   \`\`\`bash
    # Ensure develop is up to date
    git checkout develop
    git pull origin develop
 
    # Create PR via GitHub CLI
    gh pr create --base main --head develop --title "Release: v1.x.x"
-   ```
+   \`\`\`
 
 2. **Review and test**:
    - Comprehensive testing in staging
@@ -136,41 +136,41 @@ hotfix/database-connection-issue
    - Tag the release
 
 4. **Sync develop with main** (if hotfixes were applied):
-   ```bash
+   \`\`\`bash
    git checkout develop
    git merge main
    git push origin develop
-   ```
+   \`\`\`
 
 ### Hotfix Workflow (Emergency Only)
 
 1. **Create hotfix from main**:
 
-   ```bash
+   \`\`\`bash
    git checkout main
    git pull origin main
    git checkout -b hotfix/critical-issue
-   ```
+   \`\`\`
 
 2. **Fix and test thoroughly**:
 
-   ```bash
+   \`\`\`bash
    git commit -m "fix: critical security issue"
    git push -u origin hotfix/critical-issue
-   ```
+   \`\`\`
 
 3. **Create PR to main**:
 
-   ```bash
+   \`\`\`bash
    gh pr create --base main --head hotfix/critical-issue --title "Hotfix: Critical Issue"
-   ```
+   \`\`\`
 
 4. **After merging to main, also merge to develop**:
-   ```bash
+   \`\`\`bash
    git checkout develop
    git merge main
    git push origin develop
-   ```
+   \`\`\`
 
 ---
 
@@ -180,13 +180,13 @@ We use **Conventional Commits** format enforced by git hooks.
 
 ### Format
 
-```
+\`\`\`
 type(scope): subject
 
 body (optional)
 
 footer (optional)
-```
+\`\`\`
 
 ### Types
 
@@ -204,7 +204,7 @@ footer (optional)
 
 ### Examples
 
-```bash
+\`\`\`bash
 feat(auth): add two-factor authentication
 
 fix(api): resolve rate limiting bug in jobs endpoint
@@ -216,7 +216,7 @@ chore(deps): upgrade Next.js to version 15.5.7
 fix: security vulnerability in token handling
 
 BREAKING CHANGE: API endpoint /api/v1/jobs changed to /api/v2/jobs
-```
+\`\`\`
 
 ---
 
@@ -226,11 +226,11 @@ BREAKING CHANGE: API endpoint /api/v1/jobs changed to /api/v2/jobs
 
 Use conventional commit format:
 
-```
+\`\`\`
 feat: Add user notification system
 fix: Resolve dashboard loading issue
 docs: Update API documentation
-```
+\`\`\`
 
 ### PR Description Template
 
@@ -285,7 +285,7 @@ Currently enabled protections:
 
 To enable protection on develop:
 
-```bash
+\`\`\`bash
 gh api repos/glkglob/second-chance-connect/branches/develop/protection -X PUT --input - << 'EOF'
 {
   "required_status_checks": {
@@ -300,7 +300,7 @@ gh api repos/glkglob/second-chance-connect/branches/develop/protection -X PUT --
   "allow_deletions": false
 }
 EOF
-```
+\`\`\`
 
 ---
 
@@ -327,12 +327,12 @@ All branches trigger CI checks:
 
 ### 1. Keep Branches Up to Date
 
-```bash
+\`\`\`bash
 # Regularly sync with develop
 git checkout feature/your-feature
 git fetch origin
 git merge origin/develop
-```
+\`\`\`
 
 ### 2. Small, Focused PRs
 
@@ -342,33 +342,33 @@ git merge origin/develop
 
 ### 3. Write Descriptive Commits
 
-```bash
+\`\`\`bash
 # Good
 git commit -m "feat(auth): add email verification with token expiration"
 
 # Bad
 git commit -m "fix stuff"
-```
+\`\`\`
 
 ### 4. Test Before Pushing
 
-```bash
+\`\`\`bash
 # Always run before pushing
 npm test
 npm run type-check
 npm run lint
 npm run build
-```
+\`\`\`
 
 ### 5. Clean Up After Merge
 
-```bash
+\`\`\`bash
 # Delete local branch
 git branch -d feature/your-feature
 
 # Delete remote branch (happens automatically with GitHub PR merge)
 git push origin --delete feature/your-feature
-```
+\`\`\`
 
 ---
 
@@ -376,7 +376,7 @@ git push origin --delete feature/your-feature
 
 ### Common Commands
 
-```bash
+\`\`\`bash
 # Start new feature
 git checkout develop && git pull && git checkout -b feature/my-feature
 
@@ -392,7 +392,7 @@ git fetch origin && git merge origin/develop
 
 # Clean up after merge
 git checkout develop && git pull && git branch -d feature/my-feature
-```
+\`\`\`
 
 ### Branch Naming Cheatsheet
 

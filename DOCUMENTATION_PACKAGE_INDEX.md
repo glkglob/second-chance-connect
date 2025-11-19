@@ -326,7 +326,7 @@ Before calling this complete, verify:
 
 ## 📅 Implementation Timeline
 
-```
+\`\`\`
 TODAY (Nov 19)       WEEK 1           WEEK 2           WEEK 3           WEEK 4
 Oct 19-22           Oct 21-27        Oct 28-Nov 3     Nov 4-10         Nov 11-17
 
@@ -335,7 +335,7 @@ Oct 19-22           Oct 21-27        Oct 28-Nov 3     Nov 4-10         Nov 11-17
 ✅ Verify works     ✅ Ready to go    ✅ direnv        ✅ pnpm decision ✅ Team ready
 
 [FOUNDATION PHASE]  [MODERNIZATION]  [TOOLS]          [VALIDATION]
-```
+\`\`\`
 
 ---
 

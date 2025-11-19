@@ -28,7 +28,7 @@ Second Chance Connect uses PostgreSQL Row Level Security (RLS) as the primary da
 ### 1. Profiles Table
 
 **Schema**:
-```sql
+\`\`\`sql
 create table public.profiles (
   id uuid references auth.users on delete cascade primary key,
   name text not null,
@@ -40,11 +40,11 @@ create table public.profiles (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
-```
+\`\`\`
 
 **RLS Policies**:
 
-```sql
+\`\`\`sql
 -- Read: All authenticated users can view all profiles
 create policy "Users can view all profiles"
   on public.profiles for select
@@ -61,7 +61,7 @@ create policy "Users can update own profile"
   using (auth.uid() = id);
 
 -- No delete policy: Profiles are cascade deleted when auth.users is deleted
-```
+\`\`\`
 
 **Rationale**:
 - Public profile viewing enables discovery and communication
@@ -75,7 +75,7 @@ create policy "Users can update own profile"
 ### 2. Jobs Table
 
 **Schema**:
-```sql
+\`\`\`sql
 create table public.jobs (
   id uuid default uuid_generate_v4() primary key,
   title text not null,
@@ -90,11 +90,11 @@ create table public.jobs (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
-```
+\`\`\`
 
 **RLS Policies**:
 
-```sql
+\`\`\`sql
 -- Read: Anyone can view ACTIVE jobs, employers can view their own
 create policy "Anyone can view active jobs"
   on public.jobs for select
@@ -117,7 +117,7 @@ create policy "Employers can update own jobs"
 create policy "Employers can delete own jobs"
   on public.jobs for delete
   using (auth.uid() = employer_id);
-```
+\`\`\`
 
 **Rationale**:
 - Public job listings for discovery
@@ -126,12 +126,12 @@ create policy "Employers can delete own jobs"
 - Draft/Closed jobs hidden from seekers
 
 **Performance Optimization**:
-```sql
+\`\`\`sql
 -- Index for common queries
 create index idx_jobs_status on public.jobs(status);
 create index idx_jobs_employer on public.jobs(employer_id);
 create index idx_jobs_created on public.jobs(created_at desc);
-```
+\`\`\`
 
 **Multi-tenancy Considerations**:
 - Add `organization_id` for multi-employer organizations
@@ -140,7 +140,7 @@ create index idx_jobs_created on public.jobs(created_at desc);
 ### 3. Applications Table
 
 **Schema**:
-```sql
+\`\`\`sql
 create table public.applications (
   id uuid default uuid_generate_v4() primary key,
   seeker_id uuid references public.profiles(id) on delete cascade not null,
@@ -153,11 +153,11 @@ create table public.applications (
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
   unique(seeker_id, job_id)
 );
-```
+\`\`\`
 
 **RLS Policies**:
 
-```sql
+\`\`\`sql
 -- Read: Seekers see own applications, employers see applications for their jobs
 create policy "Users can view own applications"
   on public.applications for select
@@ -186,7 +186,7 @@ create policy "Employers can update applications for their jobs"
   );
 
 -- No delete: Maintain application history for compliance
-```
+\`\`\`
 
 **Rationale**:
 - Privacy: Seekers can't see other applications
@@ -206,7 +206,7 @@ create policy "Employers can update applications for their jobs"
 ### 4. Messages Table
 
 **Schema**:
-```sql
+\`\`\`sql
 create table public.messages (
   id uuid default uuid_generate_v4() primary key,
   sender_id uuid references public.profiles(id) on delete cascade not null,
@@ -216,11 +216,11 @@ create table public.messages (
   read boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
-```
+\`\`\`
 
 **RLS Policies**:
 
-```sql
+\`\`\`sql
 -- Read: Users can only see messages they sent or received
 create policy "Users can view own messages"
   on public.messages for select
@@ -237,7 +237,7 @@ create policy "Users can update own received messages"
   using (auth.uid() = receiver_id);
 
 -- No delete: Maintain message history
-```
+\`\`\`
 
 **Rationale**:
 - Strict privacy: Only sender and receiver see messages
@@ -251,16 +251,16 @@ create policy "Users can update own received messages"
 - Add blocked user functionality
 
 **Performance**:
-```sql
+\`\`\`sql
 create index idx_messages_sender on public.messages(sender_id);
 create index idx_messages_receiver on public.messages(receiver_id);
 create index idx_messages_created on public.messages(created_at desc);
-```
+\`\`\`
 
 ### 5. Services Table
 
 **Schema**:
-```sql
+\`\`\`sql
 create table public.services (
   id uuid default uuid_generate_v4() primary key,
   name text not null,
@@ -274,11 +274,11 @@ create table public.services (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
-```
+\`\`\`
 
 **RLS Policies**:
 
-```sql
+\`\`\`sql
 -- Read: Public directory, everyone can view
 create policy "Anyone can view services"
   on public.services for select
@@ -290,7 +290,7 @@ create policy "Admins can manage services"
   using (
     exists (select 1 from public.profiles where id = auth.uid() and role = 'ADMIN')
   );
-```
+\`\`\`
 
 **Rationale**:
 - Public resource directory
@@ -305,7 +305,7 @@ create policy "Admins can manage services"
 ## Officer-Client Relationships (Future)
 
 **Planned Table**:
-```sql
+\`\`\`sql
 create table public.officer_clients (
   id uuid default uuid_generate_v4() primary key,
   officer_id uuid references public.profiles(id) not null,
@@ -330,13 +330,13 @@ create policy "Admins manage relationships"
   using (
     exists (select 1 from public.profiles where id = auth.uid() and role = 'ADMIN')
   );
-```
+\`\`\`
 
 ## Testing RLS Policies
 
 ### Manual Testing
 
-```sql
+\`\`\`sql
 -- Test as seeker
 set request.jwt.claims.sub = '<seeker-uuid>';
 
@@ -347,11 +347,11 @@ select * from applications;
 insert into jobs (title, company, location, description, employer_id)
 values ('Test', 'Test', 'Test', 'Test', '<seeker-uuid>');
 -- ERROR: new row violates row-level security policy
-```
+\`\`\`
 
 ### Automated Testing
 
-```javascript
+\`\`\`javascript
 // Test RLS with Supabase client
 import { createClient } from '@supabase/supabase-js'
 
@@ -370,14 +370,14 @@ async function testJobsRLS() {
   expect(error).toBeTruthy()
   expect(error.message).toContain('violates row-level security')
 }
-```
+\`\`\`
 
 See `tests/rls/` directory for comprehensive test suite.
 
 ## Common Pitfalls
 
 ### 1. Forgetting to Enable RLS
-```sql
+\`\`\`sql
 -- Always check
 select tablename, rowsecurity 
 from pg_tables 
@@ -385,10 +385,10 @@ where schemaname = 'public';
 
 -- If false, enable
 alter table public.table_name enable row level security;
-```
+\`\`\`
 
 ### 2. Overly Permissive Policies
-```sql
+\`\`\`sql
 -- BAD: Allows anyone to do anything
 create policy "bad_policy"
   on public.table_name for all
@@ -398,7 +398,7 @@ create policy "bad_policy"
 create policy "good_policy"
   on public.table_name for select
   using (auth.uid() = user_id);
-```
+\`\`\`
 
 ### 3. Policy Conflicts
 When multiple policies exist:
@@ -433,7 +433,7 @@ When multiple policies exist:
 
 When scaling to multiple organizations:
 
-```sql
+\`\`\`sql
 -- Add to relevant tables
 alter table public.profiles add column organization_id uuid references organizations(id);
 alter table public.jobs add column organization_id uuid;
@@ -445,7 +445,7 @@ create policy "organization_isolation"
 
 -- Set organization in connection
 set app.current_organization = '<org-uuid>';
-```
+\`\`\`
 
 ### Performance Optimization
 
@@ -457,7 +457,7 @@ For large datasets:
 
 ### Audit Logging
 
-```sql
+\`\`\`sql
 -- Create audit table
 create table public.audit_log (
   id uuid default uuid_generate_v4() primary key,
@@ -478,7 +478,7 @@ begin
   return NEW;
 end;
 $$ language plpgsql security definer;
-```
+\`\`\`
 
 ## Resources
 

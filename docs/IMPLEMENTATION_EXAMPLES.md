@@ -18,7 +18,7 @@ This document provides concrete examples of implementing security, monitoring, a
 
 ### Example: Enhanced Jobs API
 
-```javascript
+\`\`\`javascript
 // app/api/jobs/route.js
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
@@ -197,7 +197,7 @@ export const GET = withRateLimit(withErrorHandling(getHandler))
 export const POST = withRateLimit(withErrorHandling(postHandler), {
   type: 'post' // Apply stricter rate limit for POST requests
 })
-```
+\`\`\`
 
 ---
 
@@ -205,7 +205,7 @@ export const POST = withRateLimit(withErrorHandling(postHandler), {
 
 ### Example: Dashboard with Error Handling
 
-```javascript
+\`\`\`javascript
 // app/dashboard/page.jsx
 'use client'
 
@@ -284,7 +284,7 @@ export default function DashboardPage() {
     </ErrorBoundary>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -292,7 +292,7 @@ export default function DashboardPage() {
 
 ### Example: Comprehensive API Tests
 
-```javascript
+\`\`\`javascript
 // app/api/jobs/__tests__/route.test.js
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { GET, POST } from '../route'
@@ -505,7 +505,7 @@ describe('/api/jobs', () => {
     })
   })
 })
-```
+\`\`\`
 
 ---
 
@@ -513,7 +513,7 @@ describe('/api/jobs', () => {
 
 ### Example: Custom Monitoring Hook
 
-```javascript
+\`\`\`javascript
 // lib/hooks/use-monitoring.js
 'use client'
 
@@ -577,7 +577,7 @@ function trackError(error, context = {}) {
   console.error('Error tracked:', error, context)
   // Send to monitoring service
 }
-```
+\`\`\`
 
 ---
 
@@ -585,7 +585,7 @@ function trackError(error, context = {}) {
 
 ### Example: Auth Endpoint with Rate Limiting
 
-```javascript
+\`\`\`javascript
 // app/api/auth/login/route.js
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
@@ -641,7 +641,7 @@ export const POST = withRateLimit(
   withErrorHandling(loginHandler),
   { type: 'sensitive' } // 5 requests per minute
 )
-```
+\`\`\`
 
 ---
 
@@ -649,7 +649,7 @@ export const POST = withRateLimit(
 
 ### Example: Monitored Database Operation
 
-```javascript
+\`\`\`javascript
 // lib/db/queries.js
 import { createClient } from '@/lib/supabase/server'
 import { logQuery, startPerformanceMonitor } from '@/lib/logger'
@@ -693,7 +693,7 @@ export async function getJobsWithAnalytics(filters = {}) {
     return { data: null, error }
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -701,7 +701,7 @@ export async function getJobsWithAnalytics(filters = {}) {
 
 ### Example: Config with Validation
 
-```javascript
+\`\`\`javascript
 // lib/config.js
 const config = {
   app: {
@@ -740,7 +740,7 @@ export function validateConfig() {
 }
 
 export default config
-```
+\`\`\`
 
 ---
 

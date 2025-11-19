@@ -245,7 +245,7 @@ Read:
 ## 📋 Configuration Files Reference
 
 ### Shell Configuration Files
-```
+\`\`\`
 ~/.zshenv (107 lines)
 ├── Security & permissions
 ├── Language & encoding
@@ -269,10 +269,10 @@ Read:
 ├── Modern tools support
 ├── NVM lazy-loading
 └── Optional advanced features
-```
+\`\`\`
 
 ### Project Configuration Files
-```
+\`\`\`
 package.json
 ├── Dependencies (Next.js, Supabase, etc.)
 ├── Development scripts
@@ -290,19 +290,19 @@ next.config.mjs
 tsconfig.json
 ├── TypeScript settings
 └── Strict mode enabled
-```
+\`\`\`
 
 ---
 
 ## 🚀 Quick Command Reference
 
 ### Activate Shell Configuration
-```bash
+\`\`\`bash
 exec zsh
-```
+\`\`\`
 
 ### Test Installation
-```bash
+\`\`\`bash
 # Check aliases loaded
 alias | wc -l  # Should show 24+
 
@@ -311,10 +311,10 @@ scc  # Should cd to /Users/capp/second-chance-connect
 
 # Start development
 sccd  # Should run npm run dev
-```
+\`\`\`
 
 ### View Documentation
-```bash
+\`\`\`bash
 # From project directory
 cd /Users/capp/second-chance-connect
 
@@ -326,25 +326,25 @@ less SHELL_VERIFICATION.md
 
 # View deployment guide
 less SQL_DEPLOYMENT.md
-```
+\`\`\`
 
 ### Git Shortcuts
-```bash
+\`\`\`bash
 gs    # git status
 ga    # git add
 gc    # git commit
 gp    # git push
 gl    # git log --oneline -10
-```
+\`\`\`
 
 ### NPM Shortcuts
-```bash
+\`\`\`bash
 nr    # npm run
 nrd   # npm run dev
 nrb   # npm run build
 nrt   # npm run test
 nrl   # npm run lint
-```
+\`\`\`
 
 ---
 
@@ -435,7 +435,7 @@ nrl   # npm run lint
 
 ## 💾 File Size Summary
 
-```
+\`\`\`
 Shell Configuration:
 ├── ~/.zshenv      3.5 KB (107 lines)
 ├── ~/.zshrc       8.2 KB (260 lines)
@@ -451,7 +451,7 @@ Documentation:
 
 TOTAL NEW: ~2.2 MB documentation
 TOTAL IMPROVED: ~25 KB configuration
-```
+\`\`\`
 
 ---
 

@@ -19,7 +19,7 @@ This runbook provides step-by-step instructions for deploying Second Chance Conn
 - [ ] DNS management access (if using custom domain)
 
 ### Required Tools
-```bash
+\`\`\`bash
 # Vercel CLI
 npm install -g vercel
 
@@ -28,7 +28,7 @@ npm install -g supabase
 
 # Git
 git --version
-```
+\`\`\`
 
 ## Pre-Deployment Checklist
 
@@ -62,46 +62,46 @@ git --version
 ### Step 1: Prepare Supabase
 
 1. **Create Supabase Project**
-   ```bash
+   \`\`\`bash
    # Via Supabase Dashboard
    1. Go to https://app.supabase.com
    2. Click "New Project"
    3. Fill in project details
    4. Wait for provisioning (2-3 minutes)
-   ```
+   \`\`\`
 
 2. **Run Database Migrations**
-   ```sql
+   \`\`\`sql
    -- In Supabase SQL Editor, run scripts in order:
    -- 1. scripts/001_create_tables.sql
    -- 2. scripts/002_enable_rls.sql
    -- 3. scripts/003_create_profile_trigger.sql
    -- 4. scripts/004_seed_data.sql (optional)
-   ```
+   \`\`\`
 
 3. **Verify RLS**
-   ```sql
+   \`\`\`sql
    -- Check RLS is enabled
    SELECT tablename, rowsecurity 
    FROM pg_tables 
    WHERE schemaname = 'public';
    
    -- Should return rowsecurity = true for all tables
-   ```
+   \`\`\`
 
 4. **Get Connection Details**
-   ```bash
+   \`\`\`bash
    # From Supabase Dashboard > Settings > API
    # Save these for environment variables:
    NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGc...
    SUPABASE_SERVICE_ROLE_KEY=eyJhbGc... (keep secret!)
-   ```
+   \`\`\`
 
 ### Step 2: Configure Vercel
 
 1. **Connect Repository**
-   ```bash
+   \`\`\`bash
    # Option A: Via Vercel Dashboard
    1. Go to https://vercel.com/dashboard
    2. Click "Add New Project"
@@ -110,10 +110,10 @@ git --version
    
    # Option B: Via CLI
    vercel link
-   ```
+   \`\`\`
 
 2. **Set Environment Variables**
-   ```bash
+   \`\`\`bash
    # Via Vercel Dashboard
    Project Settings > Environment Variables
    
@@ -126,22 +126,22 @@ git --version
    # Optional:
    NEXT_PUBLIC_SENTRY_DSN=https://...
    NEXT_PUBLIC_APP_URL=https://yourdomain.com
-   ```
+   \`\`\`
 
 3. **Configure Build Settings**
-   ```bash
+   \`\`\`bash
    # In vercel.json or Vercel Dashboard
    Build Command: npm run build
    Output Directory: .next
    Install Command: npm install
    Development Command: npm run dev
    Node.js Version: 18.x
-   ```
+   \`\`\`
 
 ### Step 3: Initial Deploy
 
 1. **Deploy to Production**
-   ```bash
+   \`\`\`bash
    # Option A: Via Git Push
    git checkout main
    git pull origin main
@@ -150,19 +150,19 @@ git --version
    
    # Option B: Via CLI
    vercel --prod
-   ```
+   \`\`\`
 
 2. **Verify Deployment**
-   ```bash
+   \`\`\`bash
    # Check deployment status
    vercel ls
    
    # View deployment logs
    vercel logs [deployment-url]
-   ```
+   \`\`\`
 
 3. **Health Check**
-   ```bash
+   \`\`\`bash
    # Test health endpoint
    curl https://your-domain.com/api/health
    
@@ -174,7 +174,7 @@ git --version
        "environment": { "status": "healthy" }
      }
    }
-   ```
+   \`\`\`
 
 ### Step 4: Post-Deployment Verification
 
@@ -186,33 +186,33 @@ git --version
    - [ ] RLS policies enforced
 
 2. **Create Test Users**
-   ```bash
+   \`\`\`bash
    # Create one user of each role
    # Verify each dashboard loads correctly
-   ```
+   \`\`\`
 
 3. **Monitor for Errors**
-   ```bash
+   \`\`\`bash
    # Check Vercel logs
    vercel logs --follow
    
    # Check Supabase logs
    # Dashboard > Logs
-   ```
+   \`\`\`
 
 ## Custom Domain Setup
 
 1. **Add Domain to Vercel**
-   ```bash
+   \`\`\`bash
    # Via Dashboard
    Project Settings > Domains > Add Domain
    
    # Or via CLI
    vercel domains add yourdomain.com
-   ```
+   \`\`\`
 
 2. **Configure DNS**
-   ```bash
+   \`\`\`bash
    # Add DNS records at your registrar:
    # A Record or CNAME
    
@@ -221,27 +221,27 @@ git --version
    
    # For subdomain:
    CNAME www cname.vercel-dns.com
-   ```
+   \`\`\`
 
 3. **Enable HTTPS**
-   ```bash
+   \`\`\`bash
    # Vercel automatically provisions SSL
    # Wait 24-48 hours for propagation
    # Verify at https://yourdomain.com
-   ```
+   \`\`\`
 
 4. **Update Environment Variables**
-   ```bash
+   \`\`\`bash
    # Update app URL
    NEXT_PUBLIC_APP_URL=https://yourdomain.com
-   ```
+   \`\`\`
 
 ## Update Deployment
 
 ### Minor Updates (Features/Fixes)
 
 1. **Prepare Update**
-   ```bash
+   \`\`\`bash
    git checkout main
    git pull origin main
    
@@ -252,17 +252,17 @@ git --version
    # Run tests
    npm run test
    npm run build
-   ```
+   \`\`\`
 
 2. **Create Pull Request**
-   ```bash
+   \`\`\`bash
    git push origin feature/new-feature
    # Create PR on GitHub
    # Wait for review and CI checks
-   ```
+   \`\`\`
 
 3. **Deploy**
-   ```bash
+   \`\`\`bash
    # Merge PR to main
    # Vercel auto-deploys
    
@@ -270,86 +270,86 @@ git --version
    git checkout main
    git pull origin main
    vercel --prod
-   ```
+   \`\`\`
 
 ### Database Migrations
 
 1. **Test Migration Locally**
-   ```sql
+   \`\`\`sql
    -- Test on local/dev database first
    -- Verify no breaking changes
    -- Test rollback if needed
-   ```
+   \`\`\`
 
 2. **Backup Production Database**
-   ```bash
+   \`\`\`bash
    # Supabase Dashboard > Database > Backups
    # Create manual backup before migration
-   ```
+   \`\`\`
 
 3. **Run Migration**
-   ```sql
+   \`\`\`sql
    -- In Supabase SQL Editor
    BEGIN;
    -- Run migration script
    -- Verify changes
    COMMIT; -- or ROLLBACK if issues
-   ```
+   \`\`\`
 
 4. **Verify Application**
-   ```bash
+   \`\`\`bash
    # Test affected features
    # Monitor for errors
-   ```
+   \`\`\`
 
 ## Rollback Procedures
 
 ### Application Rollback
 
 1. **Via Vercel Dashboard**
-   ```bash
+   \`\`\`bash
    # Deployments > Select previous deployment
    # Click "Promote to Production"
-   ```
+   \`\`\`
 
 2. **Via CLI**
-   ```bash
+   \`\`\`bash
    # List deployments
    vercel ls
    
    # Rollback to specific deployment
    vercel alias set [deployment-url] yourdomain.com
-   ```
+   \`\`\`
 
 3. **Via Git**
-   ```bash
+   \`\`\`bash
    # Revert commit
    git revert HEAD
    git push origin main
    # Triggers new deployment
-   ```
+   \`\`\`
 
 ### Database Rollback
 
 1. **Restore from Backup**
-   ```bash
+   \`\`\`bash
    # Supabase Dashboard > Database > Backups
    # Select backup
    # Click "Restore"
    # Confirm and wait
-   ```
+   \`\`\`
 
 2. **Manual Rollback**
-   ```sql
+   \`\`\`sql
    -- Run rollback script
    -- Reverse migration changes
-   ```
+   \`\`\`
 
 ## Monitoring & Maintenance
 
 ### Health Monitoring
 
-```bash
+\`\`\`bash
 # Set up uptime monitoring
 # Options:
 # - UptimeRobot
@@ -360,11 +360,11 @@ git --version
 # Monitor these endpoints:
 # - https://yourdomain.com/api/health
 # - https://yourdomain.com/
-```
+\`\`\`
 
 ### Log Monitoring
 
-```bash
+\`\`\`bash
 # Vercel Logs
 vercel logs --follow
 
@@ -373,11 +373,11 @@ vercel logs --follow
 
 # Optional: Set up Sentry
 # For error tracking and alerting
-```
+\`\`\`
 
 ### Performance Monitoring
 
-```bash
+\`\`\`bash
 # Vercel Analytics
 # Enable in Dashboard > Analytics
 
@@ -385,11 +385,11 @@ vercel logs --follow
 # - LCP < 2.5s
 # - FID < 100ms
 # - CLS < 0.1
-```
+\`\`\`
 
 ### Database Maintenance
 
-```bash
+\`\`\`bash
 # Weekly tasks:
 # - Review slow queries
 # - Check index usage
@@ -400,13 +400,13 @@ vercel logs --follow
 # - Analyze table statistics
 # - Vacuum database
 # - Review backup strategy
-```
+\`\`\`
 
 ## Troubleshooting
 
 ### Build Failures
 
-```bash
+\`\`\`bash
 # Check build logs
 vercel logs [deployment-url]
 
@@ -423,11 +423,11 @@ npm run type-check
 # 4. Out of memory
 # Increase Node memory limit
 NODE_OPTIONS="--max-old-space-size=4096"
-```
+\`\`\`
 
 ### Database Connection Issues
 
-```bash
+\`\`\`bash
 # Verify connection
 curl https://yourdomain.com/api/health
 
@@ -439,11 +439,11 @@ curl https://yourdomain.com/api/health
 
 # Check connection pooling
 # Supabase Dashboard > Database > Connection Pooling
-```
+\`\`\`
 
 ### RLS Policy Issues
 
-```sql
+\`\`\`sql
 -- Check policy exists
 SELECT * FROM pg_policies WHERE tablename = 'your_table';
 
@@ -453,11 +453,11 @@ SELECT * FROM your_table;
 
 -- Verify auth context
 SELECT auth.uid();
-```
+\`\`\`
 
 ### Performance Issues
 
-```bash
+\`\`\`bash
 # Check slow queries
 # Supabase Dashboard > Database > Query Performance
 
@@ -469,7 +469,7 @@ SELECT * FROM pg_indexes WHERE tablename = 'your_table';
 
 # Review Vercel metrics
 # Dashboard > Analytics > Performance
-```
+\`\`\`
 
 ## Emergency Contacts
 
@@ -509,7 +509,7 @@ SELECT * FROM pg_indexes WHERE tablename = 'your_table';
 
 ### Backup Strategy
 
-```bash
+\`\`\`bash
 # Daily automatic backups (Supabase)
 # Retention: 7 days (free tier), 30 days (pro)
 
@@ -517,7 +517,7 @@ SELECT * FROM pg_indexes WHERE tablename = 'your_table';
 # - Major releases
 # - Database migrations
 # - Configuration changes
-```
+\`\`\`
 
 ### Recovery Time Objectives
 
@@ -543,7 +543,7 @@ SELECT * FROM pg_indexes WHERE tablename = 'your_table';
 
 ### Secrets Management
 
-```bash
+\`\`\`bash
 # Never commit secrets to Git
 # Use environment variables
 # Rotate secrets regularly
@@ -556,27 +556,27 @@ SELECT * FROM pg_indexes WHERE tablename = 'your_table';
 # - Every 90 days
 # - After team member departure
 # - After suspected compromise
-```
+\`\`\`
 
 ### Access Control
 
-```bash
+\`\`\`bash
 # Principle of least privilege
 # Separate dev/staging/prod environments
 # Use team accounts (not personal)
 # Enable 2FA on all accounts
 # Regular access review
-```
+\`\`\`
 
 ## Compliance & Auditing
 
-```bash
+\`\`\`bash
 # Track all deployments
 # Log all database changes
 # Monitor access patterns
 # Regular security scans
 # Compliance checks
-```
+\`\`\`
 
 ---
 

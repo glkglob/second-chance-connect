@@ -64,7 +64,7 @@ Your Second Chance Connect application is ready. Now you need to deploy the data
    - Copy the "Password" field
 
 2. **Run SQL Scripts**
-   ```bash
+   \`\`\`bash
    # Replace [PASSWORD] with your actual password
    
    psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/001_create_tables.sql
@@ -72,12 +72,12 @@ Your Second Chance Connect application is ready. Now you need to deploy the data
    psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/002_enable_rls.sql
    
    psql "postgresql://postgres:[PASSWORD]@db.ymjjvgzyhtdmqianuqse.supabase.co:5432/postgres" < scripts/003_create_profile_trigger.sql
-   ```
+   \`\`\`
 
 3. **Verify Success**
-   ```bash
+   \`\`\`bash
    curl http://localhost:3000/api/health | jq .
-   ```
+   \`\`\`
 
 ---
 
@@ -90,24 +90,24 @@ Your Second Chance Connect application is ready. Now you need to deploy the data
 ### Instructions
 
 1. **Authenticate**
-   ```bash
+   \`\`\`bash
    supabase login
-   ```
+   \`\`\`
 
 2. **Link Your Project**
-   ```bash
+   \`\`\`bash
    supabase link --project-ref ymjjvgzyhtdmqianuqse
-   ```
+   \`\`\`
    When prompted, enter your database password.
 
 3. **Push Migrations**
-   ```bash
+   \`\`\`bash
    # Preview changes first
    supabase db push --dry-run
    
    # Deploy to remote database
    supabase db push
-   ```
+   \`\`\`
 
 ---
 
@@ -116,12 +116,12 @@ Your Second Chance Connect application is ready. Now you need to deploy the data
 After deploying the schema using any method above:
 
 ### 1. Check API Health
-```bash
+\`\`\`bash
 curl http://localhost:3000/api/health | jq .
-```
+\`\`\`
 
 Expected response:
-```json
+\`\`\`json
 {
   "status": "healthy",
   "checks": {
@@ -131,7 +131,7 @@ Expected response:
     }
   }
 }
-```
+\`\`\`
 
 ### 2. Verify Tables in Supabase
 - Supabase Dashboard → Table Editor

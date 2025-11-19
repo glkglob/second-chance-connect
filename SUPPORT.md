@@ -49,7 +49,7 @@ If you've found a bug:
    - Minimal reproduction code
 
 Use the bug report template:
-```markdown
+\`\`\`markdown
 **Describe the bug**
 A clear description of what the bug is.
 
@@ -72,7 +72,7 @@ If applicable, add screenshots.
 
 **Additional context**
 Any other relevant information.
-```
+\`\`\`
 
 ### 💡 Feature Requests
 
@@ -170,7 +170,7 @@ When asking for help, include:
 
 ## Useful Commands
 
-```bash
+\`\`\`bash
 # Get environment info
 node --version
 npm --version
@@ -186,7 +186,7 @@ npm run type-check
 
 # Validate environment
 npm run validate
-```
+\`\`\`
 
 ## Additional Resources
 
