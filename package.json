@@ -74,6 +74,7 @@
     "module": "latest",
     "next": "15.5.6",
     "next-themes": "latest",
+    "node-notifier": "latest",
     "path": "latest",
     "react": "19.2.0",
     "react-day-picker": "latest",
@@ -85,6 +86,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "url": "latest",
+    "util": "latest",
     "vaul": "latest",
     "zod": "3.25.76"
   },

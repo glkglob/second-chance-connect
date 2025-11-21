@@ -1,167 +1,105 @@
-import { createClient } from '@/lib/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
-import { logger, logApiError, logDatabaseError } from '@/lib/logger'
-import { validateRequest, validateQuery } from '@/lib/validate-request'
-import { createJobSchema, jobQuerySchema } from '@/lib/validations/jobs'
-// import { applyRateLimit } from '@/lib/rate-limiter' // TODO: Fix webpack import issue
+import type { NextRequest } from "next/server"
+import { createClient } from "@/lib/supabase/server"
+import { createJobSchema, jobFilterSchema } from "@/lib/validation/jobs"
+import { successResponse } from "@/lib/api/responses"
+import { ApiError, ErrorCodes } from "@/lib/errors"
+import { validateAndCatchErrors } from "@/lib/api/middleware"
+import { validateInput, validateQuery } from "@/lib/middleware/validate"
 
-export async function GET(request: NextRequest) {
-    // Apply rate limiting
-    // TODO: Re-enable once rate limiter is fixed
-    // const rateLimitResponse = await applyRateLimit(request, 'api')
-    // if (rateLimitResponse) return rateLimitResponse
+export async function POST(req: NextRequest) {
+  return validateAndCatchErrors(async () => {
+    // 1. Validate input
+    const validatedData = await validateInput(req, createJobSchema)
 
-    const startTime = Date.now()
+    // 2. Authenticate
+    const supabase = await createClient()
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
 
-    try {
-        logger.apiRequest('GET', '/api/jobs')
-
-        // Validate query parameters
-        const { data: query, error: validationError } = validateQuery(
-            request,
-            jobQuerySchema
-        )
-
-        if (validationError) {
-            logger.warn('Job query validation failed')
-            return validationError
-        }
-
-        const supabase = await createClient()
-        const { data: { user } } = await supabase.auth.getUser()
-
-        if (!user) {
-            logger.warn('Unauthorized access attempt to jobs API', {
-                url: request.url,
-                type: 'unauthorized_access'
-            })
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        const { status, employerId, search } = query || {}
-
-        logger.dbQuery('jobs', 'SELECT', { status, employerId, search })
-
-        let dbQuery = supabase.from('jobs').select(`
-      id,
-      title,
-      company,
-      location,
-      description,
-      requirements,
-      salary_range,
-      employment_type,
-      status,
-      created_at,
-      employer_id,
-      profiles:employer_id (
-        name,
-        location
-      )
-    `)
-
-        // Apply filters
-        if (status) {
-            dbQuery = dbQuery.eq('status', status)
-        }
-        if (employerId) {
-            dbQuery = dbQuery.eq('employer_id', employerId)
-        }
-        if (search) {
-            dbQuery = dbQuery.or(`title.ilike.%${search}%,company.ilike.%${search}%,description.ilike.%${search}%`)
-        }
-
-        // Default to active jobs for seekers
-        if (!employerId && !status) {
-            dbQuery = dbQuery.eq('status', 'ACTIVE')
-        }
-
-        dbQuery = dbQuery.order('created_at', { ascending: false })
-
-        const { data, error } = await dbQuery
-
-        if (error) {
-            logDatabaseError(error, 'SELECT', 'jobs', { status, employerId, search })
-            return NextResponse.json({ error: 'Failed to fetch jobs' }, { status: 500 })
-        }
-
-        const duration = Date.now() - startTime
-        logger.apiResponse('GET', '/api/jobs', 200, duration, { count: data?.length || 0 })
-
-        return NextResponse.json({ jobs: data || [] })
-    } catch (error) {
-        logApiError(error, request, { operation: 'GET /api/jobs' })
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    if (authError || !user) {
+      throw new ApiError("Unauthorized", 401, ErrorCodes.UNAUTHORIZED)
     }
+
+    // 3. Check authorization (user is employer)
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
+
+    if (profile?.role !== "employer" && profile?.role !== "admin") {
+      throw new ApiError("Only employers can post jobs", 403, ErrorCodes.FORBIDDEN)
+    }
+
+    // 4. Database operation
+    const { data, error } = await supabase
+      .from("jobs")
+      .insert([
+        {
+          ...validatedData,
+          created_by: user.id,
+        },
+      ])
+      .select()
+      .single()
+
+    if (error) {
+      throw new ApiError("Failed to create job", 500, ErrorCodes.INTERNAL_ERROR, { originalError: error.message })
+    }
+
+    // 5. Audit log (TODO: Implement audit logging)
+    // await auditLog({ ... })
+
+    return successResponse(data, 201)
+  })
 }
 
-export async function POST(request: NextRequest) {
-    // Apply rate limiting
-    // TODO: Re-enable once rate limiter is fixed
-    // const rateLimitResponse = await applyRateLimit(request, 'api')
-    // if (rateLimitResponse) return rateLimitResponse
+export async function GET(req: NextRequest) {
+  return validateAndCatchErrors(async () => {
+    const queryParams = validateQuery(req, jobFilterSchema)
+    const supabase = await createClient()
 
-    const startTime = Date.now()
+    let query = supabase
+      .from("jobs")
+      .select("*, profiles:created_by(full_name, avatar_url)")
+      .order("created_at", { ascending: false })
 
-    try {
-        logger.apiRequest('POST', '/api/jobs')
-
-        const supabase = await createClient()
-        const { data: { user } } = await supabase.auth.getUser()
-
-        if (!user) {
-            logger.warn('Unauthorized job creation attempt', { type: 'unauthorized_access' })
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        // Check user role - only employers can create jobs
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single()
-
-        if (!profile || profile.role !== 'EMPLOYER') {
-            logger.security('Non-employer attempted to create job', {
-                userId: user.id,
-                userRole: profile?.role
-            })
-            return NextResponse.json({ error: 'Forbidden - Only employers can create jobs' }, { status: 403 })
-        }
-
-        // Validate request body
-        const { data: jobData, error: validationError } = await validateRequest(
-            request,
-            createJobSchema
-        )
-
-        if (validationError || !jobData) {
-            logger.warn('Job creation validation failed', { userId: user.id })
-            return validationError || NextResponse.json({ error: 'Invalid request' }, { status: 400 })
-        }
-
-        logger.dbQuery('jobs', 'INSERT', { title: jobData.title, company: jobData.company })
-
-        const { data, error } = await supabase
-            .from('jobs')
-            .insert({
-                ...jobData,
-                employer_id: user.id
-            })
-            .select()
-            .single()
-
-        if (error) {
-            logDatabaseError(error, 'INSERT', 'jobs', { title: jobData.title, company: jobData.company })
-            return NextResponse.json({ error: 'Failed to create job' }, { status: 500 })
-        }
-
-        const duration = Date.now() - startTime
-        logger.apiResponse('POST', '/api/jobs', 201, duration, { jobId: data.id })
-
-        return NextResponse.json({ job: data }, { status: 201 })
-    } catch (error) {
-        logApiError(error, request, { operation: 'POST /api/jobs' })
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    // Apply filters
+    if (queryParams.search) {
+      query = query.ilike("title", `%${queryParams.search}%`)
     }
+
+    if (queryParams.location) {
+      query = query.ilike("location", `%${queryParams.location}%`)
+    }
+
+    if (queryParams.type) {
+      query = query.eq("employment_type", queryParams.type)
+    }
+
+    if (queryParams.min_salary) {
+      query = query.gte("salary_min", queryParams.min_salary)
+    }
+
+    // Pagination
+    const page = queryParams.page || 1
+    const limit = queryParams.limit || 10
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+
+    query = query.range(from, to)
+
+    const { data, error, count } = await query
+
+    if (error) {
+      throw new ApiError("Failed to fetch jobs", 500, ErrorCodes.INTERNAL_ERROR, { originalError: error.message })
+    }
+
+    return successResponse({
+      jobs: data,
+      pagination: {
+        page,
+        limit,
+        total: count || 0, // Note: count requires { count: 'exact' } in select, adding it below
+      },
+    })
+  })
 }
