@@ -58,11 +58,11 @@ Use this checklist when preparing a release from `develop` to `main`.
 
 ### Step 1: Create Release Branch (Optional for Large Releases)
 
-```bash
+\`\`\`bash
 git checkout develop
 git pull origin develop
 git checkout -b release/v1.x.x
-```
+\`\`\`
 
 ### Step 2: Final Checks
 
@@ -74,13 +74,13 @@ git checkout -b release/v1.x.x
 
 ### Step 3: Update Version
 
-```bash
+\`\`\`bash
 # Update version in package.json
 npm version [major|minor|patch] --no-git-tag-version
 
 # Example for minor version:
 npm version minor --no-git-tag-version
-```
+\`\`\`
 
 - [ ] Version updated in `package.json`
 - [ ] Version committed: `git commit -am "chore: bump version to vX.X.X"`
@@ -97,9 +97,9 @@ npm version minor --no-git-tag-version
 
 ### Step 5: Create Release PR
 
-```bash
+\`\`\`bash
 gh pr create --base main --head develop --title "Release: v1.x.x" --body-file .github/RELEASE_PR_TEMPLATE.md
-```
+\`\`\`
 
 - [ ] Release PR created
 - [ ] PR description complete
@@ -146,10 +146,10 @@ gh pr create --base main --head develop --title "Release: v1.x.x" --body-file .g
 
 ### Merge to Main
 
-```bash
+\`\`\`bash
 # Merge PR via GitHub UI or:
 gh pr merge <pr-number> --merge --delete-branch=false
-```
+\`\`\`
 
 - [ ] PR merged to `main`
 - [ ] Build triggered successfully
@@ -172,21 +172,21 @@ gh pr merge <pr-number> --merge --delete-branch=false
 
 ### Create Git Tag
 
-```bash
+\`\`\`bash
 git checkout main
 git pull origin main
 git tag -a v1.x.x -m "Release version 1.x.x"
 git push origin v1.x.x
-```
+\`\`\`
 
 - [ ] Git tag created
 - [ ] Tag pushed to remote
 
 ### Create GitHub Release
 
-```bash
+\`\`\`bash
 gh release create v1.x.x --title "Release v1.x.x" --notes-file RELEASE_NOTES.md
-```
+\`\`\`
 
 - [ ] GitHub release created
 - [ ] Release notes published
@@ -214,11 +214,11 @@ gh release create v1.x.x --title "Release v1.x.x" --notes-file RELEASE_NOTES.md
 
 ### Sync Develop Branch
 
-```bash
+\`\`\`bash
 git checkout develop
 git merge main
 git push origin develop
-```
+\`\`\`
 
 - [ ] `develop` synced with `main`
 - [ ] Any hotfixes merged back
@@ -236,7 +236,7 @@ git push origin develop
 
 ### Rollback Steps
 
-```bash
+\`\`\`bash
 # Option 1: Revert the merge commit
 git revert -m 1 <merge-commit-hash>
 git push origin main
@@ -247,7 +247,7 @@ gh release list
 
 # Option 3: Use Vercel rollback
 vercel rollback <deployment-url>
-```
+\`\`\`
 
 - [ ] Rollback executed
 - [ ] Production verified
@@ -324,7 +324,7 @@ vercel rollback <deployment-url>
 
 ## Release Notes Template
 
-```markdown
+\`\`\`markdown
 # Release v1.x.x - [Date]
 
 ## 🎉 Highlights
@@ -366,7 +366,7 @@ Thank you to all contributors!
 ---
 
 **Full Changelog**: https://github.com/org/repo/compare/v1.0.0...v1.1.0
-```
+\`\`\`
 
 ---
 
