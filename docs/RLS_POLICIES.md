@@ -50,16 +50,16 @@ All tables in the application have RLS enabled:
 ## Profiles Policies
 
 ### Enable RLS
-```sql
+\`\`\`sql
 alter table public.profiles enable row level security;
-```
+\`\`\`
 
 ### Policy 1: View All Profiles
-```sql
+\`\`\`sql
 create policy "Users can view all profiles"
   on public.profiles for select
   using (true);
-```
+\`\`\`
 
 **Purpose**: Allow users to discover other users for messaging and job applications
 
@@ -71,11 +71,11 @@ create policy "Users can view all profiles"
 - Officers viewing their client profiles
 
 ### Policy 2: Update Own Profile
-```sql
+\`\`\`sql
 create policy "Users can update own profile"
   on public.profiles for update
   using (auth.uid() = id);
-```
+\`\`\`
 
 **Purpose**: Users can only modify their own profile information
 
@@ -87,11 +87,11 @@ create policy "Users can update own profile"
 - Editing bio and contact details
 
 ### Policy 3: Insert Own Profile
-```sql
+\`\`\`sql
 create policy "Users can insert own profile"
   on public.profiles for insert
   with check (auth.uid() = id);
-```
+\`\`\`
 
 **Purpose**: Profiles can only be created for the authenticated user
 
@@ -104,16 +104,16 @@ create policy "Users can insert own profile"
 ## Jobs Policies
 
 ### Enable RLS
-```sql
+\`\`\`sql
 alter table public.jobs enable row level security;
-```
+\`\`\`
 
 ### Policy 1: View Active Jobs
-```sql
+\`\`\`sql
 create policy "Anyone can view active jobs"
   on public.jobs for select
   using (status = 'ACTIVE' or employer_id = auth.uid());
-```
+\`\`\`
 
 **Purpose**: Public can see active job listings; employers see all their jobs
 
@@ -127,14 +127,14 @@ create policy "Anyone can view active jobs"
 - Employer managing their job listings
 
 ### Policy 2: Create Jobs (Employers Only)
-```sql
+\`\`\`sql
 create policy "Employers can create jobs"
   on public.jobs for insert
   with check (
     auth.uid() = employer_id and
     exists (select 1 from public.profiles where id = auth.uid() and role = 'EMPLOYER')
   );
-```
+\`\`\`
 
 **Purpose**: Only employers can post job listings
 
@@ -148,11 +148,11 @@ create policy "Employers can create jobs"
 - Creating draft job listings
 
 ### Policy 3: Update Own Jobs
-```sql
+\`\`\`sql
 create policy "Employers can update own jobs"
   on public.jobs for update
   using (auth.uid() = employer_id);
-```
+\`\`\`
 
 **Purpose**: Employers can modify their own job postings
 
@@ -164,11 +164,11 @@ create policy "Employers can update own jobs"
 - Updating requirements
 
 ### Policy 4: Delete Own Jobs
-```sql
+\`\`\`sql
 create policy "Employers can delete own jobs"
   on public.jobs for delete
   using (auth.uid() = employer_id);
-```
+\`\`\`
 
 **Purpose**: Employers can remove their job listings
 
@@ -182,19 +182,19 @@ create policy "Employers can delete own jobs"
 ## Applications Policies
 
 ### Enable RLS
-```sql
+\`\`\`sql
 alter table public.applications enable row level security;
-```
+\`\`\`
 
 ### Policy 1: View Own Applications
-```sql
+\`\`\`sql
 create policy "Users can view own applications"
   on public.applications for select
   using (
     auth.uid() = seeker_id or
     exists (select 1 from public.jobs where id = job_id and employer_id = auth.uid())
   );
-```
+\`\`\`
 
 **Purpose**: Seekers see their applications; employers see applications for their jobs
 
@@ -209,14 +209,14 @@ create policy "Users can view own applications"
 - Application management
 
 ### Policy 2: Create Applications (Seekers Only)
-```sql
+\`\`\`sql
 create policy "Seekers can create applications"
   on public.applications for insert
   with check (
     auth.uid() = seeker_id and
     exists (select 1 from public.profiles where id = auth.uid() and role = 'SEEKER')
   );
-```
+\`\`\`
 
 **Purpose**: Only job seekers can apply to jobs
 
@@ -230,11 +230,11 @@ create policy "Seekers can create applications"
 - Submitting applications
 
 ### Policy 3: Update Own Applications (Seekers)
-```sql
+\`\`\`sql
 create policy "Seekers can update own applications"
   on public.applications for update
   using (auth.uid() = seeker_id);
-```
+\`\`\`
 
 **Purpose**: Seekers can modify their applications (before review)
 
@@ -246,13 +246,13 @@ create policy "Seekers can update own applications"
 - Withdrawing applications
 
 ### Policy 4: Update Applications (Employers)
-```sql
+\`\`\`sql
 create policy "Employers can update applications for their jobs"
   on public.applications for update
   using (
     exists (select 1 from public.jobs where id = job_id and employer_id = auth.uid())
   );
-```
+\`\`\`
 
 **Purpose**: Employers can update application status
 
@@ -266,16 +266,16 @@ create policy "Employers can update applications for their jobs"
 ## Messages Policies
 
 ### Enable RLS
-```sql
+\`\`\`sql
 alter table public.messages enable row level security;
-```
+\`\`\`
 
 ### Policy 1: View Own Messages
-```sql
+\`\`\`sql
 create policy "Users can view own messages"
   on public.messages for select
   using (auth.uid() = sender_id or auth.uid() = receiver_id);
-```
+\`\`\`
 
 **Purpose**: Users can only see messages they sent or received
 
@@ -287,11 +287,11 @@ create policy "Users can view own messages"
 - Message threads
 
 ### Policy 2: Send Messages
-```sql
+\`\`\`sql
 create policy "Users can send messages"
   on public.messages for insert
   with check (auth.uid() = sender_id);
-```
+\`\`\`
 
 **Purpose**: Users can send messages as themselves
 
@@ -303,11 +303,11 @@ create policy "Users can send messages"
 - Contacting support
 
 ### Policy 3: Mark Messages as Read
-```sql
+\`\`\`sql
 create policy "Users can update own received messages"
   on public.messages for update
   using (auth.uid() = receiver_id);
-```
+\`\`\`
 
 **Purpose**: Recipients can mark messages as read
 
@@ -320,16 +320,16 @@ create policy "Users can update own received messages"
 ## Services Policies
 
 ### Enable RLS
-```sql
+\`\`\`sql
 alter table public.services enable row level security;
-```
+\`\`\`
 
 ### Policy 1: View All Services
-```sql
+\`\`\`sql
 create policy "Anyone can view services"
   on public.services for select
   using (true);
-```
+\`\`\`
 
 **Purpose**: Support services directory is public information
 
@@ -341,13 +341,13 @@ create policy "Anyone can view services"
 - Public service directory
 
 ### Policy 2: Manage Services (Admin Only)
-```sql
+\`\`\`sql
 create policy "Admins can manage services"
   on public.services for all
   using (
     exists (select 1 from public.profiles where id = auth.uid() and role = 'ADMIN')
   );
-```
+\`\`\`
 
 **Purpose**: Only admins can create, update, or delete services
 
@@ -364,7 +364,7 @@ create policy "Admins can manage services"
 
 Test each policy by authenticating as different user types:
 
-```sql
+\`\`\`sql
 -- Test as seeker
 SET request.jwt.claims TO '{"sub": "seeker-user-id", "role": "authenticated"}';
 
@@ -378,7 +378,7 @@ SET request.jwt.claims TO '{"sub": "employer-user-id", "role": "authenticated"}'
 -- Try to create job
 INSERT INTO jobs (title, company, employer_id) 
 VALUES ('Test Job', 'Test Co', 'employer-user-id'); -- Should work
-```
+\`\`\`
 
 ### Automated Testing
 
@@ -408,7 +408,7 @@ To support multiple organizations (e.g., different probation departments):
 
 Add `organization_id` to all tables:
 
-```sql
+\`\`\`sql
 alter table profiles add column organization_id uuid references organizations(id);
 
 -- Update policies
@@ -417,7 +417,7 @@ create policy "Users can view profiles in their organization"
   using (
     organization_id = (select organization_id from profiles where id = auth.uid())
   );
-```
+\`\`\`
 
 **Pros:**
 - Simple to implement
@@ -433,12 +433,12 @@ create policy "Users can view profiles in their organization"
 
 Create separate schemas per organization:
 
-```sql
+\`\`\`sql
 CREATE SCHEMA org_1;
 CREATE SCHEMA org_2;
 
 -- Duplicate tables in each schema
-```
+\`\`\`
 
 **Pros:**
 - Complete isolation
@@ -460,7 +460,7 @@ For current scale, **Option 1** is recommended:
 
 ### Migration Strategy
 
-```sql
+\`\`\`sql
 -- Step 1: Add column (nullable initially)
 ALTER TABLE profiles ADD COLUMN organization_id UUID;
 
@@ -476,7 +476,7 @@ ALTER TABLE profiles ALTER COLUMN organization_id SET NOT NULL;
 
 -- Step 5: Update policies
 -- (See Option 1 above)
-```
+\`\`\`
 
 ## Troubleshooting
 
@@ -497,10 +497,10 @@ ALTER TABLE profiles ALTER COLUMN organization_id SET NOT NULL;
 **Cause**: User lacks table-level permissions
 
 **Solution**: Grant permissions:
-```sql
+\`\`\`sql
 GRANT ALL ON profiles TO authenticated;
 GRANT ALL ON jobs TO authenticated;
-```
+\`\`\`
 
 #### 3. Policies not applying
 
@@ -527,7 +527,7 @@ GRANT ALL ON jobs TO authenticated;
 
 Enable query logging to see RLS in action:
 
-```sql
+\`\`\`sql
 -- Show applied policies
 EXPLAIN (ANALYZE, VERBOSE) SELECT * FROM jobs;
 
@@ -540,7 +540,7 @@ SET ROLE authenticated;
 SET request.jwt.claims = '{"sub": "user-id-here"}';
 SELECT * FROM jobs;
 ROLLBACK;
-```
+\`\`\`
 
 ### Policy Testing Checklist
 

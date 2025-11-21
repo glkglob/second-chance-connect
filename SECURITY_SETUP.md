@@ -12,9 +12,9 @@ This guide explains how to securely configure the Second Chance Connect applicat
 
 1. **Copy the template**:
 
-   ```bash
+   \`\`\`bash
    cp claude.json.template claude.json
-   ```
+   \`\`\`
 
 2. **Set up your GitHub Personal Access Token**:
 
@@ -32,7 +32,7 @@ This guide explains how to securely configure the Second Chance Connect applicat
 
    **Option A: Using direnv (Recommended)**
 
-   ```bash
+   \`\`\`bash
    # Install direnv if not already installed
    brew install direnv
 
@@ -44,36 +44,36 @@ This guide explains how to securely configure the Second Chance Connect applicat
 
    # Allow direnv to load
    direnv allow
-   ```
+   \`\`\`
 
    **Option B: Using .env.local**
 
-   ```bash
+   \`\`\`bash
    # Add to .env.local
    echo 'GITHUB_PERSONAL_ACCESS_TOKEN=ghp_YOUR_TOKEN_HERE' >> .env.local
 
    # Source before starting Claude Code
    source .env.local
-   ```
+   \`\`\`
 
    **Option C: Using ~/.zshenv (Last resort)**
 
-   ```bash
+   \`\`\`bash
    # Add to ~/.zshenv
    echo 'export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_YOUR_TOKEN_HERE' >> ~/.zshenv
 
    # Source it
    source ~/.zshenv
-   ```
+   \`\`\`
 
 4. **Verify configuration**:
 
-   ```bash
+   \`\`\`bash
    # Check environment variable is set
    echo $GITHUB_PERSONAL_ACCESS_TOKEN
 
    # Should output: ghp_YOUR_TOKEN_HERE (or similar)
-   ```
+   \`\`\`
 
 5. **Test Claude Code**:
    - Restart Claude Code
@@ -83,21 +83,21 @@ This guide explains how to securely configure the Second Chance Connect applicat
 
 Supabase credentials should be stored in `.env.local`:
 
-```bash
+\`\`\`bash
 # Add to .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
+\`\`\`
 
 ## Vercel KV Configuration
 
 For rate limiting with Vercel KV:
 
-```bash
+\`\`\`bash
 # Add to .env.local
 KV_REST_API_URL=https://your-kv-instance.upstash.io
 KV_REST_API_TOKEN=your-kv-token
-```
+\`\`\`
 
 ## Files That Should NEVER Be Committed
 
@@ -122,7 +122,7 @@ Before committing:
 
 Prevent accidental commits of secrets:
 
-```bash
+\`\`\`bash
 # Install gitleaks
 brew install gitleaks
 
@@ -135,7 +135,7 @@ cat > .git/hooks/pre-commit << 'EOF'
 gitleaks protect --staged --verbose
 EOF
 chmod +x .git/hooks/pre-commit
-```
+\`\`\`
 
 ## What To Do If You Accidentally Commit A Secret
 
@@ -146,16 +146,16 @@ chmod +x .git/hooks/pre-commit
 
 2. **Remove from git history**:
 
-   ```bash
+   \`\`\`bash
    # Use BFG Repo-Cleaner or git-filter-repo
    # DO NOT use git filter-branch (deprecated)
-   ```
+   \`\`\`
 
 3. **Force push** (if on feature branch):
 
-   ```bash
+   \`\`\`bash
    git push --force-with-lease
-   ```
+   \`\`\`
 
 4. **Notify your team** about the exposure
 

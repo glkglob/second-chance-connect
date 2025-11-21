@@ -156,7 +156,7 @@ All RTF documents follow this structure:
 
 ## 🚀 Quick Start Commands
 
-```bash
+\`\`\`bash
 # View JSON structure
 cat docs/RTF_CONTINUATION_PROMPT.json | python3 -m json.tool
 
@@ -168,7 +168,7 @@ code docs/RTF_QUICK_REFERENCE.md
 
 # Validate JSON
 python3 -m json.tool docs/RTF_CONTINUATION_PROMPT.json > /dev/null && echo "Valid JSON"
-```
+\`\`\`
 
 ---
 

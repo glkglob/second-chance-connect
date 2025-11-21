@@ -6,7 +6,7 @@ Your **Second Chance Connect** application is fully configured and ready for dat
 
 ## 📊 Current Status
 
-```
+\`\`\`
 ✅ Build:              Passing
 ✅ TypeScript:         Clean
 ✅ Dev Server:         Running (http://localhost:3000)
@@ -15,7 +15,7 @@ Your **Second Chance Connect** application is fully configured and ready for dat
 ✅ API Routes:         11 endpoints ready
 ✅ Components:         40+ shadcn/ui ready
 ⏳ Database Schema:    Ready to deploy (233 SQL lines)
-```
+\`\`\`
 
 ---
 
@@ -44,16 +44,16 @@ You have **3 easy options** to deploy the SQL schema:
 
 **Time: 2 minutes**
 
-```bash
+\`\`\`bash
 # From project root
 ./scripts/deploy.sh
-```
+\`\`\`
 
 When prompted, enter your Supabase database password.
 
-```
+\`\`\`
 💡 Get password from: Supabase → Settings → Database → Password
-```
+\`\`\`
 
 ✅ **Best for**: Fast, automated deployment
 
@@ -63,7 +63,7 @@ When prompted, enter your Supabase database password.
 
 **Time: 3 minutes**
 
-```bash
+\`\`\`bash
 # Get your password first: Supabase → Settings → Database → Password
 
 DB_PASSWORD="[YOUR_PASSWORD]"
@@ -73,7 +73,7 @@ PROJECT_ID="ymjjvgzyhtdmqianuqse"
 psql "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres" < scripts/001_create_tables.sql
 psql "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres" < scripts/002_enable_rls.sql
 psql "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgres" < scripts/003_create_profile_trigger.sql
-```
+\`\`\`
 
 ✅ **Best for**: Advanced users, CI/CD pipelines
 
@@ -82,12 +82,12 @@ psql "postgresql://postgres:$DB_PASSWORD@db.$PROJECT_ID.supabase.co:5432/postgre
 ## ✅ Verification (After Deployment)
 
 ### Check API Health
-```bash
+\`\`\`bash
 curl http://localhost:3000/api/health | jq .
-```
+\`\`\`
 
 Expected:
-```json
+\`\`\`json
 {
   "status": "healthy",
   "checks": {
@@ -96,7 +96,7 @@ Expected:
     }
   }
 }
-```
+\`\`\`
 
 ### Verify Tables
 - Supabase Dashboard → **Table Editor**
@@ -137,9 +137,9 @@ Expected:
 ## 🎯 Quick Start After Deployment
 
 1. **Start Dev Server**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 2. **Sign Up**
    - Go to http://localhost:3000/auth/sign-up
@@ -163,7 +163,7 @@ Expected:
 
 ### New Deployment Files Created
 
-```
+\`\`\`
 scripts/
 ├── deploy.sh              ⭐ Automated bash deployment
 ├── deploy.py              📊 Python deployment helper
@@ -175,7 +175,7 @@ scripts/
 Documentation/
 ├── SQL_DEPLOYMENT.md      📖 Detailed deployment guide
 └── README.md (updated)    📚 Full documentation
-```
+\`\`\`
 
 ---
 
@@ -211,7 +211,7 @@ Documentation/
 
 ## 🎓 Architecture Overview
 
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  Next.js 14 Frontend (localhost:3000)   │
 ├─────────────────────────────────────────┤
@@ -223,7 +223,7 @@ Documentation/
 │  • profiles, jobs, applications         │
 │  • messages, services                   │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ---
 

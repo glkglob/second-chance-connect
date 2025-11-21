@@ -44,7 +44,7 @@ A comprehensive full-stack web application connecting individuals with criminal 
 
 ## Project Structure
 
-```
+\`\`\`
 second-chance-connect/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
@@ -84,7 +84,7 @@ second-chance-connect/
 ├── tailwind.config.js    # Tailwind config
 ├── jest.config.js        # Jest testing config
 └── .env.local            # Environment variables (CREATED)
-```
+\`\`\`
 
 ---
 
@@ -92,7 +92,7 @@ second-chance-connect/
 
 Your `.env.local` file has been created. You need to add your Supabase credentials:
 
-```env
+\`\`\`env
 # Get these from https://supabase.com/dashboard/project/_/settings/api
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
@@ -100,7 +100,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 # Optional
 NEXT_PUBLIC_DEBUG=false
 NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000/dashboard
-```
+\`\`\`
 
 ### How to Get Supabase Keys
 
@@ -115,7 +115,7 @@ NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000/dashboard
 
 ## Available NPM Scripts
 
-```bash
+\`\`\`bash
 # Development
 npm run dev              # Start dev server (http://localhost:3000)
 npm run dev:debug       # Start with Node debugger
@@ -133,7 +133,7 @@ npm run type-check      # TypeScript type checking
 
 # Validation
 npm run validate        # Check environment variables & setup
-```
+\`\`\`
 
 ---
 
@@ -141,12 +141,12 @@ npm run validate        # Check environment variables & setup
 
 ### 1. Configure Environment Variables
 
-```bash
+\`\`\`bash
 # Edit .env.local with your Supabase credentials
 nano .env.local
 # or open in VS Code
 code .env.local
-```
+\`\`\`
 
 ### 2. Initialize Database (One-time)
 
@@ -161,17 +161,17 @@ Follow the [SUPABASE_QUICK_START.md](./SUPABASE_QUICK_START.md) guide:
 
 ### 3. Start Development Server
 
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
 Visit http://localhost:3000
 
 ### 4. Validate Setup
 
-```bash
+\`\`\`bash
 npm run validate
-```
+\`\`\`
 
 ---
 
@@ -245,12 +245,12 @@ Row Level Security (RLS) policies ensure data isolation by user role.
 4. Use Supabase client from `lib/supabase/client.js`
 5. Write tests in `tests/`
 6. Run validation:
-   ```bash
+   \`\`\`bash
    npm run lint
    npm run type-check
    npm test
    npm run validate
-   ```
+   \`\`\`
 7. Commit and push: `git commit -m "Add feature"` and `git push origin feature/feature-name`
 
 ### Component Development
@@ -273,7 +273,7 @@ Row Level Security (RLS) policies ensure data isolation by user role.
 
 ### Environment Variable Issues
 
-```bash
+\`\`\`bash
 # Validate your setup
 npm run validate
 
@@ -282,11 +282,11 @@ ls -la .env.local
 
 # View current environment (public vars only)
 grep NEXT_PUBLIC .env.local
-```
+\`\`\`
 
 ### Build/Type Errors
 
-```bash
+\`\`\`bash
 # Check TypeScript
 npm run type-check
 
@@ -296,7 +296,7 @@ npm run lint
 # Clear Next.js cache
 rm -rf .next
 npm run build
-```
+\`\`\`
 
 ### Supabase Connection Issues
 

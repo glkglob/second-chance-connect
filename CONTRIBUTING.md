@@ -28,30 +28,30 @@ This project and everyone participating in it is governed by our [Code of Conduc
 ### Setup Development Environment
 
 1. **Fork and Clone**
-   ```bash
+   \`\`\`bash
    git clone https://github.com/YOUR_USERNAME/v0-second-chance-connect.git
    cd v0-second-chance-connect
-   ```
+   \`\`\`
 
 2. **Install Dependencies**
-   ```bash
+   \`\`\`bash
    npm install
-   ```
+   \`\`\`
 
 3. **Set Up Environment Variables**
-   ```bash
+   \`\`\`bash
    cp .env.example .env.local
    # Edit .env.local with your Supabase credentials
-   ```
+   \`\`\`
 
 4. **Run Database Migrations**
    - Open your Supabase project dashboard
    - Run SQL scripts in order from `scripts/` directory
 
 5. **Start Development Server**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 ## Development Process
 
@@ -66,9 +66,9 @@ This project and everyone participating in it is governed by our [Code of Conduc
 ### Making Changes
 
 1. **Create a feature branch**
-   ```bash
+   \`\`\`bash
    git checkout -b feature/your-feature-name
-   ```
+   \`\`\`
 
 2. **Make your changes**
    - Write clean, readable code
@@ -77,18 +77,18 @@ This project and everyone participating in it is governed by our [Code of Conduc
    - Update documentation as needed
 
 3. **Test your changes**
-   ```bash
+   \`\`\`bash
    npm run lint        # Run linter
    npm run type-check  # TypeScript type checking
    npm run build       # Test production build
    npm run test        # Run tests (when available)
-   ```
+   \`\`\`
 
 4. **Commit your changes**
-   ```bash
+   \`\`\`bash
    git add .
    git commit -m "feat: add job alert notifications"
-   ```
+   \`\`\`
 
 ## Pull Request Process
 
@@ -104,7 +104,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
    - List any breaking changes
 
 3. **PR Template**
-   ```markdown
+   \`\`\`markdown
    ## Description
    Brief description of changes
 
@@ -124,7 +124,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
    - [ ] Self-review completed
    - [ ] Documentation updated
    - [ ] No new warnings
-   ```
+   \`\`\`
 
 4. **Code Review**
    - Address reviewer feedback promptly
@@ -151,12 +151,12 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### File Structure
 
-```
+\`\`\`
 component-name/
   ├── index.jsx         # Component export
   ├── component.jsx     # Main component
   └── component.test.jsx # Tests
-```
+\`\`\`
 
 ### Styling
 
@@ -202,11 +202,11 @@ component-name/
 
 ### Running Tests
 
-```bash
+\`\`\`bash
 npm run test              # Run all tests
 npm run test:watch        # Watch mode
 npm run test:coverage     # Generate coverage report
-```
+\`\`\`
 
 ## Commit Message Guidelines
 
@@ -214,13 +214,13 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Format
 
-```
+\`\`\`
 <type>(<scope>): <subject>
 
 <body>
 
 <footer>
-```
+\`\`\`
 
 ### Types
 
@@ -234,7 +234,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Examples
 
-```bash
+\`\`\`bash
 feat(auth): add password reset functionality
 
 fix(jobs): resolve duplicate job listings bug
@@ -242,7 +242,7 @@ fix(jobs): resolve duplicate job listings bug
 docs(api): document message endpoints
 
 test(rls): add tests for job posting policies
-```
+\`\`\`
 
 ## Security
 

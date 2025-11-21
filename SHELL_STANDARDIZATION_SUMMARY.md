@@ -34,7 +34,7 @@
 
 ## Root Cause: Why MCP Subprocess Fails
 
-```
+\`\`\`
 PROBLEM:
 → MCP uses stdio subprocess
 → Subprocess gets minimal PATH from system defaults
@@ -46,7 +46,7 @@ SOLUTION (Already Implemented):
 → OR (Better): Use `eval "$(brew shellenv)"` in .zshenv
 → This runs in ALL shell contexts, including subprocesses
 → Now npx IS found
-```
+\`\`\`
 
 ---
 
@@ -107,7 +107,7 @@ SOLUTION (Already Implemented):
 
 ## Implementation Path
 
-```
+\`\`\`
 Phase 1 (Week 1) - Foundation
 ├─ ~/.npmrc creation
 ├─ ~/.zprofile creation
@@ -128,7 +128,7 @@ Phase 4 (Week 4) - Validation
 ├─ Verification scripts
 ├─ Documentation complete
 └─ Team alignment
-```
+\`\`\`
 
 ---
 

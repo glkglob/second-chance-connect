@@ -27,28 +27,28 @@ Automated Vercel deployment:
 
 #### Pre-commit Hook
 Runs before every commit:
-```bash
+\`\`\`bash
 # Formats code and fixes linting
 npx lint-staged
 
 # Checks TypeScript
 npm run type-check
-```
+\`\`\`
 
 #### Pre-push Hook
 Runs before every push:
-```bash
+\`\`\`bash
 # Runs all tests
 npm run test:ci
-```
+\`\`\`
 
 #### Commit-msg Hook
 Enforces Conventional Commits:
-```bash
+\`\`\`bash
 ✅ feat: add user authentication
 ✅ fix(api): resolve rate limiting bug
 ❌ updated stuff  # Invalid format
-```
+\`\`\`
 
 ### 3. GitHub Templates
 
@@ -74,20 +74,20 @@ Enforces Conventional Commits:
 ### First Time Setup
 
 1. **Install dependencies** (hooks will be set up automatically):
-```bash
+\`\`\`bash
 npm install
-```
+\`\`\`
 
 2. **Configure GitHub Secrets** (for CI/CD):
    - Go to GitHub repo → Settings → Secrets and variables → Actions
    - Add these secrets:
-     ```
+     \`\`\`
      VERCEL_TOKEN
      VERCEL_ORG_ID
      VERCEL_PROJECT_ID
      NEXT_PUBLIC_SUPABASE_URL
      NEXT_PUBLIC_SUPABASE_ANON_KEY
-     ```
+     \`\`\`
 
 3. **Set up branch protection** (optional but recommended):
    - Follow [.github/REPOSITORY_SETUP.md](.github/REPOSITORY_SETUP.md)
@@ -97,15 +97,15 @@ npm install
 #### Making Changes
 
 1. **Create a branch**:
-```bash
+\`\`\`bash
 git checkout -b feature/your-feature
-```
+\`\`\`
 
 2. **Make your changes** and commit:
-```bash
+\`\`\`bash
 git add .
 git commit -m "feat: add awesome feature"
-```
+\`\`\`
 
 The pre-commit hook will automatically:
 - Format your code with Prettier
@@ -113,9 +113,9 @@ The pre-commit hook will automatically:
 - Check TypeScript types
 
 3. **Push your branch**:
-```bash
+\`\`\`bash
 git push origin feature/your-feature
-```
+\`\`\`
 
 The pre-push hook will run all tests before pushing.
 
@@ -132,7 +132,7 @@ The pre-push hook will run all tests before pushing.
 
 Use Conventional Commits:
 
-```bash
+\`\`\`bash
 feat: add new feature
 fix: resolve bug
 docs: update documentation
@@ -142,20 +142,20 @@ perf: improve performance
 test: add tests
 chore: update dependencies
 ci: update GitHub Actions
-```
+\`\`\`
 
 **With scope:**
-```bash
+\`\`\`bash
 feat(auth): add OAuth login
 fix(api): resolve rate limiting
 docs(readme): update setup guide
-```
+\`\`\`
 
 ## Testing the Setup
 
 ### Test Git Hooks
 
-```bash
+\`\`\`bash
 # Test pre-commit (should format and type-check)
 echo "const test = 'test'" >> test.js
 git add test.js
@@ -164,46 +164,46 @@ git commit -m "test: verify pre-commit hook"
 # Clean up
 git reset HEAD~1
 rm test.js
-```
+\`\`\`
 
 ### Test CI Locally
 
 Run the same checks that CI runs:
 
-```bash
+\`\`\`bash
 npm run lint          # ESLint
 npm run type-check    # TypeScript
 npm test              # Jest tests
 npm run build         # Next.js build
-```
+\`\`\`
 
 All should pass!
 
 ### Test Commit Message Validation
 
-```bash
+\`\`\`bash
 # This will FAIL (invalid format)
 git commit --allow-empty -m "updated stuff"
 
 # This will PASS (valid format)
 git commit --allow-empty -m "chore: test commit message hook"
-```
+\`\`\`
 
 ## Bypassing Hooks (Emergency Only)
 
-```bash
+\`\`\`bash
 # Skip pre-commit and commit-msg hooks
 git commit --no-verify -m "emergency fix"
 
 # Skip pre-push hook
 git push --no-verify
-```
+\`\`\`
 
 **⚠️ Only use in emergencies! Always fix issues properly.**
 
 ## CI/CD Pipeline Flow
 
-```
+\`\`\`
 Developer pushes code
         ↓
 GitHub Actions triggered
@@ -222,20 +222,20 @@ GitHub Actions triggered
    ↓            ↓
 Deploy to   Block merge
 Vercel      (fix issues)
-```
+\`\`\`
 
 ## Troubleshooting
 
 ### Hook not running
 
-```bash
+\`\`\`bash
 # Reinstall hooks
 npm run prepare
-```
+\`\`\`
 
 ### CI failing but local passes
 
-```bash
+\`\`\`bash
 # Clear npm cache
 npm ci
 
@@ -244,13 +244,13 @@ rm -rf .next
 
 # Try again
 npm run build
-```
+\`\`\`
 
 ### Commit message rejected
 
 Ensure format is: `type(scope): message`
 
-```bash
+\`\`\`bash
 # Good
 git commit -m "feat: add feature"
 git commit -m "fix(api): resolve bug"
@@ -258,7 +258,7 @@ git commit -m "fix(api): resolve bug"
 # Bad
 git commit -m "updated files"
 git commit -m "Fix bug"  # Missing type
-```
+\`\`\`
 
 ## Next Steps
 

@@ -32,7 +32,7 @@ Your shell configuration has been comprehensively audited and modernized to alig
 
 **Updates (107 lines)**:
 
-```
+\`\`\`
 ✓ Security hardening (umask, file permissions)
 ✓ Language/encoding (UTF-8 standard)
 ✓ Editor configuration
@@ -45,7 +45,7 @@ Your shell configuration has been comprehensively audited and modernized to alig
 ✓ Application paths
 ✓ XDG Base Directory Specification
 ✓ History configuration variables
-```
+\`\`\`
 
 **Why These Changes**:
 
@@ -68,7 +68,7 @@ Your shell configuration has been comprehensively audited and modernized to alig
 
 **Updates (264 lines)**:
 
-```
+\`\`\`
 SECTION 1: Shell Options (23 options configured)
   ✓ History deduplication
   ✓ Extended globbing patterns
@@ -119,7 +119,7 @@ SECTION 9: Performance Optimization
 
 SECTION 10: Advanced Features
   ✓ Colored man pages (commented, ready to enable)
-```
+\`\`\`
 
 ---
 
@@ -129,19 +129,19 @@ SECTION 10: Advanced Features
 
 **Previous**:
 
-```bash
+\`\`\`bash
 # .zshrc (exposed in every shell)
 export V0_API_KEY="YOUR_V0_API_KEY_HERE"
-```
+\`\`\`
 
 **Current**:
 
-```bash
+\`\`\`bash
 # .zshenv (with security warning)
 # ⚠️  SECURITY NOTE: API keys in shell config is risky!
 # Better approach: Use .env files and load via direnv
 export V0_API_KEY="YOUR_V0_API_KEY_HERE"
-```
+\`\`\`
 
 **Recommendation**:
 
@@ -152,18 +152,18 @@ export V0_API_KEY="YOUR_V0_API_KEY_HERE"
 
 ### 2. File Permissions
 
-```bash
+\`\`\`bash
 # Added to .zshenv
 umask 0022  # Ensures proper default permissions
-```
+\`\`\`
 
 ### 3. History Security
 
-```bash
+\`\`\`bash
 # Added to .zshrc
 setopt HIST_IGNORE_SPACE  # Don't save commands starting with space
 setopt SHARE_HISTORY      # Properly shared between sessions
-```
+\`\`\`
 
 ---
 
@@ -174,7 +174,7 @@ setopt SHARE_HISTORY      # Properly shared between sessions
 **Before**: Completion system reinitialized on every shell
 **After**: Cache rebuilt once per day, use cached version otherwise
 
-```zsh
+\`\`\`zsh
 # Performance: ~100ms saved per shell startup
 if [[ ! -f "$HOME/.cache/zsh/completions" ]] ||
    [[ $(find "$HOME/.cache/zsh/completions" -mtime +1 2>/dev/null) ]]; then
@@ -182,32 +182,32 @@ if [[ ! -f "$HOME/.cache/zsh/completions" ]] ||
 else
     compinit -C -d "$HOME/.cache/zsh/completions"  # Use cache
 fi
-```
+\`\`\`
 
 ### 2. NVM Lazy Loading
 
 **Before**: NVM loaded on every shell startup (~500ms overhead)
 **After**: NVM loaded only when needed
 
-```zsh
+\`\`\`zsh
 # Only loads when you run 'nvm' command
 nvm() {
     unset -f nvm
     source "$HOME/.nvm/nvm.sh"
     nvm "$@"
 }
-```
+\`\`\`
 
 **Result**: ~400-500ms faster shell startup
 
 ### 3. History Optimization
 
-```zsh
+\`\`\`zsh
 # Extended history with metadata for better searching
 setopt EXTENDED_HISTORY      # Include timestamps
 setopt HIST_SAVE_NO_DUPS     # Don't duplicate writes
 setopt INC_APPEND_HISTORY    # Write immediately
-```
+\`\`\`
 
 ---
 
@@ -235,10 +235,10 @@ setopt INC_APPEND_HISTORY    # Write immediately
 
 ### 1. Backup Your Current Configuration
 
-```bash
+\`\`\`bash
 cp ~/.zshrc ~/.zshrc.backup.$(date +%Y%m%d)
 cp ~/.zshenv ~/.zshenv.backup.$(date +%Y%m%d)
-```
+\`\`\`
 
 ### 2. Activate New Configuration
 
@@ -249,15 +249,15 @@ The new files have been installed at:
 
 Reload your shell:
 
-```bash
+\`\`\`bash
 exec zsh
-```
+\`\`\`
 
 Or restart your terminal.
 
 ### 3. Verify Installation
 
-```bash
+\`\`\`bash
 # Check shell version (should be 5.9+)
 zsh --version
 
@@ -268,7 +268,7 @@ echo $XDG_CONFIG_HOME
 # Test git integration in shell prompt
 cd /Users/capp/second-chance-connect
 # You should see the git branch in the prompt
-```
+\`\`\`
 
 ---
 
@@ -278,45 +278,45 @@ cd /Users/capp/second-chance-connect
 
 #### 1. Install Zoxide (Smarter cd)
 
-```bash
+\`\`\`bash
 brew install zoxide
 
 # Already configured in .zshrc - just install!
 # Usage: cd second-chance-connect → z scc
-```
+\`\`\`
 
 #### 2. Install FZF (Fuzzy Finder)
 
-```bash
+\`\`\`bash
 brew install fzf fd
 
 # Already configured - enables:
 # Ctrl+T for file search
 # Ctrl+R for history search
 # Ctrl+A for directory search
-```
+\`\`\`
 
 #### 3. Install Starship (Modern Prompt)
 
-```bash
+\`\`\`bash
 brew install starship
 
 # Uncomment in .zshrc Section 8:
 # if command -v starship &>/dev/null; then
 #     eval "$(starship init zsh)"
 # fi
-```
+\`\`\`
 
 #### 4. Install Direnv (Project Env Vars)
 
-```bash
+\`\`\`bash
 brew install direnv
 
 # Already configured - usage:
 # cd /Users/capp/second-chance-connect
 # echo 'export V0_API_KEY="..."' > .envrc
 # direnv allow
-```
+\`\`\`
 
 ---
 
@@ -324,39 +324,39 @@ brew install direnv
 
 ### System Aliases
 
-```bash
+\`\`\`bash
 l         # ls -la
 ll        # ls -lh
 la        # ls -A
 grep      # grep with colors
 mkdir     # mkdir -p
 rm/cp/mv  # Interactive versions
-```
+\`\`\`
 
 ### Git Aliases
 
-```bash
+\`\`\`bash
 gs        # git status
 ga        # git add
 gc        # git commit
 gp        # git push
 gl        # git log (10 commits)
-```
+\`\`\`
 
 ### Second Chance Connect Aliases
 
-```bash
+\`\`\`bash
 scc       # cd to project
 sccd      # cd && npm run dev
 sccz      # Open in VS Code
 sccbuild  # npm run build
 scctest   # npm run test
 scclint   # npm run lint
-```
+\`\`\`
 
 ### NPM Shortcuts
 
-```bash
+\`\`\`bash
 n         # npm
 ni        # npm install
 nci       # npm ci
@@ -365,7 +365,7 @@ nrd       # npm run dev
 nrb       # npm run build
 nrt       # npm run test
 nrl       # npm run lint
-```
+\`\`\`
 
 ---
 
@@ -375,36 +375,36 @@ nrl       # npm run lint
 
 **Solution**: Delete the cache and rebuild
 
-```bash
+\`\`\`bash
 rm -rf ~/.cache/zsh/completions
 exec zsh
-```
+\`\`\`
 
 ### Issue: Git branch not showing in prompt
 
 **Solution**: Verify vcs_info is loaded
 
-```bash
+\`\`\`bash
 zsh -c 'autoload -Uz vcs_info; precmd() { vcs_info }; cd /tmp/test; git init; exec zsh'
-```
+\`\`\`
 
 ### Issue: NVM not loading
 
 **Solution**: Verify `.nvm/nvm.sh` exists
 
-```bash
+\`\`\`bash
 ls -la ~/.nvm/nvm.sh
 # If not found, install: brew install nvm
-```
+\`\`\`
 
 ### Issue: Colors not showing
 
 **Solution**: Verify TERM variable
 
-```bash
+\`\`\`bash
 echo $TERM
 # Should be: xterm-256color or screen-256color
-```
+\`\`\`
 
 ---
 
@@ -446,30 +446,30 @@ echo $TERM
 
 1. **Immediate**: Activate new shell configuration
 
-   ```bash
+   \`\`\`bash
    exec zsh
-   ```
+   \`\`\`
 
 2. **Recommended**: Move API keys to `.env` files
 
-   ```bash
+   \`\`\`bash
    # Create .env for project
    cd /Users/capp/second-chance-connect
    echo 'export V0_API_KEY="..."' > .env.local
    # Don't commit to version control!
-   ```
+   \`\`\`
 
 3. **Optional**: Install modern tools
 
-   ```bash
+   \`\`\`bash
    brew install zoxide fzf fd direnv
-   ```
+   \`\`\`
 
 4. **Consider**: Enable Starship for even better prompt
-   ```bash
+   \`\`\`bash
    brew install starship
    # Uncomment in .zshrc
-   ```
+   \`\`\`
 
 ---
 

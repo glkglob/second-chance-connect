@@ -59,7 +59,7 @@ This plan standardizes the development environment to November 2025 macOS best p
 
 **File**: `~/.zshenv` (107 lines)
 
-```
+\`\`\`
 STRENGTHS:
 ✅ Architecture detection (arm64/Intel)
 ✅ HOMEBREW_NO_ANALYTICS disabled
@@ -73,11 +73,11 @@ WEAKNESSES:
 ⚠️ Manual HOMEBREW_PREFIX setup (should use brew shellenv)
 ⚠️ No handling for subprocesses (why MCP fails)
 ⚠️ Homebrew path detection could be simplified
-```
+\`\`\`
 
 **File**: `~/.zshrc` (260 lines)
 
-```
+\`\`\`
 STRENGTHS:
 ✅ Completion system properly configured
 ✅ Key bindings for navigation
@@ -89,7 +89,7 @@ WEAKNESSES:
 ⚠️ Could be more modular
 ⚠️ No Bun detection/setup
 ⚠️ No version manager integration (nvm/fnm)
-```
+\`\`\`
 
 **Missing Files**:
 
@@ -107,11 +107,11 @@ WEAKNESSES:
 
 **Standard macOS Shell Flow**:
 
-```
+\`\`\`
 1. ~/.zprofile  [LOGIN SHELL] - Run once when opening Terminal
 2. ~/.zshenv    [ALL SHELLS]  - Environmental setup, ALL contexts
 3. ~/.zshrc     [INTERACTIVE] - Aliases, functions, PS1, etc.
-```
+\`\`\`
 
 **Key Principle**: Minimize what loads in `.zshenv`, maximize interactivity in `.zshrc`
 
@@ -119,7 +119,7 @@ WEAKNESSES:
 
 **Recommended ORDER** (Apple Silicon macOS):
 
-```zsh
+\`\`\`zsh
 /opt/homebrew/bin           # Homebrew binaries (PRIMARY)
 /opt/homebrew/sbin          # Homebrew system binaries
 $HOME/.local/bin            # User custom binaries
@@ -131,7 +131,7 @@ $HOME/.bun/bin              # Bun binaries (if used)
 /bin                        # Essential system
 /usr/sbin                   # System admin
 /sbin                       # Essential admin
-```
+\`\`\`
 
 **Critical Insight**: Use `eval "$(brew shellenv)"` instead of manual construction
 
@@ -145,16 +145,16 @@ $HOME/.bun/bin              # Bun binaries (if used)
 **Why MCP Stdio Failed**: Subprocesses DON'T source `.zshrc`, minimal PATH
 **Solution**: Use `eval "$(brew shellenv)"` in `.zshenv` (sourced by all shells)
 
-```zsh
+\`\`\`zsh
 # This runs in EVERY shell context, including subprocesses
 eval "$(brew shellenv)"
-```
+\`\`\`
 
 ### 3.4 Configuration File Separation
 
 **Best Practice** (November 2025):
 
-```
+\`\`\`
 ~/.zshenv      → Environment variables only (universal)
 ~/.zprofile    → Login shell setup only
 ~/.zshrc       → Interactive shell (functions, aliases, PS1)
@@ -163,19 +163,19 @@ eval "$(brew shellenv)"
 Brewfile       → System packages (version controlled)
 .envrc         → Project-specific env (managed by direnv)
 .env.local     → Project secrets (loaded by direnv)
-```
+\`\`\`
 
 ### 3.5 API Key Management (Security)
 
 **Current (BAD)**:
 
-```zsh
+\`\`\`zsh
 export V0_API_KEY="v1:BeKAOcO85wo5FyiXrJA63kIQ:..."  # In ~/.zshenv
-```
+\`\`\`
 
 **Modern (GOOD)**:
 
-```bash
+\`\`\`bash
 # .env.local (project root, not version controlled)
 SUPABASE_URL="https://..."
 SUPABASE_ANON_KEY="..."
@@ -183,7 +183,7 @@ GITHUB_PERSONAL_ACCESS_TOKEN="ghp_..."
 
 # .envrc (project root, version controlled)
 export $(cat .env.local | xargs)
-```
+\`\`\`
 
 **macOS Native**: Use Keychain via CLI for sensitive credentials
 
@@ -197,7 +197,7 @@ export $(cat .env.local | xargs)
 
 **Why**: Remove npm config from shell environment, use standard npm configuration file
 
-```ini
+\`\`\`ini
 prefix=/Users/capp/.npm-global
 save-exact=true
 prefer-offline=true
@@ -205,11 +205,11 @@ audit=true
 registry=https://registry.npmjs.org/
 engine-strict=true
 loglevel=warn
-```
+\`\`\`
 
 **Action**:
 
-```bash
+\`\`\`bash
 cat > ~/.npmrc << 'EOF'
 prefix=/Users/capp/.npm-global
 save-exact=true
@@ -219,13 +219,13 @@ registry=https://registry.npmjs.org/
 engine-strict=true
 loglevel=warn
 EOF
-```
+\`\`\`
 
 #### 1.2 Create `~/.zprofile`
 
 **Why**: Separate login-shell initialization from universal shell setup
 
-```zsh
+\`\`\`zsh
 # ~/.zprofile - macOS Login Shell Initialization
 # Runs once when opening Terminal (login shells only)
 
@@ -241,11 +241,11 @@ fi
 # if [ -s "$HOME/.fnm/aliases/default" ]; then
 #     . "$HOME/.fnm/aliases/default"
 # fi
-```
+\`\`\`
 
 **Action**:
 
-```bash
+\`\`\`bash
 cat > ~/.zprofile << 'EOF'
 # ~/.zprofile - macOS Login Shell Initialization
 eval "$(brew shellenv)"
@@ -254,7 +254,7 @@ if command -v direnv &>/dev/null; then
     eval "$(direnv hook zsh)"
 fi
 EOF
-```
+\`\`\`
 
 #### 1.3 Update `.env.local` (Project)
 
@@ -264,7 +264,7 @@ Current: `/Users/capp/second-chance-connect/.env.local`
 
 Review and ensure contains:
 
-```bash
+\`\`\`bash
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL="https://..."
 NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
@@ -274,7 +274,7 @@ GITHUB_PERSONAL_ACCESS_TOKEN="ghp_..."
 
 # Redis
 REDIS_URL="redis://..."
-```
+\`\`\`
 
 **Action**: Remove `V0_API_KEY` from `~/.zshenv`, verify it's in `.env.local` only
 
@@ -287,7 +287,7 @@ REDIS_URL="redis://..."
 
 **New ~/.zshenv**:
 
-```zsh
+\`\`\`zsh
 # ~/.zshenv - Universal Shell Environment (ALL shells)
 # Runs for login, interactive, and non-interactive shells
 
@@ -322,7 +322,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # ❌ npm config (use ~/.npmrc instead)
 # ❌ Aliases or functions (use ~/.zshrc)
 # ❌ Interactive features (use ~/.zshrc)
-```
+\`\`\`
 
 **Action**: Replace current `~/.zshenv` with simplified version
 
@@ -332,18 +332,18 @@ export PATH="$HOME/.local/bin:$PATH"
 
 **Action**:
 
-```bash
+\`\`\`bash
 # Generate current Brewfile
 cd ~
 brew bundle dump --force --describe
 
 # Review Brewfile and commit to version control
 cat ~/Brewfile
-```
+\`\`\`
 
 **Example Brewfile**:
 
-```ruby
+\`\`\`ruby
 tap "homebrew/cask"
 tap "homebrew/services"
 
@@ -380,7 +380,7 @@ cask "notion"
 # Fonts
 tap "homebrew/cask-fonts"
 cask "font-fira-code"
-```
+\`\`\`
 
 #### 2.3 Create `.envrc` Template
 
@@ -388,7 +388,7 @@ cask "font-fira-code"
 
 **Action**: In project root `/Users/capp/second-chance-connect/`
 
-```bash
+\`\`\`bash
 cat > .envrc << 'EOF'
 # .envrc - Project-specific environment (loaded by direnv)
 # Usage: cd into project, direnv will auto-load
@@ -418,13 +418,13 @@ EOF
 
 # Tell direnv to load this
 direnv allow
-```
+\`\`\`
 
 #### 2.4 Verify Setup
 
 **Action**: Test environment works
 
-```bash
+\`\`\`bash
 # Test that paths are correct
 echo $HOMEBREW_PREFIX
 echo $PATH
@@ -434,7 +434,7 @@ which git
 
 # Test MCP subprocess PATH (no longer needs wrapper!)
 # Will test in next phase
-```
+\`\`\`
 
 ### Phase 3: Modern Adoption (Week 3) - MEDIUM TERM
 
@@ -442,7 +442,7 @@ which git
 
 **Option A: fnm (Fast Node Manager - Rust-based, RECOMMENDED)**
 
-```bash
+\`\`\`bash
 # Install
 brew install fnm
 
@@ -451,18 +451,18 @@ eval "$(fnm env --use-on-cd)"
 
 # Create .node-version in project
 echo "20" > /Users/capp/second-chance-connect/.node-version
-```
+\`\`\`
 
 **Option B: nvm (Node Version Manager - JavaScript, traditional)**
 
-```bash
+\`\`\`bash
 # Install
 brew install nvm
 
 # Add to ~/.zshrc
 export NVM_DIR="$HOME/.nvm"
 [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && . "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-```
+\`\`\`
 
 **Action**: Choose one and implement in `~/.zshrc`
 
@@ -476,17 +476,17 @@ export NVM_DIR="$HOME/.nvm"
 
 **Decision Tree**:
 
-```
+\`\`\`
 Does project need:
 ├─ Maximum ecosystem compatibility? → Use npm
 ├─ Strict dependency isolation? → Use pnpm
 ├─ Fastest possible setup? → Use Bun
 └─ Monorepo support? → Use pnpm + npm
-```
+\`\`\`
 
 **If adopting Bun**:
 
-```bash
+\`\`\`bash
 # Install
 brew install oven-sh/bun/bun
 
@@ -494,13 +494,13 @@ brew install oven-sh/bun/bun
 # Update .envrc if project uses Bun
 export BUN_INSTALL="$HOME/.bun"
 PATH_add "$BUN_INSTALL/bin"
-```
+\`\`\`
 
 #### 3.3 Implement pnpm (if monorepo)
 
 **For Next.js monorepo projects**:
 
-```bash
+\`\`\`bash
 # Install pnpm
 npm install -g pnpm
 
@@ -509,7 +509,7 @@ pnpm import
 
 # Enable pnpm for workspaces
 # Edit package.json: add "packageManager": "pnpm@9.0.0"
-```
+\`\`\`
 
 **Benefits**:
 
@@ -524,7 +524,7 @@ pnpm import
 
 **File**: `verify-shell-setup.sh`
 
-```bash
+\`\`\`bash
 #!/bin/bash
 # Verify macOS shell environment meets November 2025 standards
 
@@ -598,20 +598,20 @@ check_command "pnpm" "pnpm" || echo "   Install: npm install -g pnpm"
 
 echo ""
 echo "=== Verification Complete ==="
-```
+\`\`\`
 
 **Action**: Create and run
 
-```bash
+\`\`\`bash
 chmod +x verify-shell-setup.sh
 ./verify-shell-setup.sh
-```
+\`\`\`
 
 #### 4.2 Document Each PATH Entry
 
 Create `PATH_DOCUMENTATION.md`:
 
-```markdown
+\`\`\`markdown
 # PATH Documentation - November 2025 Standards
 
 ## Apple Silicon macOS PATH Setup
@@ -671,13 +671,13 @@ Create `PATH_DOCUMENTATION.md`:
 
 User paths FIRST (highest priority), system paths LAST (fallback only)
 This prevents system updates from breaking user tools.
-```
+\`\`\`
 
 #### 4.3 Update copilot-instructions.md
 
 Add new section to `/Users/capp/second-chance-connect/.github/copilot-instructions.md`:
 
-```markdown
+\`\`\`markdown
 ## Shell & Environment Standards (November 2025)
 
 ### Shell Configuration
@@ -711,13 +711,13 @@ Add new section to `/Users/capp/second-chance-connect/.github/copilot-instructio
 
 - ✅ NOW FIXED: Using `brew shellenv` handles all subprocesses
 - Shell wrapper no longer needed if `brew shellenv` is in .zshenv
-```
+\`\`\`
 
 #### 4.4 Create Troubleshooting Guide
 
 `SHELL_TROUBLESHOOTING.md`:
 
-````markdown
+\`\`\``markdown
 # Shell Environment Troubleshooting
 
 ## Problem: Command not found in subprocess (MCP fails)
@@ -738,10 +738,10 @@ Add new section to `/Users/capp/second-chance-connect/.github/copilot-instructio
 
 **Debugging**:
 
-```bash
+\`\`\`bash
 time zsh -i -c exit
-```
-````
+\`\`\`
+\`\`\``
 
 **Solutions**:
 
@@ -767,9 +767,9 @@ time zsh -i -c exit
 **Solution**:
 
 1. Create/verify `~/.npmrc`:
-   ```ini
+   \`\`\`ini
    prefix=/Users/capp/.npm-global
-   ```
+   \`\`\`
 2. Add to PATH: `export PATH="$HOME/.npm-global/bin:$PATH"`
 3. Or use Homebrew for global CLIs: `brew install package-name`
 
@@ -781,16 +781,16 @@ time zsh -i -c exit
 
 1. Ensure version manager installed: `brew install fnm` (or nvm)
 2. Add to `.zshrc` (NOT .zshenv):
-   ```zsh
+   \`\`\`zsh
    eval "$(fnm env --use-on-cd)"
-   ```
+   \`\`\`
 3. Create `.node-version` in project root:
-   ```
+   \`\`\`
    20
-   ```
+   \`\`\`
 4. Restart shell and `cd` into project
 
-```
+\`\`\`
 
 ---
 
@@ -874,4 +874,4 @@ time zsh -i -c exit
 **Status**: Ready for Review and Implementation
 **Estimated Duration**: 4 weeks (phased approach)
 **Risk Level**: Low (backward compatible, incremental)
-```
+\`\`\`

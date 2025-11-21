@@ -169,7 +169,7 @@ Use this checklist before deploying to production to ensure all critical require
 
 ## Useful Commands
 
-```bash
+\`\`\`bash
 # Build for production
 npm run build
 
@@ -190,7 +190,7 @@ vercel logs --follow
 
 # Deploy to production
 vercel --prod
-```
+\`\`\`
 
 ## Rollback Procedure
 
@@ -199,9 +199,9 @@ If critical issues are discovered:
 1. **Assess the issue**: Determine severity and impact
 2. **Communicate**: Notify team and stakeholders
 3. **Rollback**: Revert to previous deployment
-   ```bash
+   \`\`\`bash
    vercel rollback [deployment-url]
-   ```
+   \`\`\`
 4. **Verify**: Test rolled-back version
 5. **Root cause**: Investigate and fix the issue
 6. **Post-mortem**: Document what happened and how to prevent it

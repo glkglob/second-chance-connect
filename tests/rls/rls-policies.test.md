@@ -15,12 +15,12 @@ RLS policies must be tested against a real Supabase database. The tests should:
 
 Set up test environment variables:
 
-```bash
+\`\`\`bash
 # .env.test
 NEXT_PUBLIC_SUPABASE_URL=your-test-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-test-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-```
+\`\`\`
 
 ## Test Cases
 
@@ -127,7 +127,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 Use Supabase SQL Editor:
 
-```sql
+\`\`\`sql
 -- Authenticate as a test user
 SELECT auth.uid(); -- Should return user ID
 
@@ -137,13 +137,13 @@ SELECT * FROM jobs WHERE status = 'ACTIVE';
 -- Test creating a job (as employer)
 INSERT INTO jobs (title, company, location, description, employer_id)
 VALUES ('Test Job', 'Test Co', 'Test City', 'Test Desc', auth.uid());
-```
+\`\`\`
 
 ### Automated Testing
 
 Create test suite using Supabase client:
 
-```javascript
+\`\`\`javascript
 // tests/rls/jobs.test.js
 import { createClient } from '@supabase/supabase-js'
 
@@ -175,7 +175,7 @@ describe('Jobs RLS Policies', () => {
     expect(data).toBeNull()
   })
 })
-```
+\`\`\`
 
 ## Security Checklist
 
@@ -193,14 +193,14 @@ After running all tests, verify:
 
 Add RLS tests to CI pipeline:
 
-```yaml
+\`\`\`yaml
 # .github/workflows/test.yml
 - name: Run RLS Policy Tests
   run: npm run test:rls
   env:
     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.TEST_SUPABASE_URL }}
     NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.TEST_SUPABASE_ANON_KEY }}
-```
+\`\`\`
 
 ## References
 

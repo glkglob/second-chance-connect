@@ -119,7 +119,7 @@
 ## 🔧 Optional Enhancements
 
 ### Install Optional Tools
-```bash
+\`\`\`bash
 # Zoxide (smarter cd) - Already configured
 [ ] brew install zoxide
 
@@ -132,7 +132,7 @@
 # Starship (modern prompt) - Configured but commented out
 [ ] brew install starship
 [ ] Uncomment in .zshrc
-```
+\`\`\`
 
 ### Enable Features After Installation
 - [ ] After installing zoxide: test `z scc`
@@ -235,7 +235,7 @@
 ## 🎯 Daily Usage
 
 ### Start Your Day
-```bash
+\`\`\`bash
 # 1. Open terminal (new shell loads automatically)
 # 2. Check status if needed
 gs
@@ -243,10 +243,10 @@ gs
 # 3. Navigate and start work
 scc
 sccd  # Dev server running!
-```
+\`\`\`
 
 ### Quick Commands
-```bash
+\`\`\`bash
 # Navigate to project
 scc
 
@@ -258,17 +258,17 @@ nrt
 
 # Commit work
 ga -A && gc -m "message" && gp
-```
+\`\`\`
 
 ### Switch Between Projects
-```bash
+\`\`\`bash
 # Easy project switching with shortcuts
 scc       # Second Chance Connect
 # Add more as needed
 
 # Or use zoxide (if installed)
 z scc     # After installation
-```
+\`\`\`
 
 ---
 

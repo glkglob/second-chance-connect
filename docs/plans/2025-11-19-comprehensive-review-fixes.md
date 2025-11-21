@@ -27,7 +27,7 @@
 
 Create: `tests/auth/sign-up.test.jsx`
 
-```jsx
+\`\`\`jsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import SignUpPage from '@/app/auth/sign-up/page'
 import { createClient } from '@/lib/supabase/client'
@@ -107,7 +107,7 @@ describe('Sign Up Page', () => {
     })
   })
 })
-```
+\`\`\`
 
 **Step 2: Run test to verify it fails**
 
@@ -118,7 +118,7 @@ Expected: FAIL with "options is not defined" or test failure
 
 Modify: `app/auth/sign-up/page.jsx`
 
-```jsx
+\`\`\`jsx
 // Around line 44-50, replace the signUp call:
 const { error: signUpError } = await supabase.auth.signUp({
   email,
@@ -130,7 +130,7 @@ const { error: signUpError } = await supabase.auth.signUp({
     }
   }
 })
-```
+\`\`\`
 
 **Step 4: Run test to verify it passes**
 
@@ -146,7 +146,7 @@ Expected: Redirects to `/auth/sign-up-success` without console errors
 
 **Step 6: Commit**
 
-```bash
+\`\`\`bash
 git add app/auth/sign-up/page.jsx tests/auth/sign-up.test.jsx
 git commit -m "fix: define options object in sign-up to pass user metadata
 
@@ -154,7 +154,7 @@ git commit -m "fix: define options object in sign-up to pass user metadata
 - Added comprehensive test coverage for sign-up flow
 - Verified user metadata (name, role) is passed correctly
 - Added error handling test case"
-```
+\`\`\`
 
 ---
 
@@ -172,7 +172,7 @@ git commit -m "fix: define options object in sign-up to pass user metadata
 
 Create: `lib/validations/common.ts`
 
-```typescript
+\`\`\`typescript
 import { z } from 'zod'
 
 // Common validation patterns
@@ -195,11 +195,11 @@ export const paginationSchema = z.object({
 export const statusSchema = z.enum(['ACTIVE', 'DRAFT', 'CLOSED'])
 
 export const roleSchema = z.enum(['SEEKER', 'EMPLOYER', 'OFFICER', 'ADMIN'])
-```
+\`\`\`
 
 Create: `lib/validations/jobs.ts`
 
-```typescript
+\`\`\`typescript
 import { z } from 'zod'
 import { uuidSchema, statusSchema } from './common'
 
@@ -246,11 +246,11 @@ export const jobQuerySchema = z.object({
 export type CreateJobInput = z.infer<typeof createJobSchema>
 export type UpdateJobInput = z.infer<typeof updateJobSchema>
 export type JobQuery = z.infer<typeof jobQuerySchema>
-```
+\`\`\`
 
 Create: `lib/validations/applications.ts`
 
-```typescript
+\`\`\`typescript
 import { z } from 'zod'
 import { uuidSchema } from './common'
 
@@ -293,11 +293,11 @@ export const applicationQuerySchema = z.object({
 export type CreateApplicationInput = z.infer<typeof createApplicationSchema>
 export type UpdateApplicationInput = z.infer<typeof updateApplicationSchema>
 export type ApplicationQuery = z.infer<typeof applicationQuerySchema>
-```
+\`\`\`
 
 Create: `lib/validations/messages.ts`
 
-```typescript
+\`\`\`typescript
 import { z } from 'zod'
 import { uuidSchema } from './common'
 
@@ -321,13 +321,13 @@ export const messageQuerySchema = z.object({
 
 export type CreateMessageInput = z.infer<typeof createMessageSchema>
 export type MessageQuery = z.infer<typeof messageQuerySchema>
-```
+\`\`\`
 
 **Step 2: Create validation utility**
 
 Create: `lib/validate-request.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { ZodSchema, ZodError } from 'zod'
 
@@ -394,13 +394,13 @@ export function validateQuery<T>(
     }
   }
 }
-```
+\`\`\`
 
 **Step 3: Write tests for validation**
 
 Create: `tests/unit/validations/jobs.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createJobSchema, updateJobSchema, jobQuerySchema } from '@/lib/validations/jobs'
 
 describe('Job Validation Schemas', () => {
@@ -506,7 +506,7 @@ describe('Job Validation Schemas', () => {
     })
   })
 })
-```
+\`\`\`
 
 **Step 4: Run validation tests**
 
@@ -519,7 +519,7 @@ Modify: `app/api/jobs/route.js`
 
 Rename to: `app/api/jobs/route.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { validateRequest, validateQuery } from '@/lib/validate-request'
@@ -645,13 +645,13 @@ export async function POST(request: NextRequest) {
     return handleApiError(error, requestId)
   }
 }
-```
+\`\`\`
 
 **Step 6: Write API tests with validation**
 
 Create: `tests/api/jobs-validation.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createJobSchema } from '@/lib/validations/jobs'
 
 describe('Jobs API Validation', () => {
@@ -689,7 +689,7 @@ describe('Jobs API Validation', () => {
     expect(result.success).toBe(true)
   })
 })
-```
+\`\`\`
 
 **Step 7: Run API validation tests**
 
@@ -698,7 +698,7 @@ Expected: PASS - validation correctly rejects/accepts data
 
 **Step 8: Commit validation implementation**
 
-```bash
+\`\`\`bash
 git add lib/validations/ lib/validate-request.ts app/api/jobs/route.ts tests/
 git commit -m "feat: add Zod validation for Jobs API
 
@@ -707,7 +707,7 @@ git commit -m "feat: add Zod validation for Jobs API
 - Applied validation to Jobs API routes
 - Added 15+ test cases for validation logic
 - Improved error messages with field-specific details"
-```
+\`\`\`
 
 ---
 
@@ -722,7 +722,7 @@ git commit -m "feat: add Zod validation for Jobs API
 
 Modify: `app/api/applications/route.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { validateRequest, validateQuery } from '@/lib/validate-request'
@@ -861,11 +861,11 @@ export async function POST(request: NextRequest) {
     return handleApiError(error, requestId)
   }
 }
-```
+\`\`\`
 
 Modify: `app/api/applications/[id]/route.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { validateRequest } from '@/lib/validate-request'
@@ -950,13 +950,13 @@ export async function PATCH(
     return handleApiError(error, requestId)
   }
 }
-```
+\`\`\`
 
 **Step 2: Write tests for Applications validation**
 
 Create: `tests/api/applications-validation.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createApplicationSchema, updateApplicationSchema } from '@/lib/validations/applications'
 
 describe('Applications Validation', () => {
@@ -1011,7 +1011,7 @@ describe('Applications Validation', () => {
     })
   })
 })
-```
+\`\`\`
 
 **Step 3: Run tests**
 
@@ -1020,7 +1020,7 @@ Expected: PASS
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add app/api/applications/ tests/api/applications-validation.test.ts
 git commit -m "feat: add validation to Applications API
 
@@ -1028,7 +1028,7 @@ git commit -m "feat: add validation to Applications API
 - Added duplicate application check
 - Improved authorization checks
 - Added comprehensive validation tests"
-```
+\`\`\`
 
 ---
 
@@ -1042,7 +1042,7 @@ git commit -m "feat: add validation to Applications API
 
 Modify: `app/api/messages/route.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { validateRequest, validateQuery } from '@/lib/validate-request'
@@ -1157,18 +1157,18 @@ export async function POST(request: NextRequest) {
     return handleApiError(error, requestId)
   }
 }
-```
+\`\`\`
 
 **Step 2: Commit**
 
-```bash
+\`\`\`bash
 git add app/api/messages/
 git commit -m "feat: add validation to Messages API
 
 - Applied Zod validation to message routes
 - Added receiver existence check
 - Improved query filtering validation"
-```
+\`\`\`
 
 ---
 
@@ -1189,7 +1189,7 @@ Run: `npm install @upstash/redis @upstash/ratelimit`
 
 Create: `lib/rate-limiter-redis.ts`
 
-```typescript
+\`\`\`typescript
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
@@ -1256,13 +1256,13 @@ export async function withRateLimit(
     reset
   }
 }
-```
+\`\`\`
 
 **Step 3: Write tests for rate limiter**
 
 Create: `tests/unit/rate-limiter-redis.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createRateLimiter, getClientIdentifier } from '@/lib/rate-limiter-redis'
 
 // Mock Upstash
@@ -1301,23 +1301,23 @@ describe('Rate Limiter', () => {
     expect(identifier).toBe('unknown')
   })
 })
-```
+\`\`\`
 
 **Step 4: Update environment variables**
 
 Add to `.env.example`:
 
-```bash
+\`\`\`bash
 # Upstash Redis (for rate limiting)
 UPSTASH_REDIS_REST_URL=your_redis_url
 UPSTASH_REDIS_REST_TOKEN=your_redis_token
-```
+\`\`\`
 
 **Step 5: Apply rate limiting to API routes**
 
 Create: `lib/api-middleware.ts`
 
-```typescript
+\`\`\`typescript
 import { NextRequest, NextResponse } from 'next/server'
 import { withRateLimit, rateLimiters } from './rate-limiter-redis'
 import { logger } from './logger'
@@ -1353,13 +1353,13 @@ export async function applyRateLimit(
 
   return null
 }
-```
+\`\`\`
 
 **Step 6: Apply to Jobs API**
 
 Modify: `app/api/jobs/route.ts` (beginning of GET and POST)
 
-```typescript
+\`\`\`typescript
 import { applyRateLimit } from '@/lib/api-middleware'
 
 export async function GET(request: NextRequest) {
@@ -1379,13 +1379,13 @@ export async function POST(request: NextRequest) {
   const requestId = crypto.randomUUID()
   // ... rest of the function
 }
-```
+\`\`\`
 
 **Step 7: Manual testing of rate limiting**
 
 Create: `tests/manual/test-rate-limit.sh`
 
-```bash
+\`\`\`bash
 #!/bin/bash
 
 echo "Testing rate limiting on Jobs API..."
@@ -1401,14 +1401,14 @@ do
     break
   fi
 done
-```
+\`\`\`
 
 Run: `chmod +x tests/manual/test-rate-limit.sh && ./tests/manual/test-rate-limit.sh`
 Expected: Should get 429 after 100 requests
 
 **Step 8: Commit**
 
-```bash
+\`\`\`bash
 git add lib/rate-limiter-redis.ts lib/api-middleware.ts app/api/jobs/route.ts package.json tests/
 git commit -m "feat: implement Redis-based rate limiting
 
@@ -1417,7 +1417,7 @@ git commit -m "feat: implement Redis-based rate limiting
 - Applied rate limiting to Jobs API
 - Added tests and manual testing script
 - Production-ready for serverless deployment"
-```
+\`\`\`
 
 ---
 
@@ -1435,17 +1435,17 @@ git commit -m "feat: implement Redis-based rate limiting
 
 Add to the beginning of each API route handler:
 
-```typescript
+\`\`\`typescript
 const rateLimitResponse = await applyRateLimit(request, 'api') // or 'admin' for admin routes
 if (rateLimitResponse) return rateLimitResponse
-```
+\`\`\`
 
 For auth routes:
 
-```typescript
+\`\`\`typescript
 const rateLimitResponse = await applyRateLimit(request, 'auth')
 if (rateLimitResponse) return rateLimitResponse
-```
+\`\`\`
 
 **Step 2: Verify all routes protected**
 
@@ -1455,7 +1455,7 @@ Expected: Same count - all routes protected
 
 **Step 3: Commit**
 
-```bash
+\`\`\`bash
 git add app/api/
 git commit -m "feat: apply rate limiting to all API routes
 
@@ -1463,7 +1463,7 @@ git commit -m "feat: apply rate limiting to all API routes
 - Applied stricter limits to auth routes (5/min)
 - Applied higher limits to admin routes (500/min)
 - Verified 100% coverage of API endpoints"
-```
+\`\`\`
 
 ---
 
@@ -1480,7 +1480,7 @@ git commit -m "feat: apply rate limiting to all API routes
 
 Create: `tests/components/job-card.test.tsx`
 
-```tsx
+\`\`\`tsx
 import { render, screen } from '@testing-library/react'
 import JobCard from '@/components/job-card'
 
@@ -1534,13 +1534,13 @@ describe('JobCard', () => {
     expect(link).toHaveAttribute('href', expect.stringContaining('123'))
   })
 })
-```
+\`\`\`
 
 **Step 2: Write Stat Card tests**
 
 Create: `tests/components/stat-card.test.tsx`
 
-```tsx
+\`\`\`tsx
 import { render, screen } from '@testing-library/react'
 import StatCard from '@/components/stat-card'
 
@@ -1574,7 +1574,7 @@ describe('StatCard', () => {
     expect(change).toHaveClass('text-red-600')
   })
 })
-```
+\`\`\`
 
 **Step 3: Run component tests**
 
@@ -1583,7 +1583,7 @@ Expected: PASS - all component tests green
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add tests/components/
 git commit -m "test: add component tests for Job Card and Stat Card
 
@@ -1591,7 +1591,7 @@ git commit -m "test: add component tests for Job Card and Stat Card
 - Added 6 test cases for StatCard component
 - Verified rendering, accessibility, and styling
 - 90%+ coverage for tested components"
-```
+\`\`\`
 
 ---
 
@@ -1605,7 +1605,7 @@ git commit -m "test: add component tests for Job Card and Stat Card
 
 Create: `tests/integration/job-application-flow.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -1701,13 +1701,13 @@ describe('Job Application Flow', () => {
     expect(accepted.status).toBe('ACCEPTED')
   })
 })
-```
+\`\`\`
 
 **Step 2: Write auth flow test**
 
 Create: `tests/integration/auth-flow.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createClient } from '@supabase/supabase-js'
 
 describe('Authentication Flow', () => {
@@ -1752,7 +1752,7 @@ describe('Authentication Flow', () => {
     expect(profile.role).toBe('SEEKER')
   })
 })
-```
+\`\`\`
 
 **Step 3: Run integration tests**
 
@@ -1761,7 +1761,7 @@ Expected: PASS (requires test database setup)
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add tests/integration/
 git commit -m "test: add integration tests for critical flows
 
@@ -1769,7 +1769,7 @@ git commit -m "test: add integration tests for critical flows
 - Added authentication and profile creation test
 - Verified database triggers work correctly
 - Tests use service role for complete flow testing"
-```
+\`\`\`
 
 ---
 
@@ -1784,7 +1784,7 @@ git commit -m "test: add integration tests for critical flows
 
 Create: `tests/api/applications.test.ts`
 
-```typescript
+\`\`\`typescript
 import { createClient } from '@supabase/supabase-js'
 
 describe('Applications API', () => {
@@ -1830,7 +1830,7 @@ describe('Applications API', () => {
     })
   })
 })
-```
+\`\`\`
 
 **Step 2: Run tests**
 
@@ -1839,7 +1839,7 @@ Expected: PASS
 
 **Step 3: Commit**
 
-```bash
+\`\`\`bash
 git add tests/api/
 git commit -m "test: add API tests for Applications and Messages
 
@@ -1847,7 +1847,7 @@ git commit -m "test: add API tests for Applications and Messages
 - Added test coverage for Messages API
 - Verified authorization and validation
 - Achieved 80%+ API test coverage"
-```
+\`\`\`
 
 ---
 
@@ -1863,7 +1863,7 @@ git commit -m "test: add API tests for Applications and Messages
 
 Modify: `tsconfig.json`
 
-```json
+\`\`\`json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -1897,13 +1897,13 @@ Modify: `tsconfig.json`
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-```
+\`\`\`
 
 **Step 2: Migrate component files systematically**
 
 Start with: `components/job-card.jsx` → `job-card.tsx`
 
-```tsx
+\`\`\`tsx
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MapPin, Building, DollarSign, Briefcase } from 'lucide-react'
@@ -1979,7 +1979,7 @@ export default function JobCard({ job, variant = 'default' }: JobCardProps) {
     </Card>
   )
 }
-```
+\`\`\`
 
 **Step 3: Run type check**
 
@@ -2006,7 +2006,7 @@ Expected: 0 errors
 
 **Step 7: Commit**
 
-```bash
+\`\`\`bash
 git add .
 git commit -m "feat: migrate entire codebase to TypeScript strict mode
 
@@ -2016,7 +2016,7 @@ git commit -m "feat: migrate entire codebase to TypeScript strict mode
 - Fixed all type errors
 - Added proper null/undefined handling
 - 100% TypeScript coverage"
-```
+\`\`\`
 
 ---
 
@@ -2031,7 +2031,7 @@ git commit -m "feat: migrate entire codebase to TypeScript strict mode
 
 Create: `scripts/005_performance_indexes.sql`
 
-```sql
+\`\`\`sql
 -- Performance Indexes for Second Chance Connect
 -- These indexes optimize common query patterns
 
@@ -2075,13 +2075,13 @@ ANALYZE jobs;
 ANALYZE applications;
 ANALYZE messages;
 ANALYZE profiles;
-```
+\`\`\`
 
 **Step 2: Test index performance**
 
 Create: `tests/performance/query-benchmarks.sql`
 
-```sql
+\`\`\`sql
 -- Test query performance before and after indexes
 
 -- Benchmark: Find unread messages for user
@@ -2104,7 +2104,7 @@ FROM applications a
 JOIN profiles p ON a.seeker_id = p.id
 WHERE a.job_id = 'test-job-id'
 ORDER BY a.created_at DESC;
-```
+\`\`\`
 
 **Step 3: Run indexes script**
 
@@ -2114,7 +2114,7 @@ Expected: All indexes created successfully
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add scripts/005_performance_indexes.sql tests/performance/
 git commit -m "perf: add database indexes for common queries
 
@@ -2123,7 +2123,7 @@ git commit -m "perf: add database indexes for common queries
 - Added full-text search index for jobs
 - Added composite indexes for joins
 - Verified query performance improvements"
-```
+\`\`\`
 
 ---
 
@@ -2137,7 +2137,7 @@ git commit -m "perf: add database indexes for common queries
 
 Create: `lib/security-headers.ts`
 
-```typescript
+\`\`\`typescript
 export const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
@@ -2180,13 +2180,13 @@ export const securityHeaders = [
     ].join('; ')
   }
 ]
-```
+\`\`\`
 
 **Step 2: Update Next.js config**
 
 Modify: `next.config.ts`
 
-```typescript
+\`\`\`typescript
 import type { NextConfig } from 'next'
 import { securityHeaders } from './lib/security-headers'
 
@@ -2241,13 +2241,13 @@ const nextConfig: NextConfig = {
 }
 
 export default nextConfig
-```
+\`\`\`
 
 **Step 3: Test security headers**
 
 Create: `tests/security/headers.test.ts`
 
-```typescript
+\`\`\`typescript
 describe('Security Headers', () => {
   test('includes all required security headers', async () => {
     const response = await fetch('http://localhost:3000')
@@ -2265,11 +2265,11 @@ describe('Security Headers', () => {
     expect(response.headers.get('Access-Control-Allow-Methods')).toBeTruthy()
   })
 })
-```
+\`\`\`
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add next.config.ts lib/security-headers.ts tests/security/
 git commit -m "feat: add security headers and CORS configuration
 
@@ -2278,7 +2278,7 @@ git commit -m "feat: add security headers and CORS configuration
 - Added CORS headers for API routes
 - Disabled X-Powered-By header
 - Added security header tests"
-```
+\`\`\`
 
 ---
 
@@ -2293,7 +2293,7 @@ git commit -m "feat: add security headers and CORS configuration
 
 Create: `lib/monitoring.ts`
 
-```typescript
+\`\`\`typescript
 // Error tracking and monitoring utilities
 
 interface ErrorContext {
@@ -2359,13 +2359,13 @@ export async function measureAsync<T>(
     throw error
   }
 }
-```
+\`\`\`
 
 **Step 2: Add global error boundary**
 
 Modify: `app/error.tsx`
 
-```tsx
+\`\`\`tsx
 'use client'
 
 import { useEffect } from 'react'
@@ -2403,13 +2403,13 @@ export default function Error({
     </div>
   )
 }
-```
+\`\`\`
 
 **Step 3: Add monitoring to API routes**
 
 Update: `lib/api-error-handler.ts`
 
-```typescript
+\`\`\`typescript
 import { NextResponse } from 'next/server'
 import { logger } from './logger'
 import { captureException } from './monitoring'
@@ -2447,11 +2447,11 @@ export function handleApiError(error: any, requestId: string): NextResponse {
     { status: 500 }
   )
 }
-```
+\`\`\`
 
 **Step 4: Commit**
 
-```bash
+\`\`\`bash
 git add lib/monitoring.ts app/error.tsx lib/api-error-handler.ts
 git commit -m "feat: add error tracking and monitoring
 
@@ -2460,7 +2460,7 @@ git commit -m "feat: add error tracking and monitoring
 - Integrated monitoring into API error handler
 - Added performance tracking utilities
 - Prepared for production monitoring service integration"
-```
+\`\`\`
 
 ---
 
@@ -2474,7 +2474,7 @@ git commit -m "feat: add error tracking and monitoring
 
 Create: `docs/PRODUCTION_CHECKLIST.md`
 
-```markdown
+\`\`\`markdown
 # Production Deployment Checklist
 
 ## Pre-Deployment
@@ -2536,7 +2536,7 @@ Create: `docs/PRODUCTION_CHECKLIST.md`
 
 ## Environment Variables Required
 
-```bash
+\`\`\`bash
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
@@ -2552,7 +2552,7 @@ ALLOWED_ORIGIN=
 
 # Monitoring (Optional)
 SENTRY_DSN=
-```
+\`\`\`
 
 ## Rollback Plan
 
@@ -2562,13 +2562,13 @@ If deployment fails:
 3. Verify database state hasn't been corrupted
 4. Fix issue in development
 5. Re-run all tests before re-deploying
-```
+\`\`\`
 
 **Step 2: Update main README**
 
 Add to: `README.md` (after "Deployment" section)
 
-```markdown
+\`\`\`markdown
 ## Production Deployment
 
 ### Prerequisites Checklist
@@ -2578,9 +2578,9 @@ Before deploying to production, complete the [Production Checklist](docs/PRODUCT
 ### Quick Deploy to Vercel
 
 1. **Push to GitHub**
-   ```bash
+   \`\`\`bash
    git push origin main
-   ```
+   \`\`\`
 
 2. **Connect to Vercel**
    - Import repository in Vercel dashboard
@@ -2606,11 +2606,11 @@ See [PRODUCTION_CHECKLIST.md](docs/PRODUCTION_CHECKLIST.md) for complete list of
 - **Performance**: Monitor Vercel analytics
 - **Database**: Check Supabase dashboard for query performance
 - **Rate Limiting**: Monitor Upstash Redis metrics
-```
+\`\`\`
 
 **Step 3: Commit**
 
-```bash
+\`\`\`bash
 git add docs/PRODUCTION_CHECKLIST.md README.md
 git commit -m "docs: add production deployment checklist
 
@@ -2619,7 +2619,7 @@ git commit -m "docs: add production deployment checklist
 - Added rollback procedures
 - Updated README with deployment steps
 - Added monitoring and verification steps"
-```
+\`\`\`
 
 ---
 
@@ -2633,7 +2633,7 @@ git commit -m "docs: add production deployment checklist
 
 Create: `scripts/pre-deploy-check.sh`
 
-```bash
+\`\`\`bash
 #!/bin/bash
 
 echo "🚀 Pre-Deployment Verification Script"
@@ -2702,7 +2702,7 @@ else
     echo -e "${RED}❌ Some checks failed. Fix issues before deploying.${NC}"
     exit 1
 fi
-```
+\`\`\`
 
 **Step 2: Make script executable**
 
@@ -2734,7 +2734,7 @@ Test manually:
 
 **Step 6: Final commit**
 
-```bash
+\`\`\`bash
 git add scripts/pre-deploy-check.sh
 git commit -m "chore: add pre-deployment verification script
 
@@ -2743,7 +2743,7 @@ git commit -m "chore: add pre-deployment verification script
 - Checks for console.logs and env setup
 - Provides clear pass/fail output
 - Ready for CI/CD integration"
-```
+\`\`\`
 
 ---
 
@@ -2773,7 +2773,7 @@ This implementation plan provides:
 
 After completing all tasks, verify:
 
-```bash
+\`\`\`bash
 # Run all checks
 ./scripts/pre-deploy-check.sh
 
@@ -2785,7 +2785,7 @@ npm run build && npm start
 
 # Test rate limiting
 ./tests/manual/test-rate-limit.sh
-```
+\`\`\`
 
 Expected results:
 - All tests: PASS

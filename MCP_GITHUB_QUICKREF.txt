@@ -8,16 +8,16 @@ stdio subprocesses run in minimal shell environment → `/opt/homebrew/bin` not 
 
 ## The Fix
 Changed `claude.json` GitHub MCP config from:
-```json
+\`\`\`json
 "command": "npx",
 "args": ["-y", "@robinson_ai_systems/github-mcp"]
-```
+\`\`\`
 
 To:
-```json
+\`\`\`json
 "command": "/bin/zsh",
 "args": ["-l", "-c", "source ~/.zshenv && npx -y @robinson_ai_systems/github-mcp"]
-```
+\`\`\`
 
 ## Key Changes Explained
 - **`/bin/zsh`**: Use zsh shell (not npx directly)

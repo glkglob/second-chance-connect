@@ -29,7 +29,7 @@ This document provides comprehensive guidance for testing the Second Chance Conn
 
 ### Basic Commands
 
-```bash
+\`\`\`bash
 # Run all tests in watch mode (development)
 npm test
 
@@ -44,22 +44,22 @@ npm test -- path/to/test.test.js
 
 # Run tests matching pattern
 npm test -- --testNamePattern="API routes"
-```
+\`\`\`
 
 ### Test Environment
 
 Tests use environment variables from `.env.test`:
 
-```bash
+\`\`\`bash
 # .env.test
 NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key
 NODE_ENV=test
-```
+\`\`\`
 
 ## Test Structure
 
-```
+\`\`\`
 /
 ├── tests/
 │   ├── api/              # API route tests
@@ -75,13 +75,13 @@ NODE_ENV=test
 │       └── ...
 ├── jest.config.js        # Jest configuration
 └── jest.setup.js         # Test setup
-```
+\`\`\`
 
 ## Writing Tests
 
 ### Test Naming Convention
 
-```javascript
+\`\`\`javascript
 describe('Component/Feature Name', () => {
   describe('specific functionality', () => {
     it('should do something specific', () => {
@@ -89,11 +89,11 @@ describe('Component/Feature Name', () => {
     })
   })
 })
-```
+\`\`\`
 
 ### Test Structure (AAA Pattern)
 
-```javascript
+\`\`\`javascript
 it('should return user data for authenticated user', async () => {
   // Arrange - Set up test data and mocks
   const mockUser = { id: '123', email: 'test@example.com' }
@@ -107,13 +107,13 @@ it('should return user data for authenticated user', async () => {
   expect(response.status).toBe(200)
   expect(data.user).toEqual(mockUser)
 })
-```
+\`\`\`
 
 ## API Testing
 
 ### Testing API Routes
 
-```javascript
+\`\`\`javascript
 import { GET, POST } from '@/app/api/jobs/route'
 import { createClient } from '@/lib/supabase/server'
 
@@ -145,11 +145,11 @@ describe('/api/jobs', () => {
     expect(response.status).toBe(200)
   })
 })
-```
+\`\`\`
 
 ### Testing Error Cases
 
-```javascript
+\`\`\`javascript
 it('should handle database errors gracefully', async () => {
   mockSupabase.from().select().mockResolvedValue({
     data: null,
@@ -163,7 +163,7 @@ it('should handle database errors gracefully', async () => {
     error: 'Failed to fetch jobs'
   })
 })
-```
+\`\`\`
 
 ## RLS Policy Testing
 
@@ -171,7 +171,7 @@ RLS policies require testing against a real database. See [tests/rls/rls-policie
 
 ### Example RLS Test
 
-```javascript
+\`\`\`javascript
 import { createClient } from '@supabase/supabase-js'
 
 describe('Jobs RLS Policies', () => {
@@ -211,13 +211,13 @@ describe('Jobs RLS Policies', () => {
     expect(error.code).toBe('42501') // insufficient_privilege
   })
 })
-```
+\`\`\`
 
 ## Component Testing
 
 ### Testing React Components
 
-```javascript
+\`\`\`javascript
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ErrorBoundary } from '@/components/error-boundary'
@@ -247,11 +247,11 @@ describe('ErrorBoundary', () => {
     expect(screen.getByText('Something went wrong')).toBeInTheDocument()
   })
 })
-```
+\`\`\`
 
 ### Testing User Interactions
 
-```javascript
+\`\`\`javascript
 it('should handle button click', async () => {
   const user = userEvent.setup()
   const handleClick = jest.fn()
@@ -262,11 +262,11 @@ it('should handle button click', async () => {
   
   expect(handleClick).toHaveBeenCalledTimes(1)
 })
-```
+\`\`\`
 
 ### Testing Forms
 
-```javascript
+\`\`\`javascript
 it('should submit form with valid data', async () => {
   const user = userEvent.setup()
   const handleSubmit = jest.fn()
@@ -282,13 +282,13 @@ it('should submit form with valid data', async () => {
     password: 'password123'
   })
 })
-```
+\`\`\`
 
 ## Integration Testing
 
 Integration tests verify multiple components/features working together.
 
-```javascript
+\`\`\`javascript
 describe('Job Application Flow', () => {
   it('should allow seeker to apply to job', async () => {
     // 1. User logs in as seeker
@@ -316,7 +316,7 @@ describe('Job Application Flow', () => {
     expect(applications).toHaveLength(1)
   })
 })
-```
+\`\`\`
 
 ## Test Coverage
 
@@ -330,19 +330,19 @@ describe('Job Application Flow', () => {
 
 ### Running Coverage
 
-```bash
+\`\`\`bash
 # Generate coverage report
 npm run test:coverage
 
 # View HTML report
 open coverage/lcov-report/index.html
-```
+\`\`\`
 
 ### Coverage Thresholds
 
 Configured in `jest.config.js`:
 
-```javascript
+\`\`\`javascript
 coverageThresholds: {
   global: {
     branches: 50,
@@ -351,13 +351,13 @@ coverageThresholds: {
     statements: 50,
   },
 }
-```
+\`\`\`
 
 ## Continuous Integration
 
 ### GitHub Actions
 
-```yaml
+\`\`\`yaml
 # .github/workflows/test.yml
 name: Tests
 
@@ -386,7 +386,7 @@ jobs:
         
       - name: Upload coverage
         uses: codecov/codecov-action@v3
-```
+\`\`\`
 
 ## Best Practices
 
@@ -413,21 +413,21 @@ jobs:
 
 ### Running Single Test
 
-```bash
+\`\`\`bash
 npm test -- path/to/test.test.js
-```
+\`\`\`
 
 ### Debug Mode
 
-```bash
+\`\`\`bash
 node --inspect-brk node_modules/.bin/jest --runInBand
-```
+\`\`\`
 
 ### Console Output
 
 Add `console.log` statements or use `screen.debug()`:
 
-```javascript
+\`\`\`javascript
 import { render, screen } from '@testing-library/react'
 
 it('should render component', () => {
@@ -439,13 +439,13 @@ it('should render component', () => {
   // Print specific element
   screen.debug(screen.getByRole('button'))
 })
-```
+\`\`\`
 
 ## Mocking
 
 ### Mocking Modules
 
-```javascript
+\`\`\`javascript
 jest.mock('@/lib/supabase/client', () => ({
   createBrowserClient: jest.fn(() => ({
     auth: {
@@ -453,24 +453,24 @@ jest.mock('@/lib/supabase/client', () => ({
     }
   }))
 }))
-```
+\`\`\`
 
 ### Mocking Functions
 
-```javascript
+\`\`\`javascript
 const mockFunction = jest.fn()
 mockFunction.mockReturnValue('value')
 mockFunction.mockResolvedValue(Promise.resolve('value'))
 mockFunction.mockRejectedValue(new Error('error'))
-```
+\`\`\`
 
 ### Clearing Mocks
 
-```javascript
+\`\`\`javascript
 beforeEach(() => {
   jest.clearAllMocks()
 })
-```
+\`\`\`
 
 ## Resources
 

@@ -10,7 +10,7 @@
 
 ### CURRENT STATE
 
-```yaml
+\`\`\`yaml
 Shell Choice:
   Current: zsh ✅
   Status: Correct (macOS Catalina+ standard)
@@ -49,11 +49,11 @@ PROJECT ENVIRONMENT:
     - Not per-project
     - Not isolated
     - Can pollute other shells
-```
+\`\`\`
 
 ### NOVEMBER 2025 STANDARDS
 
-```yaml
+\`\`\`yaml
 Shell Choice:
   Standard: zsh + Homebrew shellenv
   Why: Default since 2019, Homebrew official recommendation
@@ -101,7 +101,7 @@ Project Environment:
     - Isolated environment
     - Version controllable
     - Integrates with IDEs
-```
+\`\`\`
 
 ---
 
@@ -120,26 +120,26 @@ Project Environment:
 
 **Current**:
 
-```bash
+\`\`\`bash
 # Manual setup of Homebrew paths
 export HOMEBREW_PREFIX="/opt/homebrew"
 export PATH="/opt/homebrew/bin:$PATH"
-```
+\`\`\`
 
 **Standard 2025**:
 
-```bash
+\`\`\`bash
 # Let Homebrew manage its environment
 eval "$(brew shellenv)"
 # Done! Homebrew handles architecture, updates, etc.
-```
+\`\`\`
 
 ### NEW: System Package Documentation
 
 **Current**: Packages installed randomly, no record  
 **Standard 2025**: Brewfile in version control
 
-```ruby
+\`\`\`ruby
 # Brewfile - documents ALL system packages
 tap "homebrew/cask"
 tap "homebrew/services"
@@ -157,7 +157,7 @@ cask "docker"
 # - Track package versions
 # - Easy team onboarding
 # - Automate updates
-```
+\`\`\`
 
 ---
 
@@ -174,18 +174,18 @@ cask "docker"
 
 ### Current Usage Analysis
 
-```
+\`\`\`
 Project: second-chance-connect
 Current PM: npm ✅
 Lock file: pnpm-lock.yaml ⚠️
 Issue: Mixed signal (npm but pnpm lock file)
-```
+\`\`\`
 
 ### Recommended Approach (November 2025)
 
 **Option A: Stay with npm (Safe)**
 
-```
+\`\`\`
 Pros:
   - Largest ecosystem
   - Most documentation
@@ -196,11 +196,11 @@ Cons:
   - Slower than pnpm/Bun
   - Less strict dependency checking
   - Higher disk usage
-```
+\`\`\`
 
 **Option B: Migrate to pnpm (Recommended for your setup)**
 
-```
+\`\`\`
 Reason: You already have pnpm-lock.yaml!
 Pros:
   - 3-4x faster dependency resolution
@@ -217,11 +217,11 @@ Cons:
 Action:
   1. Rename pnpm-lock.yaml to ensure it's recognized
   2. OR convert lock file: pnpm import
-```
+\`\`\`
 
 **Option C: Evaluate Bun (Modern)**
 
-```
+\`\`\`
 Reason: 90.7 score, 2,135 code examples, fastest
 Pros:
   - All-in-one: runtime + PM + bundler + test
@@ -239,7 +239,7 @@ Action:
   1. Test locally: bun run dev
   2. Create benchmarks vs npm
   3. Decide for next project
-```
+\`\`\`
 
 ---
 
@@ -247,7 +247,7 @@ Action:
 
 ### Current State
 
-```
+\`\`\`
 Node Version Management: NOT CONFIGURED ❌
 Current Node: v25.2.0
 Management: Manual/system default
@@ -255,13 +255,13 @@ Issues:
   - Can't switch versions per project
   - Team might use different versions
   - Production might use different version
-```
+\`\`\`
 
 ### November 2025 Standard
 
 **Option A: fnm (Fast Node Manager) - RECOMMENDED**
 
-```
+\`\`\`
 Pros:
   - Written in Rust (fast)
   - Automatic version switching
@@ -272,11 +272,11 @@ Implementation:
   brew install fnm
   # Add to ~/.zshrc: eval "$(fnm env --use-on-cd)"
   # Create .node-version in project
-```
+\`\`\`
 
 **Option B: nvm (Node Version Manager) - Traditional**
 
-```
+\`\`\`
 Pros:
   - Most popular
   - Lots of documentation
@@ -290,7 +290,7 @@ Implementation:
   brew install nvm
   # Add to ~/.zshrc: [ -s "$NVM_DIR/nvm.sh" ] && . ...
   # Create .nvmrc in project
-```
+\`\`\`
 
 **Recommendation**: Use fnm for better performance
 
@@ -300,18 +300,18 @@ Implementation:
 
 ### Current State
 
-```
+\`\`\`
 API Keys: In ~/.zshenv ⚠️ WRONG
 npm config: In ~/.zshenv ⚠️ WRONG
 Project env: Not isolated ⚠️ WRONG
 Status: Security risk, not scalable
-```
+\`\`\`
 
 ### November 2025 Standard
 
 **Foundation: direnv**
 
-```bash
+\`\`\`bash
 # Install
 brew install direnv
 
@@ -325,11 +325,11 @@ eval "$(direnv hook zsh)"
 # 4. direnv loads environment
 # 5. You cd away
 # 6. direnv unloads environment
-```
+\`\`\`
 
 **Per-Project Setup**
 
-```
+\`\`\`
 .envrc (version controlled, template)
 ├─ export $(cat .env.local | xargs)
 └─ # Load project environment
@@ -345,7 +345,7 @@ Benefits:
 ├─ IDE integration (VS Code) ✅
 ├─ No shell config pollution ✅
 └─ Easy to share (.envrc as template) ✅
-```
+\`\`\`
 
 ---
 
@@ -353,7 +353,7 @@ Benefits:
 
 ### Current Implementation
 
-```
+\`\`\`
 GitHub MCP: Uses shell wrapper
 ├─ Type: stdio subprocess
 ├─ Command: /bin/zsh
@@ -365,11 +365,11 @@ Problem:
   - Extra shell layer
   - Slower subprocess startup
   - Fragile (depends on shell sourcing)
-```
+\`\`\`
 
 ### November 2025 Standard
 
-```
+\`\`\`
 GitHub MCP: Uses proper environment setup
 ├─ Type: stdio subprocess
 ├─ Command: npx
@@ -389,7 +389,7 @@ Benefit:
   - Faster subprocess startup
   - Works reliably
   - Future-proof (using standard patterns)
-```
+\`\`\`
 
 ---
 
@@ -397,14 +397,14 @@ Benefit:
 
 ### Current State
 
-```
+\`\`\`
 Shell Config Documentation: Minimal ⚠️
 PATH explanation: Missing ⚠️
 Troubleshooting Guide: Missing ⚠️
 Team Standards: Not documented ⚠️
 New Onboarding: Manual/tribal knowledge ⚠️
 Status: Not maintainable
-```
+\`\`\`
 
 ### November 2025 Standard
 
@@ -442,7 +442,7 @@ Status: Not maintainable
 
 **Team Onboarding**:
 
-```
+\`\`\`
 New developer joins:
 1. Read SHELL_STANDARDIZATION_SUMMARY.md (5 mins)
 2. Run verify-shell-setup.sh (1 min)
@@ -452,7 +452,7 @@ New developer joins:
 
 Before: Manual setup, guess-and-check (1 hour+)
 After: Standardized, documented, automated (20 mins)
-```
+\`\`\`
 
 ---
 
@@ -460,25 +460,25 @@ After: Standardized, documented, automated (20 mins)
 
 ### Current Performance
 
-```
+\`\`\`
 Shell startup time: NOT MEASURED
 IDE startup: Works but potentially slow
 MCP connection: Uses shell wrapper (overhead)
-```
+\`\`\`
 
 ### November 2025 Benchmark Standards
 
 **Target Metrics**:
 
-```
+\`\`\`
 Shell startup time:    < 500ms
 IDE to MCP ready:      < 5 seconds
 Command execution:     Native speed
-```
+\`\`\`
 
 **Measurement**:
 
-```bash
+\`\`\`bash
 # Measure shell startup
 time zsh -i -c exit
 # Target: < 500ms
@@ -486,7 +486,7 @@ time zsh -i -c exit
 # Benchmark command execution
 time npm install
 # Should match native npm speed
-```
+\`\`\`
 
 ---
 
@@ -494,25 +494,25 @@ time npm install
 
 ### Current (VULNERABLE)
 
-```
+\`\`\`
 API Keys:          In ~/.zshenv ⚠️ EXPOSED
 Credentials:       Shell environment ⚠️ LOGGED
 Secrets in Git:    Possible ⚠️ RISK
 Process Listing:   Can expose keys ⚠️ VISIBLE
 Keychain Usage:    None ⚠️ MISSED
 Audit:             No logging ⚠️ BLIND
-```
+\`\`\`
 
 ### November 2025 (SECURE)
 
-```
+\`\`\`
 API Keys:          In .env.local ✅ ISOLATED
 Credentials:       direnv loaded ✅ SCOPED
 Secrets in Git:    .gitignore blocks ✅ PROTECTED
 Process Listing:   No exposure ✅ HIDDEN
 Keychain Usage:    macOS Keychain ✅ NATIVE
 Audit:             direnv logs ✅ TRACKED
-```
+\`\`\`
 
 ---
 

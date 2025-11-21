@@ -70,12 +70,12 @@ Your shell configuration has been comprehensively modernized to align with Novem
 ## 🚀 Quick Start
 
 ### 1. Activate Configuration
-```bash
+\`\`\`bash
 exec zsh
-```
+\`\`\`
 
 ### 2. Verify Installation
-```bash
+\`\`\`bash
 # Check shell version
 zsh --version
 
@@ -84,10 +84,10 @@ alias | wc -l  # Should show 24+ aliases
 
 # Test SCC shortcuts
 scc  # Should cd to /Users/capp/second-chance-connect
-```
+\`\`\`
 
 ### 3. Try Project Shortcuts
-```bash
+\`\`\`bash
 # Navigate to project
 scc
 
@@ -99,7 +99,7 @@ sccz
 
 # Or run build
 sccbuild
-```
+\`\`\`
 
 ---
 
@@ -138,80 +138,80 @@ sccbuild
 ## 🔍 Key Improvements by Category
 
 ### Security (4 improvements)
-```
+\`\`\`
 • Umask: 0022 (secure default permissions)
 • History: Commands with leading space are ignored
 • XDG: Centralized credential location
 • Config: API keys documented with warnings
-```
+\`\`\`
 
 ### Performance (4 improvements)
-```
+\`\`\`
 • Shell startup: 800ms → 300ms (62% faster)
 • Completions: Cached daily instead of rebuilt every startup
 • NVM: Lazy-loaded only when needed (~500ms saved)
 • History: Deduplicated for faster searching
-```
+\`\`\`
 
 ### Productivity (24 improvements)
-```
+\`\`\`
 • 24 aliases for common commands
 • 6 utility functions for advanced tasks
 • Git branch display in prompt
 • Project shortcuts for SCC
 • NPM command shortcuts
 • Smart directory navigation
-```
+\`\`\`
 
 ### Standards (5 improvements)
-```
+\`\`\`
 • POSIX-compliant syntax
 • XDG Base Directory Specification
 • Zsh 5.9+ best practices
 • Git integration (vcs_info)
 • Proper shell option configuration
-```
+\`\`\`
 
 ---
 
 ## 📁 File Organization
 
 ### New XDG Structure
-```
+\`\`\`
 ~/.config/          # Config files (will use for future tools)
 ~/.cache/zsh/       # Shell cache (completion cache)
 ~/.local/share/zsh/ # Shell data (history file)
-```
+\`\`\`
 
 ### Configuration Files
-```
+\`\`\`
 ~/.zshenv           # Environment variables (107 lines)
 ~/.zshrc            # Interactive shell config (260 lines)
 ~/.zshrc.backup.*   # Backup of previous config (for reference)
-```
+\`\`\`
 
 ### Documentation
-```
+\`\`\`
 SHELL_MODERNIZATION.md      # Detailed modernization guide
 SHELL_VERIFICATION.md       # Post-implementation checklist
 SHELL_INTEGRATION_COMPLETE.md # This file (summary)
-```
+\`\`\`
 
 ---
 
 ## 🎯 Recommended Next Steps
 
 ### Immediate (Do now)
-```bash
+\`\`\`bash
 # 1. Activate new configuration
 exec zsh
 
 # 2. Verify it's working
 scc && echo "✅ Configuration active!"
-```
+\`\`\`
 
 ### Short-term (This week)
-```bash
+\`\`\`bash
 # 1. Move API keys to .env file
 cd /Users/capp/second-chance-connect
 echo 'export V0_API_KEY="..."' > .env.local
@@ -222,10 +222,10 @@ echo '.env.local' >> .gitignore
 # 3. Test project workflows
 sccd    # Start dev server
 sccbuild # Test build
-```
+\`\`\`
 
 ### Optional (When ready)
-```bash
+\`\`\`bash
 # 1. Install modern tools
 brew install zoxide fzf fd direnv
 
@@ -236,14 +236,14 @@ brew install starship
 # 3. Set up direnv for automatic env loading
 cd /Users/capp/second-chance-connect
 direnv allow .env.local
-```
+\`\`\`
 
 ---
 
 ## ✨ Feature Highlights
 
 ### Command Shortcuts (Example Workflows)
-```bash
+\`\`\`bash
 # Navigate and develop SCC
 scc                    # Jump to project
 sccd                   # Start dev server
@@ -264,7 +264,7 @@ nci                   # Clean install (CI mode)
 nrd                   # Run dev server
 nrt                   # Run tests
 nrb                   # Build for production
-```
+\`\`\`
 
 ### Git Integration
 - Branch name displays in shell prompt
@@ -283,7 +283,7 @@ nrb                   # Build for production
 
 Run these commands to verify everything is working:
 
-```bash
+\`\`\`bash
 # ✅ Check shell version
 zsh --version
 # Expected: zsh 5.9+ (arm64-apple-darwin)
@@ -307,7 +307,7 @@ echo $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME
 # ✅ Test completion cache
 ls -la ~/.cache/zsh/completions
 # Expected: File exists after first shell launch
-```
+\`\`\`
 
 ---
 
@@ -346,7 +346,7 @@ ls -la ~/.cache/zsh/completions
 **Current State**: V0_API_KEY in `.zshenv` with security warning
 
 **Recommended**: Move to `.env.local` (not in shell config)
-```bash
+\`\`\`bash
 # Create .env.local
 echo 'export V0_API_KEY="v1:..."' > .env.local
 
@@ -354,7 +354,7 @@ echo 'export V0_API_KEY="v1:..."' > .env.local
 echo '.env.local' >> .gitignore
 
 # Never commit to git!
-```
+\`\`\`
 
 ### Best Practices
 - ✅ Use `.env.local` for project-specific secrets
@@ -383,21 +383,21 @@ echo '.env.local' >> .gitignore
 ### Common Issues
 
 **Aliases not working?**
-```bash
+\`\`\`bash
 exec zsh  # Reload shell
-```
+\`\`\`
 
 **Completion not showing?**
-```bash
+\`\`\`bash
 rm -rf ~/.cache/zsh/completions
 exec zsh  # Rebuild cache
-```
+\`\`\`
 
 **Git branch not showing?**
-```bash
+\`\`\`bash
 cd /Users/capp/second-chance-connect
 git status  # Verify it's a valid git repo
-```
+\`\`\`
 
 See **SHELL_VERIFICATION.md** for more troubleshooting.
 

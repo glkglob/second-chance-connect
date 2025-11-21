@@ -37,11 +37,11 @@
 ### 1. Dependency Conflict
 
 **Error Message:**
-```
+\`\`\`
 ERESOLVE unable to resolve dependency tree
 peer react@"^16.8 || ^17.0 || ^18.0" from vaul@0.9.9
 Found: react@19.2.0
-```
+\`\`\`
 
 **Root Cause:**
 - Project uses React 19.2.0 (latest)
@@ -54,20 +54,20 @@ Found: react@19.2.0
 - Package maintainer hasn't updated for React 19 compatibility
 
 **Workaround in Use:**
-```bash
+\`\`\`bash
 npm install --legacy-peer-deps
-```
+\`\`\`
 
 ### 2. Missing Environment Variables
 
 **Error Pattern:**
-```javascript
+\`\`\`javascript
 // lib/supabase/client.js
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn("[v0] Supabase configuration invalid");
   return null;
 }
-```
+\`\`\`
 
 **Root Cause:**
 - No `.env.local` file in repository (correctly excluded by `.gitignore`)
@@ -83,12 +83,12 @@ if (!supabaseUrl || !supabaseAnonKey) {
 ### 3. Build Failure - Font Loading
 
 **Error Message:**
-```
+\`\`\`
 Failed to compile.
 `next/font` error:
 Failed to fetch `Inter` from Google Fonts.
 getaddrinfo ENOTFOUND fonts.googleapis.com
-```
+\`\`\`
 
 **Root Cause:**
 - `app/layout.jsx` imports `Inter` font from Google Fonts
@@ -96,11 +96,11 @@ getaddrinfo ENOTFOUND fonts.googleapis.com
 - Fails in network-restricted environments (CI/CD, firewalls, offline builds)
 
 **Affected Code:**
-```javascript
+\`\`\`javascript
 // app/layout.jsx
 import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
-```
+\`\`\`
 
 ### 4. File Extension Inconsistencies
 
@@ -110,13 +110,13 @@ const inter = Inter({ subsets: ["latin"] })
 - Hooks: All `.js` files
 
 **Example:**
-```javascript
+\`\`\`javascript
 // app/auth/login/page.jsx - .jsx extension but TypeScript syntax
 export default function LoginPage() {
   const router = useRouter() // TypeScript types expected
   // ...
 }
-```
+\`\`\`
 
 **Impact:**
 - No build errors (allowJs: true in tsconfig.json)
@@ -130,33 +130,33 @@ export default function LoginPage() {
 ### Fix 1: Resolve Dependency Conflict
 
 **Option A: Update vaul (Recommended)**
-```bash
+\`\`\`bash
 # Check for React 19 compatible version
 npm info vaul versions
 npm install vaul@latest --legacy-peer-deps
-```
+\`\`\`
 
 **Option B: Replace vaul**
-```bash
+\`\`\`bash
 # Use Radix UI Dialog or Sheet instead
 npm uninstall vaul
 npm install @radix-ui/react-dialog
-```
+\`\`\`
 
 **Option C: Temporary - Use legacy peer deps**
-```json
+\`\`\`json
 // package.json
 {
   "scripts": {
     "install": "npm install --legacy-peer-deps"
   }
 }
-```
+\`\`\`
 
 ### Fix 2: Environment Variable Validation
 
 **Create `lib/config.ts`:**
-```typescript
+\`\`\`typescript
 import { z } from 'zod'
 
 const envSchema = z.object({
@@ -181,10 +181,10 @@ export function validateEnv() {
     throw error
   }
 }
-```
+\`\`\`
 
 **Usage in API routes:**
-```typescript
+\`\`\`typescript
 // app/api/jobs/route.js
 import { validateEnv } from '@/lib/config'
 
@@ -199,12 +199,12 @@ export async function GET(request) {
     )
   }
 }
-```
+\`\`\`
 
 ### Fix 3: Font Loading Resilience
 
 **Update `app/layout.jsx`:**
-```javascript
+\`\`\`javascript
 import { Inter } from "next/font/google"
 
 // Add fallback configuration
@@ -224,10 +224,10 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-```
+\`\`\`
 
 **Alternative - Local Font:**
-```javascript
+\`\`\`javascript
 // Download Inter and place in /public/fonts/
 import localFont from 'next/font/local'
 
@@ -236,12 +236,12 @@ const inter = localFont({
   display: 'swap',
   variable: '--font-inter',
 })
-```
+\`\`\`
 
 ### Fix 4: Enhanced Error Handling
 
 **Create `lib/api-error.ts`:**
-```typescript
+\`\`\`typescript
 export class APIError extends Error {
   constructor(
     message: string,
@@ -287,7 +287,7 @@ export function handleAPIError(error: unknown) {
     { status: 500 }
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -296,7 +296,7 @@ export function handleAPIError(error: unknown) {
 ### Step 1: Local Environment Setup
 
 **Create `.env.local`:**
-```bash
+\`\`\`bash
 # Required - Get from Supabase Dashboard
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
@@ -304,22 +304,22 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 # Optional - Development debugging
 NEXT_PUBLIC_DEBUG=true
 NODE_ENV=development
-```
+\`\`\`
 
 **Install dependencies:**
-```bash
+\`\`\`bash
 npm install --legacy-peer-deps
-```
+\`\`\`
 
 ### Step 2: Enable Debug Mode
 
 **Set environment variable:**
-```bash
+\`\`\`bash
 export NEXT_PUBLIC_DEBUG=true
-```
+\`\`\`
 
 **Add to Supabase client:**
-```javascript
+\`\`\`javascript
 // lib/supabase/client.js
 const DEBUG = process.env.NEXT_PUBLIC_DEBUG === 'true'
 
@@ -329,29 +329,29 @@ if (DEBUG) {
     hasKey: !!supabaseAnonKey,
   })
 }
-```
+\`\`\`
 
 ### Step 3: Test API Endpoints
 
 **Using Next.js DevTools:**
-```bash
+\`\`\`bash
 npm run dev
 # Open http://localhost:3000
-```
+\`\`\`
 
 **Test authentication:**
-```bash
+\`\`\`bash
 # Terminal
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"test123"}'
-```
+\`\`\`
 
 **Test jobs API:**
-```bash
+\`\`\`bash
 curl http://localhost:3000/api/jobs \
   -H "Cookie: sb-access-token=YOUR_TOKEN"
-```
+\`\`\`
 
 ### Step 4: Supabase Logging
 
@@ -369,7 +369,7 @@ curl http://localhost:3000/api/jobs \
 ### Step 5: Browser DevTools
 
 **Console checks:**
-```javascript
+\`\`\`javascript
 // Check Supabase client status
 console.log('Supabase client:', window.supabase)
 
@@ -380,7 +380,7 @@ console.log('Session:', session)
 // Test query
 const { data, error } = await supabase.from('jobs').select('*').limit(1)
 console.log('Query result:', { data, error })
-```
+\`\`\`
 
 **Network tab:**
 - Filter: `api/`
@@ -390,9 +390,9 @@ console.log('Query result:', { data, error })
 ### Step 6: TypeScript Compiler
 
 **Run type checking:**
-```bash
+\`\`\`bash
 npx tsc --noEmit
-```
+\`\`\`
 
 **Common errors:**
 - Module not found → Check import paths
@@ -464,11 +464,11 @@ npx tsc --noEmit
 - User is logged in but API rejects requests
 
 **Diagnosis:**
-```javascript
+\`\`\`javascript
 // Check auth state
 const { data: { session } } = await supabase.auth.getSession()
 console.log('Session:', session) // Should not be null
-```
+\`\`\`
 
 **Solutions:**
 1. Clear cookies and re-login
@@ -483,10 +483,10 @@ console.log('Session:', session) // Should not be null
 - 500 error in network tab
 
 **Diagnosis:**
-```bash
+\`\`\`bash
 # Check Supabase logs
 # Look for RLS policy denials or query syntax errors
-```
+\`\`\`
 
 **Solutions:**
 1. Verify RLS policies allow SELECT on jobs table
@@ -513,7 +513,7 @@ console.log('Session:', session) // Should not be null
 - Peer dependency warnings
 
 **Solutions:**
-```bash
+\`\`\`bash
 # Option 1: Use legacy peer deps
 npm install --legacy-peer-deps
 
@@ -522,7 +522,7 @@ npm update vaul --legacy-peer-deps
 
 # Option 3: Remove incompatible package
 npm uninstall vaul
-```
+\`\`\`
 
 ---
 
@@ -539,7 +539,7 @@ npm uninstall vaul
 ### Debugging Scripts
 
 **Add to `package.json`:**
-```json
+\`\`\`json
 {
   "scripts": {
     "dev:debug": "NODE_OPTIONS='--inspect' next dev",
@@ -548,7 +548,7 @@ npm uninstall vaul
     "analyze": "ANALYZE=true npm run build"
   }
 }
-```
+\`\`\`
 
 ### Browser Extensions
 

@@ -2,7 +2,7 @@
 
 ## Current State → Standardized State
 
-```
+\`\`\`
 CURRENT (November 2025 - SUBOPTIMAL)
 ═══════════════════════════════════════════
 
@@ -58,7 +58,7 @@ Brewfile (in version control)
 ├─ Project environment variables
 ├─ API keys in .env.local
 └─ Loaded by direnv
-```
+\`\`\`
 
 ---
 
@@ -66,7 +66,7 @@ Brewfile (in version control)
 
 ### Current Flow (Works for interactive, fails for subprocess)
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────┐
 │ User opens Terminal or runs command             │
 └────────────────┬────────────────────────────────┘
@@ -115,7 +115,7 @@ SOLUTION: Use brew shellenv in ~/.zshenv
 → Includes subprocesses
 → PATH always correct
 → MCP WORKS ✅
-```
+\`\`\`
 
 ---
 
@@ -123,7 +123,7 @@ SOLUTION: Use brew shellenv in ~/.zshenv
 
 ### Current Implementation
 
-```
+\`\`\`
 Manual construction in ~/.zshenv:
 ├─ Detects architecture (arm64/Intel)
 ├─ Sets HOMEBREW_PREFIX
@@ -131,11 +131,11 @@ Manual construction in ~/.zshenv:
 ├─ Multiple exports
 ├─ Error-prone if paths change
 └─ Doesn't work reliably for subprocesses
-```
+\`\`\`
 
 ### Standardized Implementation
 
-```
+\`\`\`
 Using brew shellenv (RECOMMENDED):
 ├─ Single command: eval "$(brew shellenv)"
 ├─ Automatically detects arch
@@ -143,11 +143,11 @@ Using brew shellenv (RECOMMENDED):
 ├─ Handles PATH properly
 ├─ Future-proof (Homebrew updates it)
 └─ Works in ALL shell contexts ✅
-```
+\`\`\`
 
 ### Comparison
 
-```
+\`\`\`
 Manual Approach:
 ──────────────
 if [[ "$(uname -m)" == "arm64" ]]; then
@@ -162,7 +162,7 @@ Automated Approach (Better):
 ──────────────────────────
 eval "$(brew shellenv)"
 # That's it! Homebrew handles everything.
-```
+\`\`\`
 
 ---
 
@@ -170,7 +170,7 @@ eval "$(brew shellenv)"
 
 ### Current (Scattered)
 
-```
+\`\`\`
 ~/.zshenv
 ├─ Shell environment ✅
 ├─ npm config (WRONG) ⚠️
@@ -186,11 +186,11 @@ eval "$(brew shellenv)"
 ~/.zprofile → MISSING ❌
 
 Brewfile → MISSING ❌
-```
+\`\`\`
 
 ### Standardized (Organized)
 
-```
+\`\`\`
 ~/.zprofile
 └─ macOS login setup (NEW) ✅
 
@@ -212,7 +212,7 @@ Brewfile
 
 .envrc (project)
 └─ Project environment (NEW) ✅
-```
+\`\`\`
 
 ---
 
@@ -220,18 +220,18 @@ Brewfile
 
 ### Current (Vulnerable)
 
-```
+\`\`\`
 ~/.zshenv
 ├─ V0_API_KEY="YOUR_V0_API_KEY_HERE"
 ├─ Problem: Visible in shell config
 ├─ Problem: In version control if not careful
 ├─ Problem: Exposed in process listing
 └─ Problem: Shared across all contexts
-```
+\`\`\`
 
 ### Standardized (Secure)
 
-```
+\`\`\`
 .env.local (project root, NOT version controlled)
 ├─ SUPABASE_URL="https://..."
 ├─ SUPABASE_ANON_KEY="..."
@@ -248,13 +248,13 @@ Benefits:
 ├─ Easy to manage (direnv) ✅
 ├─ Safe to share project config ✅
 └─ IDE integration (VS Code supports direnv) ✅
-```
+\`\`\`
 
 ---
 
 ## Phase Timeline
 
-```
+\`\`\`
 Nov 19 (Today)          Nov 21-25          Nov 28-Dec 2       Dec 5-12
 ──────────────────────────────────────────────────────────────────────
 
@@ -271,13 +271,13 @@ IMMEDIATE              FOUNDATION         MODERNIZATION      VALIDATION
     ↓                      ↓                   ↓                   ↓
   WEEK 1               WEEK 2              WEEK 3             WEEK 4
 (Ready to start)    (Building block)   (Modern tools)     (Complete)
-```
+\`\`\`
 
 ---
 
 ## Success Criteria
 
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │ November 2025 macOS Standards MET       │
 └─────────────────────────────────────────┘
@@ -305,7 +305,7 @@ IMMEDIATE              FOUNDATION         MODERNIZATION      VALIDATION
 
 ✅ Future-proof
    └─ Easy to update standards
-```
+\`\`\`
 
 ---
 

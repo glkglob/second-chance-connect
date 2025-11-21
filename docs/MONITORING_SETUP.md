@@ -19,25 +19,25 @@ This guide covers setting up comprehensive monitoring and observability for Seco
 ### Setup
 
 1. **Create Sentry Account**
-   ```bash
+   \`\`\`bash
    # Sign up at https://sentry.io
    # Create new project: Next.js
-   ```
+   \`\`\`
 
 2. **Install Sentry SDK**
-   ```bash
+   \`\`\`bash
    npm install @sentry/nextjs
-   ```
+   \`\`\`
 
 3. **Initialize Sentry**
-   ```bash
+   \`\`\`bash
    npx @sentry/wizard -i nextjs
-   ```
+   \`\`\`
 
 4. **Configuration Files**
 
    **sentry.client.config.js**
-   ```javascript
+   \`\`\`javascript
    import * as Sentry from '@sentry/nextjs'
 
    Sentry.init({
@@ -84,10 +84,10 @@ This guide covers setting up comprehensive monitoring and observability for Seco
        return event
      }
    })
-   ```
+   \`\`\`
 
    **sentry.server.config.js**
-   ```javascript
+   \`\`\`javascript
    import * as Sentry from '@sentry/nextjs'
 
    Sentry.init({
@@ -100,11 +100,11 @@ This guide covers setting up comprehensive monitoring and observability for Seco
        new Sentry.Integrations.Http({ tracing: true })
      ]
    })
-   ```
+   \`\`\`
 
 5. **Update Error Handlers**
 
-   ```javascript
+   \`\`\`javascript
    // lib/logger.js
    import * as Sentry from '@sentry/nextjs'
 
@@ -118,28 +118,28 @@ This guide covers setting up comprehensive monitoring and observability for Seco
        })
      }
    }
-   ```
+   \`\`\`
 
 6. **Environment Variables**
-   ```bash
+   \`\`\`bash
    NEXT_PUBLIC_SENTRY_DSN=https://xxx@xxx.ingest.sentry.io/xxx
    SENTRY_ORG=your-org
    SENTRY_PROJECT=your-project
    SENTRY_AUTH_TOKEN=xxx
-   ```
+   \`\`\`
 
 ## Vercel Analytics
 
 ### Setup
 
 1. **Enable in Vercel Dashboard**
-   ```bash
+   \`\`\`bash
    # Project > Analytics > Enable
    # No additional configuration needed
-   ```
+   \`\`\`
 
 2. **Add to Application**
-   ```javascript
+   \`\`\`javascript
    // app/layout.jsx
    import { Analytics } from '@vercel/analytics/react'
 
@@ -153,10 +153,10 @@ This guide covers setting up comprehensive monitoring and observability for Seco
        </html>
      )
    }
-   ```
+   \`\`\`
 
 3. **Custom Events** (Optional)
-   ```javascript
+   \`\`\`javascript
    import { track } from '@vercel/analytics'
 
    // Track custom events
@@ -164,19 +164,19 @@ This guide covers setting up comprehensive monitoring and observability for Seco
      jobId: 'xxx',
      userId: 'yyy'
    })
-   ```
+   \`\`\`
 
 ## Uptime Monitoring
 
 ### UptimeRobot Setup
 
 1. **Create Account**
-   ```bash
+   \`\`\`bash
    # Sign up at https://uptimerobot.com
-   ```
+   \`\`\`
 
 2. **Add Monitors**
-   ```bash
+   \`\`\`bash
    # Create HTTP(s) monitors for:
    
    # Main application
@@ -194,50 +194,50 @@ This guide covers setting up comprehensive monitoring and observability for Seco
    URL: https://your-domain.com/api/jobs
    Type: HTTPS
    Interval: 5 minutes
-   ```
+   \`\`\`
 
 3. **Configure Alerts**
-   ```bash
+   \`\`\`bash
    # Email alerts
    # SMS alerts (optional)
    # Webhook alerts (for Slack/Discord)
-   ```
+   \`\`\`
 
 ### Pingdom Alternative
 
-```bash
+\`\`\`bash
 # If using Pingdom instead:
 # 1. Create account at pingdom.com
 # 2. Add similar monitors
 # 3. Configure alert contacts
 # 4. Set up status page (optional)
-```
+\`\`\`
 
 ## Database Monitoring
 
 ### Supabase Built-in Monitoring
 
 1. **Access Monitoring Dashboard**
-   ```bash
+   \`\`\`bash
    # Supabase Dashboard > Database > Logs
    # View:
    # - Query performance
    # - Slow queries
    # - Connection pool usage
    # - Storage usage
-   ```
+   \`\`\`
 
 2. **Set Up Alerts**
-   ```bash
+   \`\`\`bash
    # Dashboard > Project Settings > Database
    # Configure alerts for:
    # - High CPU usage
    # - Storage threshold
    # - Connection limit
-   ```
+   \`\`\`
 
 3. **Query Performance**
-   ```sql
+   \`\`\`sql
    -- View slow queries
    SELECT 
      query,
@@ -248,13 +248,13 @@ This guide covers setting up comprehensive monitoring and observability for Seco
    FROM pg_stat_statements
    ORDER BY mean_time DESC
    LIMIT 10;
-   ```
+   \`\`\`
 
 ## Log Aggregation
 
 ### Vercel Logs
 
-```bash
+\`\`\`bash
 # Real-time logs
 vercel logs --follow
 
@@ -263,17 +263,17 @@ vercel logs --filter "error"
 
 # Export logs
 vercel logs --since 1h --output logs.txt
-```
+\`\`\`
 
 ### Datadog Integration (Optional)
 
 1. **Install Integration**
-   ```bash
+   \`\`\`bash
    npm install dd-trace
-   ```
+   \`\`\`
 
 2. **Configure**
-   ```javascript
+   \`\`\`javascript
    // instrumentation.js (Next.js 13+)
    export function register() {
      if (process.env.NEXT_RUNTIME === 'nodejs') {
@@ -284,7 +284,7 @@ vercel logs --since 1h --output logs.txt
        })
      }
    }
-   ```
+   \`\`\`
 
 ## Custom Dashboards
 
@@ -322,7 +322,7 @@ See `app/admin/analytics/page.jsx` for implementation.
 
 ### Critical Alerts (Immediate Response)
 
-```yaml
+\`\`\`yaml
 # Error rate > 5%
 condition: error_rate > 0.05
 severity: critical
@@ -342,11 +342,11 @@ notify: pagerduty, sms
 condition: uptime < 100%
 severity: critical
 notify: pagerduty, sms, slack
-```
+\`\`\`
 
 ### Warning Alerts (Action Required)
 
-```yaml
+\`\`\`yaml
 # Error rate > 1%
 condition: error_rate > 0.01
 severity: warning
@@ -366,11 +366,11 @@ notify: email
 condition: storage_usage > 0.80
 severity: warning
 notify: email
-```
+\`\`\`
 
 ### Info Alerts (Monitoring Only)
 
-```yaml
+\`\`\`yaml
 # High traffic spike
 condition: request_rate > 2x_average
 severity: info
@@ -380,38 +380,38 @@ notify: slack
 condition: new_users > 2x_average
 severity: info
 notify: slack
-```
+\`\`\`
 
 ## Alert Channels
 
 ### Slack Integration
 
 1. **Create Webhook**
-   ```bash
+   \`\`\`bash
    # In Slack: Apps > Incoming Webhooks
    # Create webhook URL
-   ```
+   \`\`\`
 
 2. **Configure in Monitoring Service**
-   ```bash
+   \`\`\`bash
    # Add webhook URL to alert contacts
    # Test notification
-   ```
+   \`\`\`
 
 ### PagerDuty (For Critical Alerts)
 
 1. **Create Service**
-   ```bash
+   \`\`\`bash
    # PagerDuty > Services > New Service
    # Get integration key
-   ```
+   \`\`\`
 
 2. **Configure Escalation Policy**
-   ```bash
+   \`\`\`bash
    # Set up on-call schedule
    # Define escalation rules
    # Add team members
-   ```
+   \`\`\`
 
 ## Performance Monitoring
 
@@ -433,7 +433,7 @@ Monitor these metrics:
 
 ### Monitoring in Code
 
-```javascript
+\`\`\`javascript
 // app/layout.jsx
 import { useReportWebVitals } from 'next/web-vitals'
 
@@ -449,13 +449,13 @@ export function WebVitals() {
     })
   })
 }
-```
+\`\`\`
 
 ## Security Monitoring
 
 ### Failed Login Attempts
 
-```javascript
+\`\`\`javascript
 // Track in API route
 if (authError) {
   logSecurity('Failed login attempt', {
@@ -469,24 +469,24 @@ if (authError) {
     // Send alert
   }
 }
-```
+\`\`\`
 
 ### Rate Limit Violations
 
-```javascript
+\`\`\`javascript
 // Automatic via rate-limiter.js
 // Logs security event when limit exceeded
-```
+\`\`\`
 
 ### Suspicious Activity
 
-```javascript
+\`\`\`javascript
 // Monitor for:
 // - Multiple account creation from same IP
 // - Unusual access patterns
 // - Data scraping attempts
 // - SQL injection attempts
-```
+\`\`\`
 
 ## Incident Response
 
@@ -500,12 +500,12 @@ if (authError) {
 
 ### Communication
 
-```bash
+\`\`\`bash
 # Status page updates
 # Team notifications (Slack)
 # Customer communications (if needed)
 # Incident log documentation
-```
+\`\`\`
 
 ## Regular Reviews
 

@@ -125,7 +125,7 @@
 
 1. **Manual Homebrew Setup** (Current)
 
-   ```bash
+   \`\`\`bash
    # Multiple exports, error-prone
    if [[ "$(uname -m)" == "arm64" ]]; then
        export HOMEBREW_PREFIX="/opt/homebrew"
@@ -133,12 +133,12 @@
        export HOMEBREW_PREFIX="/usr/local"
    fi
    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
-   ```
+   \`\`\`
 
 2. **Modern Pattern** (Recommended)
-   ```bash
+   \`\`\`bash
    eval "$(brew shellenv)"  # Single command, all handled
-   ```
+   \`\`\`
 
 ### Standards Gaps
 
@@ -330,31 +330,31 @@
 
 ### Week 1 Foundation
 
-```
+\`\`\`
 Before: MCP fails without shell wrapper, API keys in shell config
 After:  MCP works, .npmrc created, .zprofile created, ready for Week 2
-```
+\`\`\`
 
 ### Week 2 Modernization
 
-```
+\`\`\`
 Before: System packages not documented, project env not isolated
 After:  Brewfile in version control, direnv auto-loads projects
-```
+\`\`\`
 
 ### Week 3 Modern Tools
 
-```
+\`\`\`
 Before: Node versions manage manually, npm only option
 After:  fnm auto-switches versions, Bun evaluated as option
-```
+\`\`\`
 
 ### Week 4 Validation
 
-```
+\`\`\`
 Before: No verification, documentation minimal, team inconsistent
 After:  Verified setup, complete docs, team aligned and trained
-```
+\`\`\`
 
 ---
 

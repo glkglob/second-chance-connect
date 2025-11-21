@@ -8,7 +8,7 @@ This guide covers the testing strategy and implementation for Second Chance Conn
 
 ### Testing Pyramid
 
-```
+\`\`\`
         /\
        /  \    E2E Tests (Few)
       /____\
@@ -16,7 +16,7 @@ This guide covers the testing strategy and implementation for Second Chance Conn
     /________\
    /          \ Unit Tests (Many)
   /____________\
-```
+\`\`\`
 
 1. **Unit Tests** (70%) - Test individual functions and components
 2. **Integration Tests** (20%) - Test API endpoints and database interactions
@@ -28,7 +28,7 @@ This guide covers the testing strategy and implementation for Second Chance Conn
 
 Install testing dependencies (with compatible versions):
 
-```bash
+\`\`\`bash
 npm install --save-dev \
   jest@^29.0.0 \
   @jest/globals@^29.0.0 \
@@ -36,7 +36,7 @@ npm install --save-dev \
   @testing-library/jest-dom@^6.0.0 \
   @testing-library/user-event@^14.0.0 \
   jest-environment-jsdom@^29.0.0
-```
+\`\`\`
 
 > **Note:** Jest 29+ is required for `@jest/globals`. React Testing Library packages listed above are compatible with React 19+. If you are using a different React version, please consult the respective package documentation for compatibility.
 
@@ -44,7 +44,7 @@ npm install --save-dev \
 
 #### jest.config.js
 
-```javascript
+\`\`\`javascript
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
@@ -76,11 +76,11 @@ const customJestConfig = {
 }
 
 module.exports = createJestConfig(customJestConfig)
-```
+\`\`\`
 
 #### jest.setup.js
 
-```javascript
+\`\`\`javascript
 import '@testing-library/jest-dom'
 
 // Mock Next.js router
@@ -117,13 +117,13 @@ jest.mock('@/lib/supabase/client', () => ({
     })),
   })),
 }))
-```
+\`\`\`
 
 ### Package.json Scripts
 
 Add to `package.json`:
 
-```json
+\`\`\`json
 {
   "scripts": {
     "test": "jest",
@@ -132,7 +132,7 @@ Add to `package.json`:
     "test:ci": "jest --ci --coverage --maxWorkers=2"
   }
 }
-```
+\`\`\`
 
 ## Unit Testing
 
@@ -140,7 +140,7 @@ Add to `package.json`:
 
 **Example: Testing StatCard Component**
 
-```javascript
+\`\`\`javascript
 // components/__tests__/stat-card.test.jsx
 import { render, screen } from '@testing-library/react'
 import { StatCard } from '@/components/stat-card'
@@ -174,13 +174,13 @@ describe('StatCard', () => {
     expect(screen.getByTestId('test-icon')).toBeInTheDocument()
   })
 })
-```
+\`\`\`
 
 ### Testing Utilities
 
 **Example: Testing Logger**
 
-```javascript
+\`\`\`javascript
 // lib/__tests__/logger.test.js
 import { logError, logWarn, logInfo, sanitizeLogData } from '@/lib/logger'
 
@@ -223,7 +223,7 @@ describe('Logger', () => {
     })
   })
 })
-```
+\`\`\`
 
 ## Integration Testing
 
@@ -231,7 +231,7 @@ describe('Logger', () => {
 
 **Example: Testing Jobs API**
 
-```javascript
+\`\`\`javascript
 // app/api/jobs/__tests__/route.test.js
 import { GET, POST } from '@/app/api/jobs/route'
 import { createClient } from '@/lib/supabase/server'
@@ -348,13 +348,13 @@ describe('/api/jobs', () => {
     })
   })
 })
-```
+\`\`\`
 
 ### Testing RLS Policies
 
 **Example: RLS Policy Test**
 
-```javascript
+\`\`\`javascript
 // tests/rls/jobs.test.js
 import { createClient } from '@supabase/supabase-js'
 
@@ -403,7 +403,7 @@ describe('Jobs RLS Policies', () => {
     })
   })
 })
-```
+\`\`\`
 
 ## End-to-End Testing
 
@@ -411,14 +411,14 @@ describe('Jobs RLS Policies', () => {
 
 Install Playwright:
 
-```bash
+\`\`\`bash
 npm install --save-dev @playwright/test
 npx playwright install
-```
+\`\`\`
 
 **Example: E2E Test**
 
-```javascript
+\`\`\`javascript
 // tests/e2e/job-application-flow.spec.js
 import { test, expect } from '@playwright/test'
 
@@ -447,13 +447,13 @@ test.describe('Job Application Flow', () => {
     await expect(page.locator('text=Application submitted')).toBeVisible()
   })
 })
-```
+\`\`\`
 
 ## Running Tests
 
 ### Development
 
-```bash
+\`\`\`bash
 # Run all tests
 npm test
 
@@ -465,23 +465,23 @@ npm test -- jobs.test.js
 
 # Run tests with coverage
 npm run test:coverage
-```
+\`\`\`
 
 ### CI/CD
 
-```bash
+\`\`\`bash
 # Run tests in CI environment
 npm run test:ci
-```
+\`\`\`
 
 ## Test Coverage
 
 ### Viewing Coverage
 
-```bash
+\`\`\`bash
 npm run test:coverage
 open coverage/lcov-report/index.html
-```
+\`\`\`
 
 ### Coverage Goals
 
@@ -495,7 +495,7 @@ open coverage/lcov-report/index.html
 
 ### 1. Test Organization
 
-```
+\`\`\`
 tests/
 ├── unit/
 │   ├── components/
@@ -509,11 +509,11 @@ tests/
 └── fixtures/
     ├── users.js
     └── jobs.js
-```
+\`\`\`
 
 ### 2. Test Naming
 
-```javascript
+\`\`\`javascript
 describe('Component/Function Name', () => {
   describe('specific behavior', () => {
     it('does something specific', () => {
@@ -521,11 +521,11 @@ describe('Component/Function Name', () => {
     })
   })
 })
-```
+\`\`\`
 
 ### 3. AAA Pattern
 
-```javascript
+\`\`\`javascript
 it('should do something', () => {
   // Arrange - Set up test data
   const input = { ... }
@@ -536,13 +536,13 @@ it('should do something', () => {
   // Assert - Verify the result
   expect(result).toBe(expected)
 })
-```
+\`\`\`
 
 ### 4. Test Data
 
 Use fixtures and factories:
 
-```javascript
+\`\`\`javascript
 // tests/fixtures/users.js
 export const mockSeeker = {
   id: 'seeker-123',
@@ -555,11 +555,11 @@ export const mockEmployer = {
   role: 'EMPLOYER',
   name: 'Jane Employer'
 }
-```
+\`\`\`
 
 ### 5. Mocking
 
-```javascript
+\`\`\`javascript
 // Mock external dependencies
 jest.mock('@/lib/supabase/client')
 jest.mock('next/navigation')
@@ -567,13 +567,13 @@ jest.mock('next/navigation')
 // Mock specific functions
 const mockFetch = jest.fn()
 global.fetch = mockFetch
-```
+\`\`\`
 
 ## Continuous Integration
 
 ### GitHub Actions
 
-```yaml
+\`\`\`yaml
 # .github/workflows/test.yml
 name: Tests
 
@@ -592,13 +592,13 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           files: ./coverage/lcov.info
-```
+\`\`\`
 
 ## Debugging Tests
 
 ### VSCode Debug Configuration
 
-```json
+\`\`\`json
 {
   "type": "node",
   "request": "launch",
@@ -607,14 +607,14 @@ jobs:
   "args": ["--runInBand", "--no-cache"],
   "console": "integratedTerminal"
 }
-```
+\`\`\`
 
 ### Console Logs
 
-```javascript
+\`\`\`javascript
 // Enable console logs in tests
 process.env.DEBUG = 'true'
-```
+\`\`\`
 
 ## Resources
 

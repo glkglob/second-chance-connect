@@ -19,28 +19,28 @@ GitHub MCP was failing to authenticate in Claude Code despite:
 
 ### Interactive Terminal Shell
 
-```
+\`\`\`
 Terminal → Sources ~/.zshenv → Sets HOMEBREW_PREFIX=/opt/homebrew
          → Adds /opt/homebrew/bin to PATH
          → Sources ~/.zshrc → Interactive shell ready
          → npx is found ✅ GitHub MCP runs successfully
-```
+\`\`\`
 
 ### Claude Code Stdio Subprocess (Before Fix)
 
-```
+\`\`\`
 Claude Code → Spawns subprocess with "npx" command
            → Subprocess gets minimal PATH (/usr/bin:/bin:/usr/sbin:/sbin)
            → DOES NOT source ~/.zshenv (non-interactive)
            → /opt/homebrew/bin NOT in PATH
            → npx not found ❌ GitHub MCP fails
-```
+\`\`\`
 
 ## Solution Implemented
 
 **Use a shell wrapper that sources `.zshenv` before running the command:**
 
-```json
+\`\`\`json
 {
   "mcpServers": {
     "github": {
@@ -53,7 +53,7 @@ Claude Code → Spawns subprocess with "npx" command
     }
   }
 }
-```
+\`\`\`
 
 ### How This Works
 
@@ -68,7 +68,7 @@ Claude Code → Spawns subprocess with "npx" command
 
 ### Flow After Fix
 
-```
+\`\`\`
 Claude Code → Spawns zsh subprocess with "-l -c 'source ~/.zshenv && npx ...'"
            → Zsh loads as login shell (sources ~/.zshenv)
            → HOMEBREW_PREFIX and PATH properly initialized
@@ -76,28 +76,28 @@ Claude Code → Spawns zsh subprocess with "-l -c 'source ~/.zshenv && npx ...'"
            → npx is found ✅
            → GitHub MCP package installed and runs ✅
            → Authentication succeeds ✅
-```
+\`\`\`
 
 ## Alternative Solutions Considered
 
 ### Option A: Absolute Path to Node
 
-```json
+\`\`\`json
 "command": "/opt/homebrew/bin/node",
 "args": ["--no-warnings", "/path/to/github-mcp/index.js"]
-```
+\`\`\`
 
 **Pros**: Direct, no shell overhead
 **Cons**: Fragile (hardcoded paths), requires finding exact package location, breaks on version updates
 
 ### Option C: Direct PATH Environment Variable
 
-```json
+\`\`\`json
 "env": {
   "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
   "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_..."
 }
-```
+\`\`\`
 
 **Pros**: Simple, direct
 **Cons**: Hardcoded paths less maintainable, doesn't leverage existing shell configuration
